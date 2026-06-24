@@ -1,0 +1,23 @@
+export const SITE = {
+  name: 'CursorCraft',
+  shortDescription:
+    'An unofficial community guide to mastering, securing, and scaling the Cursor AI code editor.',
+  longDescription:
+    'CursorCraft teaches engineering teams how to get the most out of the Cursor AI code editor with a strong focus on security and cost discipline. Local-first, open source, zero secret handling.',
+  url: 'https://cursorcraft.pages.dev',
+  defaultOgImage: '/og/default.svg',
+  locale: 'en_US',
+  themeColor: '#0a0a0b',
+  github: 'https://github.com/your-org/cursorcraft',
+  twitter: '@cursorcraft',
+  author: 'The CursorCraft community',
+} as const;
+
+export const NAV_LINKS = [
+  { label: 'Learn', href: '/learn' },
+  { label: 'Tools', href: '/tools' },
+  { label: 'Security', href: '/security' },
+  { label: 'About', href: '/about' },
+] as const;
+
+export const TRUST_LINE = 'Local-first · Your code & keys never leave your browser · Open source';

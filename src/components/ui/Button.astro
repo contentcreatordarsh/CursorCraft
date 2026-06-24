@@ -1,0 +1,64 @@
+---
+import Icon from './Icon.astro';
+import type { IconName } from './Icon.astro';
+
+interface Props {
+  href?: string;
+  variant?: 'primary' | 'secondary' | 'ghost';
+  size?: 'sm' | 'md' | 'lg';
+  icon?: IconName;
+  iconPosition?: 'left' | 'right';
+  class?: string;
+  type?: 'button' | 'submit' | 'reset';
+  'aria-label'?: string;
+  external?: boolean;
+}
+
+const {
+  href,
+  variant = 'primary',
+  size = 'md',
+  icon,
+  iconPosition = 'right',
+  class: className = '',
+  type = 'button',
+  external = false,
+  'aria-label': ariaLabel,
+} = Astro.props;
+
+const base =
+  'inline-flex items-center justify-center gap-2 font-medium rounded-lg transition-all duration-200 select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent-400)] disabled:opacity-50 disabled:pointer-events-none';
+
+const variants: Record<string, string> = {
+  primary:
+    'bg-gradient-to-r from-[var(--color-accent-600)] to-[var(--color-accent-500)] text-white shadow-lg shadow-[color-mix(in_srgb,var(--color-accent-500)_30%,transparent)] hover:from-[var(--color-accent-500)] hover:to-[var(--color-cyan-400)] hover:-translate-y-0.5',
+  secondary:
+    'bg-[var(--color-ink-800)] text-[var(--color-paper-100)] border border-[var(--color-ink-600)] hover:border-[var(--color-accent-500)] hover:bg-[var(--color-ink-700)]',
+  ghost:
+    'text-[var(--color-paper-200)] hover:text-white hover:bg-[var(--color-ink-800)]',
+};
+
+const sizes: Record<string, string> = {
+  sm: 'text-sm px-3 py-1.5',
+  md: 'text-sm px-4 py-2.5',
+  lg: 'text-base px-6 py-3',
+};
+
+const cls = `${base} ${variants[variant]} ${sizes[size]} ${className}`;
+const Tag = href ? 'a' : 'button';
+const rel = external ? 'noopener noreferrer' : undefined;
+const target = external ? '_blank' : undefined;
+---
+
+<Tag
+  class={cls}
+  href={href}
+  type={href ? undefined : type}
+  rel={rel}
+  target={target}
+  aria-label={ariaLabel}
+>
+  {icon && iconPosition === 'left' && <Icon name={icon} size={size === 'lg' ? 20 : 16} />}
+  <slot />
+  {icon && iconPosition === 'right' && <Icon name={icon} size={size === 'lg' ? 20 : 16} />}
+</Tag>

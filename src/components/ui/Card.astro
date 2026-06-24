@@ -1,0 +1,55 @@
+---
+import Icon from './Icon.astro';
+import type { IconName } from './Icon.astro';
+
+interface Props {
+  href?: string;
+  icon?: IconName;
+  title?: string;
+  eyebrow?: string;
+  class?: string;
+  interactive?: boolean;
+}
+
+const {
+  href,
+  icon,
+  title,
+  eyebrow,
+  class: className = '',
+  interactive = Boolean(href),
+} = Astro.props;
+
+const Tag = href ? 'a' : 'div';
+const base =
+  'group relative block rounded-xl border border-[var(--color-ink-700)] bg-[var(--color-ink-900)]/70 p-6 backdrop-blur-sm';
+const hover = interactive
+  ? 'transition-all duration-200 hover:border-[var(--color-accent-500)] hover:bg-[var(--color-ink-850)] hover:-translate-y-1'
+  : '';
+---
+
+<Tag href={href} class={`${base} ${hover} ${className}`}>
+  {
+    icon && (
+      <div class="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-lg border border-[var(--color-ink-600)] bg-[var(--color-ink-800)] text-[var(--color-accent-400)]">
+        <Icon name={icon} size={22} />
+      </div>
+    )
+  }
+  {eyebrow && <p class="mb-1 font-mono text-xs uppercase tracking-wider text-[var(--color-paper-400)]">{eyebrow}</p>}
+  {
+    title && (
+      <h3 class="mb-2 text-lg font-semibold text-[var(--color-paper-50)] group-[a]:group-hover:text-[var(--color-accent-400)]">
+        {title}
+      </h3>
+    )
+  }
+  <slot />
+  {
+    href && (
+      <span class="mt-4 inline-flex items-center gap-1 font-mono text-xs text-[var(--color-accent-400)] opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+        Read more <Icon name="arrow-right" size={14} />
+      </span>
+    )
+  }
+</Tag>

@@ -1,0 +1,92 @@
+---
+title: 'Cursor best practices: getting trustworthy output, every time'
+description: 'The habits that separate teams who ship with AI from teams who fight it: spec-first prompting, small reviewed diffs, context curation, rules as conventions, test-driven AI, and knowing when to take the wheel.'
+eyebrow: 'Craft'
+order: 3
+icon: 'list-checks'
+readingTime: '8 min read'
+updated: '2026-06-24'
+keywords:
+  - 'Cursor best practices'
+  - 'AI pair programming'
+  - 'Cursor rules'
+  - 'context curation'
+faqs:
+  - q: 'How do I stop Cursor from making sprawling, hard-to-review changes?'
+    a: 'Constrain scope before you prompt: write a short spec, point at the specific files, and ask for the smallest change that satisfies it. Review and commit in small diffs. If a task is large, break it into reviewable steps rather than one giant agent run.'
+  - q: 'Should I let AI write tests?'
+    a: 'Yes, but anchor on behavior. Write or review the test intent yourself so the tests encode what you actually want, then let the AI fill in implementation. Tests are how you make AI output verifiable instead of merely plausible.'
+---
+import Callout from '@/components/ui/Callout.astro';
+
+AI output is *plausible by default and correct only sometimes*. These practices are how you close that gap — turning a fast, confident assistant into a reliable teammate.
+
+## 1. Spec-first, not prompt-and-pray
+
+Before invoking an agent, spend 60 seconds writing what you actually want: the outcome, the constraints, and the acceptance criteria. A good spec is the highest-leverage thing you can do.
+
+> "Add rate limiting to the public API" → vague, sprawling output.
+>
+> "Add a 100 req/min per-IP rate limit to the routes in `src/api/public/`, using the existing `RateLimiter` util, returning 429 with a `Retry-After` header. Don't touch authenticated routes." → tight, reviewable, correct.
+
+<Callout type="tip" title="The spec is reusable">
+A clear spec doubles as your PR description and your review checklist. Write it once; use it three times.
+</Callout>
+
+## 2. Small, reviewed diffs
+
+The unit of trust is the diff, not the prompt. Keep changes small enough that you can actually read them. Prefer several focused agent runs over one mega-run that rewrites half the codebase.
+
+- Commit logically and often, so each step is revertible.
+- If a diff is too big to review honestly, that's a signal to narrow the task — not to skim.
+- Read for **behavior and intent**, not just syntax. The model writes compiling code that does the wrong thing far more often than code that doesn't compile.
+
+## 3. Curate context deliberately
+
+More context is not better context. Pointing the model at the *right* three files beats dumping thirty.
+
+- Reference the specific files, symbols, or docs relevant to the task.
+- Lean on `.cursor/rules` so you don't re-explain conventions each time.
+- Keep noise and secrets out with `.cursorignore` — it improves both accuracy and [cost](/learn/cost).
+
+<Callout type="warn" title="The #1 anti-pattern">
+"Spray every file at the model and hope" is the most common cause of both low-quality output *and* runaway cost. Precision in, quality out.
+</Callout>
+
+## 4. Encode conventions as rules
+
+Anything you find yourself repeating in prompts belongs in `.cursor/rules`. Treat rules like a style guide the AI actually reads:
+
+- Architectural boundaries ("UI components never import from `db/` directly").
+- Conventions ("use the `Result` type for fallible operations").
+- Guardrails ("new endpoints must include an authorization check"; "never log request bodies").
+
+Keep them sharp and few. A handful of testable rules get followed; a sprawling manifesto gets ignored.
+
+## 5. Test-driven, with AI
+
+Tests are how you make AI output *verifiable* instead of merely plausible.
+
+1. Decide the behavior you want and capture it as a test (write it yourself, or review the AI's test for intent).
+2. Let the AI implement until the test passes.
+3. Keep the test. It's your regression net for the next AI change.
+
+This loop is especially powerful with agents: a failing test gives the model an unambiguous target and an objective stopping condition.
+
+## 6. Know when to take the wheel
+
+AI is a force multiplier, not an autopilot. Take over when:
+
+- The task touches **security, auth, money, or data integrity** — review these by hand, always.
+- The model is looping or thrashing — stop, narrow the spec, or do the tricky core yourself and let it handle the edges.
+- You don't understand the diff. Never merge code you can't explain.
+
+<Callout type="info" title="A useful instinct">
+The more autonomous the tool, the more your job shifts from *writing* to *specifying and reviewing*. Get good at those two skills and everything else compounds.
+</Callout>
+
+## The short version
+
+Spec first. Diff small. Context tight. Conventions in rules. Tests as truth. Take the wheel on anything that can hurt you. Do these and Cursor stops being a slot machine and starts being a reliable teammate.
+
+Next: lock it down in the [security guide](/learn/security), then tighten spend in [cost optimization](/learn/cost).

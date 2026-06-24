@@ -1,0 +1,74 @@
+---
+title: 'What is Cursor? The mental model that changes everything'
+description: 'Stop thinking about autocomplete. Cursor treats your repository as the unit of context. Learn the autonomy spectrum — Tab, inline edit, Composer/Agent, and Cloud Agents — and when to reach for each.'
+eyebrow: 'Foundations'
+order: 1
+icon: 'sparkles'
+readingTime: '7 min read'
+updated: '2026-06-24'
+keywords:
+  - 'what is Cursor'
+  - 'Cursor AI code editor'
+  - 'Cursor Agent'
+  - 'Cursor Composer'
+faqs:
+  - q: 'Is Cursor just VS Code with autocomplete?'
+    a: 'No. Cursor is a fork of VS Code, but its defining idea is repository-level context: it reasons over your whole codebase, your rules, and external tools — not just the characters near your cursor. Tab completion is only the lowest rung of an autonomy spectrum that scales up to multi-file agents.'
+  - q: 'What is the difference between Tab, Composer, and Agent?'
+    a: 'Tab is inline, low-latency next-edit prediction. Composer/Agent take a natural-language instruction and make coordinated multi-file changes that you review as a diff. The higher the autonomy, the more leverage — and the more important your review discipline becomes.'
+---
+import Callout from '@/components/ui/Callout.astro';
+
+The single biggest mistake teams make with Cursor is treating it like a fancier autocomplete. That framing caps your value at a few saved keystrokes. The teams that get 10x out of Cursor internalize a different mental model.
+
+## The repository is the unit of context
+
+In a traditional editor, the relevant context is wherever your text cursor sits. In Cursor, the relevant context is **your whole project**: the files you reference, the conventions in your `.cursor/rules`, the symbols the model can resolve across the codebase, and any external tools you've connected via MCP.
+
+This reframing has practical consequences:
+
+- **What you put in the repo matters.** Clear module boundaries, good naming, and explicit conventions make the AI dramatically more accurate — the same things that help human teammates.
+- **What you keep _out_ of context matters just as much.** A precise `.cursorignore` keeps secrets and noise away from the model and sharpens its focus. (More on that in the [security guide](/learn/security).)
+- **Context is a budget.** Every file you hand the model costs tokens and dilutes attention. Curating context is both a quality lever and a [cost lever](/learn/cost).
+
+<Callout type="tip" title="The reframe">
+Ask not "what should the AI type next?" but "what does the AI need to know, and what should it never see?" That question drives almost every good decision in this guide.
+</Callout>
+
+## The autonomy spectrum
+
+Cursor's features are best understood as a ladder of increasing autonomy. Each rung trades latency and human oversight for leverage. Pick the lowest rung that gets the job done.
+
+### 1. Tab — predictive editing
+
+The fastest, lowest-stakes rung. As you type, Cursor predicts your next edit — often multiple lines or a multi-cursor change — and you accept with Tab. Great for mechanical edits, repetitive refactors, and "finish the obvious thing" moments. You stay fully in the driver's seat.
+
+### 2. Inline edit — scoped instructions
+
+Select some code, describe a change in natural language, and apply it to that selection. The blast radius is small and reviewable. Ideal for "rename this", "add error handling here", or "convert this to async" on a known region.
+
+### 3. Composer / Agent — coordinated multi-file work
+
+Describe an outcome and let Cursor plan and execute changes across many files, run commands, and iterate. This is where the leverage compounds — and where your **review discipline** becomes the safety mechanism. You read the diff, not the keystrokes.
+
+### 4. Background / Cloud Agents — delegated tasks
+
+The highest rung: hand off a well-specified task to an agent that works asynchronously (including in the cloud) and returns a branch or pull request for review. Powerful for parallelizable, well-bounded work. The cost of a vague spec is highest here, so invest in a crisp problem statement.
+
+<Callout type="warn" title="Autonomy raises the stakes of review, not lowers them">
+As you climb the ladder, the model writes more code per instruction. That does not mean you read less — it means you read *differently*: at the level of diffs, behavior, and intent rather than individual lines. Never merge a diff you don't understand.
+</Callout>
+
+## A simple decision rule
+
+When you reach for Cursor, ask:
+
+1. **Is the change obvious and local?** → Tab or inline edit.
+2. **Does it span multiple files or need iteration?** → Composer / Agent, then review the diff.
+3. **Is it well-specified and parallelizable?** → delegate to a Background / Cloud Agent.
+
+Match the tool to the task and you get speed without surrendering control. Over-reach (firing an agent at a vague, sprawling task) and you get expensive, hard-to-review churn.
+
+## Where to go next
+
+The rest of this playbook builds on this model: a [feature tour](/learn/feature-tour) of each capability, the [best practices](/learn/best-practices) that make AI output trustworthy, and the two disciplines that separate hobby use from production use — [security](/learn/security) and [cost](/learn/cost).

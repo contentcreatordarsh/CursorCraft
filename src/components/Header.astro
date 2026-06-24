@@ -1,0 +1,130 @@
+---
+import { NAV_LINKS, SITE } from '@/config/site';
+import Button from '@/components/ui/Button.astro';
+import Icon from '@/components/ui/Icon.astro';
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (href: string) => path === href || path.startsWith(href + '/');
+---
+
+<header
+  class="sticky top-0 z-50 border-b border-[var(--color-ink-800)] bg-[var(--color-ink-950)]/80 backdrop-blur-md"
+>
+  <nav class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3" aria-label="Primary">
+    <a href="/" class="group flex items-center gap-2" aria-label={`${SITE.name} home`}>
+      <span
+        class="flex h-8 w-8 items-center justify-center rounded-md bg-gradient-to-br from-[var(--color-accent-600)] to-[var(--color-cyan-400)] font-mono text-sm font-bold text-white"
+        >{'>'}</span
+      >
+      <span class="font-mono text-sm font-semibold tracking-tight text-[var(--color-paper-50)]">
+        Cursor<span class="text-[var(--color-accent-400)]">Craft</span>
+      </span>
+    </a>
+
+    <ul class="hidden items-center gap-1 md:flex">
+      {
+        NAV_LINKS.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              aria-current={isActive(link.href) ? 'page' : undefined}
+              class:list={[
+                'rounded-md px-3 py-2 text-sm transition-colors',
+                isActive(link.href)
+                  ? 'text-[var(--color-paper-50)]'
+                  : 'text-[var(--color-paper-300)] hover:text-[var(--color-paper-50)]',
+              ]}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="flex items-center gap-2">
+      <a
+        href={SITE.github}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hidden h-9 w-9 items-center justify-center rounded-md text-[var(--color-paper-300)] transition-colors hover:bg-[var(--color-ink-800)] hover:text-white sm:inline-flex"
+        aria-label="View CursorCraft on GitHub"
+      >
+        <Icon name="github" size={18} />
+      </a>
+      <button
+        id="theme-toggle"
+        type="button"
+        class="inline-flex h-9 w-9 items-center justify-center rounded-md text-[var(--color-paper-300)] transition-colors hover:bg-[var(--color-ink-800)] hover:text-white"
+        aria-label="Toggle color theme"
+      >
+        <Icon name="sun" size={18} class="theme-icon-sun hidden" />
+        <Icon name="moon" size={18} class="theme-icon-moon" />
+      </button>
+      <div class="hidden sm:block">
+        <Button href="/tools/config-analyzer" variant="primary" size="sm" icon="shield-check" iconPosition="left">
+          Audit your setup
+        </Button>
+      </div>
+      <button
+        id="menu-toggle"
+        type="button"
+        class="inline-flex h-9 w-9 items-center justify-center rounded-md text-[var(--color-paper-200)] hover:bg-[var(--color-ink-800)] md:hidden"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <Icon name="menu" size={20} />
+      </button>
+    </div>
+  </nav>
+
+  <div
+    id="mobile-menu"
+    class="hidden border-t border-[var(--color-ink-800)] bg-[var(--color-ink-950)] px-4 py-3 md:hidden"
+  >
+    <ul class="flex flex-col gap-1">
+      {
+        NAV_LINKS.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              aria-current={isActive(link.href) ? 'page' : undefined}
+              class="block rounded-md px-3 py-2.5 text-sm text-[var(--color-paper-200)] hover:bg-[var(--color-ink-800)]"
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+      <li class="pt-2">
+        <Button href="/tools/config-analyzer" variant="primary" size="md" icon="shield-check" iconPosition="left" class="w-full">
+          Audit your setup
+        </Button>
+      </li>
+    </ul>
+  </div>
+</header>
+
+<script>
+  const menuToggle = document.getElementById('menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  menuToggle?.addEventListener('click', () => {
+    const open = mobileMenu?.classList.toggle('hidden');
+    menuToggle.setAttribute('aria-expanded', String(open === false));
+  });
+
+  const themeToggle = document.getElementById('theme-toggle');
+  const sun = document.querySelector('.theme-icon-sun');
+  const moon = document.querySelector('.theme-icon-moon');
+  const syncIcons = () => {
+    const isLight = document.documentElement.classList.contains('light');
+    sun?.classList.toggle('hidden', isLight);
+    moon?.classList.toggle('hidden', !isLight);
+  };
+  syncIcons();
+  themeToggle?.addEventListener('click', () => {
+    document.documentElement.classList.toggle('light');
+    syncIcons();
+  });
+</script>

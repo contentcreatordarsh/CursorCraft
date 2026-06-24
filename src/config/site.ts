@@ -4,11 +4,11 @@ export const SITE = {
     'An unofficial community guide to mastering, securing, and scaling the Cursor AI code editor.',
   longDescription:
     'CursorCraft teaches engineering teams how to get the most out of the Cursor AI code editor with a strong focus on security and cost discipline. Local-first, open source, zero secret handling.',
-  url: 'https://cursorcraft.pages.dev',
+  url: 'https://cursorcraft.falling-hall-ac41.workers.dev',
   defaultOgImage: '/og/default.png',
   locale: 'en_US',
   themeColor: '#0a0a0b',
-  github: 'https://github.com/your-org/cursorcraft',
+  github: 'https://github.com/contentcreatordarsh/CursorCraft',
   twitter: '@cursorcraft',
   author: 'The CursorCraft community',
 } as const;

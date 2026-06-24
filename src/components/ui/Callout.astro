@@ -44,7 +44,7 @@ const config: Record<
   },
 };
 
-const c = config[type];
+const c = config[type] ?? config.info!;
 ---
 
 <div

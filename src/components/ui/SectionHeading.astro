@@ -9,7 +9,7 @@ interface Props {
   class?: string;
 }
 
-const { eyebrow, title, align = 'left', as: Tag = 'h2', class: className = '' } = Astro.props;
+const { eyebrow, title, align = 'left', as: Tag = 'h2', class: className = '' }: Props = Astro.props;
 const alignment = align === 'center' ? 'text-center mx-auto items-center' : 'text-left items-start';
 ---
 

@@ -1,0 +1,128 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import UsageInsights from '@/components/tools/UsageInsights.tsx';
+import Eyebrow from '@/components/ui/Eyebrow.astro';
+import Badge from '@/components/ui/Badge.astro';
+import Icon from '@/components/ui/Icon.astro';
+import { softwareApplicationSchema, breadcrumbSchema, faqSchema } from '@/lib/jsonld';
+
+const description =
+  'Analyze your team\u2019s Cursor usage and spend without ever exposing your API key to a website. Run a read-only command locally, paste the JSON, and get cost hotspots, model mix, idle premium seats, and optimization recommendations — all in your browser.';
+
+const faqs = [
+  {
+    q: 'Does this tool ever see my Cursor API key?',
+    a: 'No. You run a read-only command in your own terminal where the key stays local. Only the resulting JSON — which contains no key — is pasted into the page, and it is analyzed entirely in your browser with no network calls and no storage.',
+  },
+  {
+    q: 'Where do I get the data and the API key?',
+    a: 'Create an Admin API key at cursor.com/dashboard → Settings → Admin API Keys (Enterprise teams). The provided command calls the read-only /teams/spend and /teams/daily-usage-data endpoints and prints a combined JSON you paste here.',
+  },
+  {
+    q: 'What does it analyze?',
+    a: 'Cost hotspots (top spenders and concentration), model mix, idle premium seats with no recorded activity, your request/feature mix and accept rate, plus prioritized optimization recommendations linked to the cost guide.',
+  },
+  {
+    q: 'Is the pasted data stored anywhere?',
+    a: 'No. It lives only in in-memory state for the life of the page. Refreshing or closing the tab discards it.',
+  },
+];
+
+const features = [
+  { icon: 'wallet', title: 'Cost hotspots', body: 'See who drives spend and how concentrated it is across your team.' },
+  { icon: 'layers', title: 'Model mix', body: 'Visualize which models your team leans on and spot expensive defaults.' },
+  { icon: 'eye-off', title: 'Idle premium seats', body: 'Surface paid seats with no recorded activity — candidates to reclaim.' },
+  { icon: 'gauge', title: 'Recommendations', body: 'Actionable, prioritized fixes tied directly to the cost guide.' },
+];
+---
+
+<BaseLayout
+  title="Cursor Usage Insights — analyze spend without exposing your key"
+  description={description}
+  jsonLd={[
+    softwareApplicationSchema({
+      name: 'Cursor Usage Insights',
+      description,
+      url: '/tools/usage-insights',
+    }),
+    breadcrumbSchema([
+      { name: 'Home', url: '/' },
+      { name: 'Tools', url: '/tools' },
+      { name: 'Usage Insights', url: '/tools/usage-insights' },
+    ]),
+    faqSchema(faqs),
+  ]}
+>
+  <section class="border-b border-[var(--color-ink-800)]">
+    <div class="relative overflow-hidden">
+      <div class="bg-grid pointer-events-none absolute inset-0 opacity-[0.12]"></div>
+      <div class="relative mx-auto max-w-6xl px-4 py-12 sm:py-16">
+        <nav aria-label="Breadcrumb" class="mb-6 font-mono text-xs text-[var(--color-paper-400)]">
+          <ol class="flex items-center gap-1.5">
+            <li><a href="/" class="hover:text-[var(--color-paper-100)]">Home</a></li>
+            <li aria-hidden="true">/</li>
+            <li><a href="/tools" class="hover:text-[var(--color-paper-100)]">Tools</a></li>
+            <li aria-hidden="true">/</li>
+            <li class="text-[var(--color-paper-200)]" aria-current="page">Usage Insights</li>
+          </ol>
+        </nav>
+        <div class="flex flex-col gap-3">
+          <div class="flex items-center gap-3">
+            <Eyebrow>Tool</Eyebrow>
+            <Badge tone="tip"><Icon name="lock" size={11} /> Key-free by design</Badge>
+          </div>
+          <h1 class="max-w-3xl text-3xl font-bold tracking-tight text-[var(--color-paper-50)] sm:text-4xl">
+            Cursor usage insights — without exposing your key
+          </h1>
+          <p class="max-w-2xl text-lg leading-relaxed text-[var(--color-paper-300)]">
+            Run a read-only command locally, paste the JSON, and get cost hotspots, model mix, idle
+            seats, and optimization recommendations. Your API key stays on your machine; analysis
+            happens entirely in your browser.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-4 py-10">
+    <UsageInsights client:load />
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 pb-16">
+    <h2 class="mb-6 text-2xl font-bold tracking-tight text-[var(--color-paper-50)]">What you get</h2>
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        features.map((feature) => (
+          <div class="rounded-xl border border-[var(--color-ink-700)] bg-[var(--color-ink-900)]/60 p-5">
+            <div class="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-lg border border-[var(--color-ink-600)] bg-[var(--color-ink-800)] text-[var(--color-accent-400)]">
+              <Icon name={feature.icon as any} size={18} />
+            </div>
+            <h3 class="font-semibold text-[var(--color-paper-50)]">{feature.title}</h3>
+            <p class="mt-1.5 text-sm leading-relaxed text-[var(--color-paper-300)]">{feature.body}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-4 pb-20" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" class="mb-5 text-2xl font-bold tracking-tight text-[var(--color-paper-50)]">
+      Frequently asked questions
+    </h2>
+    <div class="space-y-3">
+      {
+        faqs.map((faq) => (
+          <details class="group rounded-lg border border-[var(--color-ink-700)] bg-[var(--color-ink-900)]/60 p-4">
+            <summary class="flex cursor-pointer items-center justify-between gap-3 font-medium text-[var(--color-paper-100)]">
+              {faq.q}
+              <span class="text-[var(--color-paper-400)] transition-transform group-open:rotate-90">
+                <Icon name="arrow-right" size={16} />
+              </span>
+            </summary>
+            <p class="mt-3 text-sm leading-relaxed text-[var(--color-paper-300)]">{faq.a}</p>
+          </details>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>

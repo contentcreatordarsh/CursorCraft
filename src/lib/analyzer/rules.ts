@@ -31,7 +31,10 @@ export const SECRET_PATTERNS: SecretPattern[] = [
   { label: 'Stripe live key', re: /\b[rs]k_live_[0-9a-zA-Z]{16,}\b/ },
   { label: 'Private key block', re: /-----BEGIN (?:RSA |EC |OPENSSH |DSA |PGP )?PRIVATE KEY-----/ },
   { label: 'JWT', re: /\beyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\b/ },
-  { label: 'Generic assigned secret', re: /\b(?:api[_-]?key|secret|password|token|passwd)\b\s*[:=]\s*['"][^'"\s]{8,}['"]/i },
+  {
+    label: 'Generic assigned secret',
+    re: /["']?[a-z0-9_.-]*(?:api[_-]?key|secret|password|passwd|token|auth[_-]?token|access[_-]?key)["']?\s*[:=]\s*['"][^'"\s]{8,}['"]/i,
+  },
 ];
 
 function detectSecrets(text: string): string[] {

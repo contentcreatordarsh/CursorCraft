@@ -20,7 +20,7 @@ dist/
     "db-admin": {
       "command": "npx",
       "args": ["-y", "some-db-mcp"],
-      "env": { "DB_MODE": "readwrite", "DB_TOKEN": "sk-live-3f9a0b2c4d6e8f10a2b4c6d8e0f12345" }
+      "env": { "DB_MODE": "readwrite", "DB_TOKEN": "sk-1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p" }
     }
   }
 }`,

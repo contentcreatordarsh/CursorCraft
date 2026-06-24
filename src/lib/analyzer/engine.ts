@@ -23,7 +23,7 @@ export function audit(input: ConfigInput): AuditResult {
   const counts: Record<Severity, number> = { critical: 0, warning: 0, tip: 0 };
   for (const finding of findings) counts[finding.severity] += 1;
 
-  const provided = [input.cursorignore, input.rules, input.mcp, input.settings].filter(
+  const provided = [input.cursorignore, input.rules, input.mcp, input.settings, input.hooks].filter(
     (v) => typeof v === 'string' && v.trim().length > 0,
   );
 

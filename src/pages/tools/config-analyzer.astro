@@ -16,7 +16,7 @@ const faqs = [
   },
   {
     q: 'What files can I check?',
-    a: 'Your .cursorignore, .cursor/rules (or .cursorrules), .cursor/mcp.json, and settings.json. Paste any subset; the analyzer audits what you provide.',
+    a: 'Your .cursorignore, .cursor/rules (or .cursorrules), .cursor/mcp.json, settings.json, and hooks.json. Paste any subset; the analyzer audits what you provide.',
   },
   {
     q: 'What does it look for?',
@@ -30,7 +30,8 @@ const checks = [
   { icon: 'plug', title: 'MCP least-privilege', body: 'Detects unpinned sources, broad filesystem scopes, and write/admin tokens.' },
   { icon: 'lock', title: 'Privacy Mode', body: 'Warns when settings suggest Privacy Mode is disabled.' },
   { icon: 'wallet', title: 'Cost defaults', body: 'Tips on defaulting to Auto/Composer and avoiding expensive model defaults.' },
-  { icon: 'list-checks', title: 'Rules quality', body: 'Checks that rules exist, are non-trivial, and include security guidance.' },
+  { icon: 'list-checks', title: 'Rules quality', body: 'Checks that rules exist, are non-trivial, include security guidance, and use modern .mdc layout.' },
+  { icon: 'plug', title: 'Hooks safety', body: 'Flags destructive or curl-pipe-to-shell patterns in hooks.json.' },
 ];
 ---
 

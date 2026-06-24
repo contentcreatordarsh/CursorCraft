@@ -1,12 +1,13 @@
 export type Severity = 'critical' | 'warning' | 'tip';
 
-export type FileKey = 'cursorignore' | 'rules' | 'mcp' | 'settings';
+export type FileKey = 'cursorignore' | 'rules' | 'mcp' | 'settings' | 'hooks';
 
 export interface ConfigInput {
   cursorignore?: string;
   rules?: string;
   mcp?: string;
   settings?: string;
+  hooks?: string;
 }
 
 export interface Finding {

@@ -1,0 +1,36 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Button from '@/components/ui/Button.astro';
+import Eyebrow from '@/components/ui/Eyebrow.astro';
+---
+
+<BaseLayout
+  title="404 — Page not found"
+  description="The page you were looking for doesn't exist. Head back home or run the Cursor Config Analyzer."
+  noindex
+>
+  <section class="relative flex min-h-[70vh] items-center overflow-hidden">
+    <div class="bg-grid pointer-events-none absolute inset-0 opacity-[0.12]"></div>
+    <div class="relative mx-auto max-w-2xl px-4 py-20 text-center">
+      <Eyebrow class="mb-4">Error 404</Eyebrow>
+      <p class="font-mono text-6xl font-bold text-[var(--color-paper-50)]">
+        4<span class="text-[var(--color-accent-400)]">0</span>4<span class="caret"></span>
+      </p>
+      <h1 class="mt-6 text-2xl font-bold tracking-tight text-[var(--color-paper-50)] sm:text-3xl">
+        This file isn't in the repo
+      </h1>
+      <p class="mx-auto mt-3 max-w-md text-[var(--color-paper-300)]">
+        The page you were looking for doesn't exist or has moved. Let's get you back on track.
+      </p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <Button href="/" variant="primary" icon="arrow-right">Back to home</Button>
+        <Button href="/learn" variant="secondary" icon="book-open" iconPosition="left">
+          Read the playbook
+        </Button>
+        <Button href="/tools/config-analyzer" variant="ghost" icon="shield-check" iconPosition="left">
+          Audit your setup
+        </Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

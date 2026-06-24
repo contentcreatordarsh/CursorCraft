@@ -1,0 +1,41 @@
+---
+description: Project conventions for CursorCraft — security-first, local-first Astro site.
+globs:
+alwaysApply: true
+---
+
+# CursorCraft project rules
+
+CursorCraft is a local-first, static marketing + tools site that teaches teams how to
+use Cursor securely and cost-effectively. The site must itself model those principles.
+
+## Architecture & stack
+- Astro with `output: 'static'`. Ship static HTML by default.
+- React (`@astrojs/react`) is for interactive **islands only** (e.g. the Config Analyzer).
+  Do not reach for React/hydration when a static `.astro` component will do.
+- TypeScript in **strict** mode. No `any` without justification; prefer precise types.
+- Tailwind CSS (v4, via `@tailwindcss/vite`) for styling. Use the design tokens defined
+  in `src/styles/global.css` (ink/paper/accent scales) rather than ad-hoc hex values.
+- Content lives in MDX content collections under `src/content/guides`.
+
+## Security conventions (non-negotiable)
+- NEVER add backend calls, telemetry, or analytics that transmit user-provided file
+  contents, keys, or secrets.
+- The Config Analyzer and any tool must run **100% client-side**. No network calls with
+  user data. No `localStorage`/`sessionStorage` for user file contents, keys, or secrets —
+  in-memory React state only.
+- Never commit secrets. Respect `.cursorignore`.
+
+## Quality bar
+- Accessibility: WCAG AA. Semantic landmarks, keyboard nav, visible focus rings,
+  `prefers-reduced-motion` support, descriptive alt text and aria labels.
+- SEO: every page goes through `BaseLayout` with a unique title, description, canonical,
+  OG image, and appropriate JSON-LD. One `<h1>` per page; correct heading order.
+- Performance: minimal JS, preload fonts, no layout shift, lazy-load below-fold media.
+- Write real, senior-level content. No lorem ipsum, no invented Cursor feature specifics —
+  phrase uncertain behavior generally.
+
+## Conventions
+- Reusable UI components live in `src/components/ui`.
+- Keep diffs small and reviewable. Prefer composition over duplication.
+- Use the `Callout` component for security warnings and cost tips.

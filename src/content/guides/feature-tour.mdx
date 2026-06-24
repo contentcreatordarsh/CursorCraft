@@ -1,0 +1,102 @@
+---
+title: 'Cursor feature tour: what each tool is for and when to use it'
+description: 'A crisp, no-fluff tour of Cursor: Tab, Composer, Agent mode, Background and Cloud Agents, .cursor/rules, MCP, the model picker, and BugBot — with a clear "what it does + when to use it" for each.'
+eyebrow: 'Reference'
+order: 2
+icon: 'layers'
+readingTime: '9 min read'
+updated: '2026-06-24'
+keywords:
+  - 'Cursor features'
+  - 'Cursor MCP'
+  - 'Cursor rules'
+  - 'Cursor Agent mode'
+  - 'BugBot'
+faqs:
+  - q: 'What is MCP in Cursor?'
+    a: 'MCP (Model Context Protocol) is an open standard for connecting AI tools to external systems — issue trackers, databases, docs, browsers — through small server processes. In Cursor it lets the agent read and act on systems beyond your files. Treat every MCP server as a privileged integration and apply least-privilege.'
+  - q: 'What are .cursor/rules?'
+    a: 'Project- or user-level instructions that are automatically applied as context. Use them to encode conventions, architectural constraints, and security guardrails so you do not have to repeat yourself in every prompt.'
+---
+import Callout from '@/components/ui/Callout.astro';
+
+This is a working reference, not marketing copy. For each capability: what it does, and when to reach for it. Behaviors evolve quickly, so we describe roles and intent rather than pin exact UI details.
+
+## Tab — predictive next edit
+
+**What it is:** low-latency, inline edit prediction. As you type or move, Cursor proposes the next change — sometimes multi-line or across multiple cursors — which you accept with Tab.
+
+**When to use it:** mechanical and repetitive edits, finishing boilerplate, propagating a small pattern, "do the obvious next thing." It keeps you in flow and in control.
+
+<Callout type="tip">
+Tab shines on edits you could do yourself but would rather not type. If you find yourself *reading hard* to verify a Tab suggestion, that task probably belongs to a higher-autonomy tool with a proper diff review.
+</Callout>
+
+## Inline edit — scoped natural-language changes
+
+**What it is:** select code, describe the change, apply it to that selection.
+
+**When to use it:** localized transformations with a known blast radius — add validation, refactor a function, adjust a type. Small enough to eyeball the result instantly.
+
+## Composer / Agent mode — multi-file execution
+
+**What it is:** you give an instruction or spec; Cursor plans, edits across files, can run commands and tests, and iterates toward the goal. You review the result as a diff.
+
+**When to use it:** features and refactors that touch several files, anything that benefits from the model running and reacting to output. This is the workhorse for real tasks.
+
+**How to use it well:** write a short spec, point it at the right files, keep the scope tight, and review every diff. See [best practices](/learn/best-practices).
+
+## Background & Cloud Agents — delegated, asynchronous work
+
+**What it is:** agents that work on a task without occupying your editor — including in a remote environment — and hand back a branch or pull request.
+
+**When to use it:** well-bounded, parallelizable tasks you can specify clearly and walk away from (a focused refactor, a first pass at an issue, dependency bumps). The clearer the spec, the better the result.
+
+<Callout type="warn" title="Delegation amplifies your spec">
+A vague instruction to an autonomous agent produces expensive, sprawling output. Invest in the problem statement: the desired outcome, constraints, and how you'll know it worked.
+</Callout>
+
+## .cursor/rules — your conventions as context
+
+**What it is:** persistent instructions (project- and user-scoped) applied automatically. Think of them as the contract every AI interaction inherits.
+
+**When to use it:** encode architectural boundaries, naming and style conventions, "always/never" rules, and **security guardrails** (e.g. "never call external services with user secrets", "all new endpoints require auth checks"). Rules turn tribal knowledge into machine-readable convention.
+
+**Good rules are:** specific, testable, and few. A wall of vague guidance gets ignored; a handful of sharp constraints gets followed.
+
+<h2 id="mcp">MCP — connecting external tools</h2>
+
+**What it is:** the Model Context Protocol lets Cursor talk to external systems (issue trackers, databases, browsers, docs) through small server processes, so the agent can read and act beyond your files.
+
+**When to use it:** when grounding the AI in live systems removes guesswork — pulling ticket details, querying a schema, checking docs.
+
+<Callout type="danger" title="MCP is a trust and privilege boundary">
+Every MCP server can read inputs and take actions on your behalf. Only run servers you trust, pin them to known versions/sources, and grant the **narrowest** scope that works. A database MCP with write access, or a filesystem server rooted at `/`, is a foot-gun. See the [security guide](/learn/security#mcp).
+</Callout>
+
+<h2 id="model-picker">Model picker — choosing the right brain</h2>
+
+**What it is:** the control for which model handles a request, including an Auto option that selects a sensible default.
+
+**When to use it:** default to Auto / the first-party Composer pool for everyday work — it's the cheaper, well-tuned path. Reach for a frontier or "Max" mode only for genuinely hard reasoning. Model choice is one of your biggest [cost levers](/learn/cost).
+
+## BugBot — automated review on your changes
+
+**What it is:** automated code review that surfaces likely bugs and issues on your changes (for example, on pull requests).
+
+**When to use it:** as a second pair of eyes that never gets tired — catching the class of mistakes humans skim past. It complements, but does not replace, human review of security- and data-sensitive logic.
+
+## Putting it together
+
+| Task shape | Reach for |
+| --- | --- |
+| Obvious, local edit | Tab |
+| Scoped change on a selection | Inline edit |
+| Multi-file feature / refactor | Composer / Agent |
+| Bounded task you can delegate | Background / Cloud Agent |
+| Encode a convention or guardrail | `.cursor/rules` |
+| Ground the AI in a live system | MCP (least-privilege) |
+| Manage cost & capability | Model picker (Auto first) |
+| Extra review pass | BugBot |
+
+Ready to make this output trustworthy? Continue to [best practices](/learn/best-practices).

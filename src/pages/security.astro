@@ -1,0 +1,150 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import Button from '@/components/ui/Button.astro';
+import Icon from '@/components/ui/Icon.astro';
+import Badge from '@/components/ui/Badge.astro';
+import { SITE } from '@/config/site';
+import { breadcrumbSchema, faqSchema } from '@/lib/jsonld';
+
+const description =
+  'How CursorCraft is secure: a local-first, static site with no backend secret handling, no telemetry on your code or keys, and fully open-source verifiability. We practice the security we teach.';
+
+const faqs = [
+  {
+    q: 'Does the Config Analyzer send my files anywhere?',
+    a: 'No. It runs entirely in your browser using local JavaScript. There are no network requests carrying your data, and file contents are held only in in-memory state.',
+  },
+  {
+    q: 'Do you store my config in localStorage?',
+    a: 'No. We never write your file contents, keys, or secrets to localStorage or sessionStorage. Everything lives in in-memory React state and is gone when you close the tab.',
+  },
+  {
+    q: 'How can I verify these claims?',
+    a: 'The entire site is open source. Read the code, inspect the network tab (you will see no requests with your data), or run it offline.',
+  },
+];
+
+const principles = [
+  {
+    icon: 'lock',
+    title: 'No backend secret handling',
+    body: 'The site is statically generated and served as plain files. There is no server that receives, processes, or stores your configuration, keys, or code. The Config Analyzer is pure client-side JavaScript.',
+  },
+  {
+    icon: 'eye-off',
+    title: 'No telemetry on your code or keys',
+    body: 'We do not transmit, log, or analyze the contents you paste. There are no analytics calls carrying your data, and the audit happens locally on your device.',
+  },
+  {
+    icon: 'cpu',
+    title: 'In-memory only — nothing persisted',
+    body: 'Your inputs live in in-memory state for the life of the page. We never write file contents, secrets, or keys to localStorage, sessionStorage, cookies, or any cache.',
+  },
+  {
+    icon: 'git-branch',
+    title: 'Open source & verifiable',
+    body: 'Every line is public. Audit the code, watch the network tab, or disconnect from the internet and confirm the analyzer still works. Trust, but verify.',
+  },
+  {
+    icon: 'shield-check',
+    title: 'Minimal attack surface',
+    body: 'Static output, almost no JavaScript, and interactivity confined to small, reviewable islands. Less code shipped means fewer things that can go wrong.',
+  },
+  {
+    icon: 'list-checks',
+    title: 'We dogfood our own advice',
+    body: 'This repository ships a strong .cursorignore and a .cursor/rules file encoding security guardrails — the same practices the guides recommend.',
+  },
+];
+---
+
+<BaseLayout
+  title="How this site is secure — local-first by design"
+  description={description}
+  jsonLd={[
+    breadcrumbSchema([
+      { name: 'Home', url: '/' },
+      { name: 'Security', url: '/security' },
+    ]),
+    faqSchema(faqs),
+  ]}
+>
+  <section class="border-b border-[var(--color-ink-800)]">
+    <div class="relative overflow-hidden">
+      <div class="bg-grid pointer-events-none absolute inset-0 opacity-[0.12]"></div>
+      <div class="relative mx-auto max-w-6xl px-4 py-16 sm:py-20">
+        <Badge tone="tip" class="mb-4"><Icon name="shield-check" size={12} /> Local-first by design</Badge>
+        <SectionHeading as="h1" eyebrow="How this site is secure" title="We practice the security we teach">
+          A guide about not leaking code or keys would be hypocritical if it leaked yours. CursorCraft
+          is built local-first: no backend handles your secrets, no telemetry touches your code, and
+          everything is open source so you can verify it.
+        </SectionHeading>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-14">
+    <div class="reveal grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        principles.map((p) => (
+          <div class="rounded-xl border border-[var(--color-ink-700)] bg-[var(--color-ink-900)]/60 p-6">
+            <div class="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-lg border border-[var(--color-ink-600)] bg-[var(--color-ink-800)] text-[var(--color-accent-400)]">
+              <Icon name={p.icon as any} size={22} />
+            </div>
+            <h2 class="text-lg font-semibold text-[var(--color-paper-50)]">{p.title}</h2>
+            <p class="mt-2 text-sm leading-relaxed text-[var(--color-paper-300)]">{p.body}</p>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="mt-12 rounded-2xl border border-[var(--color-ink-700)] bg-[var(--color-ink-900)]/60 p-8">
+      <h2 class="text-xl font-bold text-[var(--color-paper-50)]">Verify it yourself</h2>
+      <ol class="mt-4 space-y-3">
+        <li class="flex gap-3 text-sm text-[var(--color-paper-200)]">
+          <span class="font-mono text-[var(--color-accent-400)]">1.</span>
+          Open the <a href="/tools/config-analyzer" class="text-[var(--color-accent-400)] underline">Config Analyzer</a> and your browser's network tab.
+        </li>
+        <li class="flex gap-3 text-sm text-[var(--color-paper-200)]">
+          <span class="font-mono text-[var(--color-accent-400)]">2.</span>
+          Paste a config and run the audit — you'll see no outbound request carrying your data.
+        </li>
+        <li class="flex gap-3 text-sm text-[var(--color-paper-200)]">
+          <span class="font-mono text-[var(--color-accent-400)]">3.</span>
+          Go offline and run it again. It still works, because the audit is entirely local.
+        </li>
+        <li class="flex gap-3 text-sm text-[var(--color-paper-200)]">
+          <span class="font-mono text-[var(--color-accent-400)]">4.</span>
+          Read the source on <a href={SITE.github} class="text-[var(--color-accent-400)] underline">GitHub</a>.
+        </li>
+      </ol>
+    </div>
+
+    <div class="mt-12" aria-labelledby="faq-heading">
+      <h2 id="faq-heading" class="mb-5 text-2xl font-bold text-[var(--color-paper-50)]">
+        Frequently asked questions
+      </h2>
+      <div class="space-y-3">
+        {
+          faqs.map((faq) => (
+            <details class="group rounded-lg border border-[var(--color-ink-700)] bg-[var(--color-ink-900)]/60 p-4">
+              <summary class="flex cursor-pointer items-center justify-between gap-3 font-medium text-[var(--color-paper-100)]">
+                {faq.q}
+                <span class="text-[var(--color-paper-400)] transition-transform group-open:rotate-90">
+                  <Icon name="arrow-right" size={16} />
+                </span>
+              </summary>
+              <p class="mt-3 text-sm leading-relaxed text-[var(--color-paper-300)]">{faq.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="mt-12 flex flex-col items-center gap-4 rounded-2xl border border-[var(--color-accent-500)]/30 bg-gradient-to-br from-[color-mix(in_srgb,var(--color-accent-600)_18%,var(--color-ink-900))] to-[var(--color-ink-900)] p-8 text-center">
+      <h2 class="text-xl font-semibold text-[var(--color-paper-50)]">Ready to check your own setup?</h2>
+      <Button href="/tools/config-analyzer" variant="primary" icon="arrow-right">Run the audit</Button>
+    </div>
+  </section>
+</BaseLayout>

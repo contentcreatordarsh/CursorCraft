@@ -1,0 +1,88 @@
+---
+title: 'Cursor enterprise rollout: a land-and-expand playbook'
+description: 'A repeatable playbook for rolling Cursor out across an engineering org: discover, pilot with a lighthouse team, prove value against one metric, expand with change management, and govern. Includes the metrics that matter — DORA, PR cycle time, time-to-first-commit.'
+eyebrow: 'Scale'
+order: 6
+icon: 'building'
+readingTime: '9 min read'
+updated: '2026-06-24'
+keywords:
+  - 'Cursor enterprise rollout'
+  - 'AI tooling adoption'
+  - 'DORA metrics'
+  - 'developer productivity'
+faqs:
+  - q: 'How should we measure whether Cursor is working?'
+    a: 'Tie usage to outcomes, not vanity metrics. Track DORA metrics (deployment frequency, lead time, change failure rate, MTTR), PR cycle time, and time-to-first-commit for new joiners. Pick ONE primary metric per pilot so success is unambiguous.'
+  - q: 'Should we roll out to everyone at once?'
+    a: 'No. Start with a lighthouse team, prove value against a clear metric, build a repeatable playbook, then expand. Big-bang rollouts skip the learning that makes adoption stick and governance sane.'
+---
+import Callout from '@/components/ui/Callout.astro';
+
+Buying licenses is not a rollout. Real adoption is a land-and-expand motion: prove value somewhere specific, then make success repeatable. Here's the playbook.
+
+## Phase 1 — Discover
+
+Understand the terrain before you spend political capital.
+
+- **Find the pain.** Where does delivery actually slow down — onboarding, code review, boilerplate, legacy comprehension? Target a pain Cursor plausibly relieves.
+- **Map constraints.** Security, compliance, and procurement requirements (data handling, SOC 2, SSO/SCIM). Engage security *now*, not after the pilot. See the [security guide](/learn/security).
+- **Pick a lighthouse team.** Choose one team that is motivated, representative, and shipping something visible — not your most heroic team (they'll succeed with anything) and not your most skeptical (you'll fight noise instead of learning).
+
+## Phase 2 — Pilot
+
+Small, instrumented, time-boxed.
+
+- **Configure for success.** Ship a baseline `.cursor/rules` encoding the team's conventions and guardrails, set up any [MCP](/learn/feature-tour#mcp) integrations (least-privilege), and commit a strong `.cursorignore`. Don't make the pilot team discover all this themselves.
+- **Pick ONE success metric.** Resist a dashboard of twelve. One primary metric the team agrees on (e.g. PR cycle time) makes the result legible to leadership.
+- **Baseline first.** Measure the metric *before* turning Cursor on, so you have an honest comparison.
+- **Enable Privacy Mode org-wide** before anyone writes a line — security is a precondition, not a phase-two cleanup.
+
+<Callout type="tip" title="Configuration is the difference">
+Teams that get a curated setup — good rules, the right MCP servers, a sane `.cursorignore` — see results fast. Teams handed a raw install often conclude "it didn't help." The tool is the same; the setup isn't.
+</Callout>
+
+## Phase 3 — Prove value
+
+Turn the pilot into an argument leadership believes.
+
+- **Tie usage to outcomes.** Connect adoption to the metric you chose and to qualitative signal (developer sentiment, concrete wins). Run it like a QBR: here's the baseline, here's the result, here's what we learned.
+- **Be honest about what didn't work.** Credibility compounds. Documenting failure modes makes your expansion plan trustworthy.
+
+### Metrics that matter
+
+| Metric | What it tells you |
+| --- | --- |
+| **DORA** (deploy frequency, lead time, change-fail rate, MTTR) | Whether speed gains come without stability loss |
+| **PR cycle time** | How fast work moves from open to merged |
+| **Time-to-first-commit** | How quickly new joiners become productive |
+
+<Callout type="warn" title="Avoid vanity metrics">
+"Lines of AI code accepted" or "suggestions shown" measure activity, not value — and reward the wrong behavior. Anchor on delivery and stability outcomes the business already cares about.
+</Callout>
+
+## Phase 4 — Expand
+
+Make the lighthouse result repeatable.
+
+- **Build a playbook.** Package what worked: the baseline rules, recommended MCP servers, onboarding steps, and the metric definitions. New teams should start from a template, not a blank slate.
+- **Manage change.** Adoption is a people problem. Provide enablement (office hours, internal champions, short guides), set expectations, and let teams adapt the playbook to their context.
+- **Expand along the grain.** Move to teams with similar workflows next, where the playbook transfers cleanly, before tackling the outliers.
+
+## Phase 5 — Govern
+
+Sustain it safely at scale.
+
+- **Enforce security centrally:** SSO/SAML/SCIM, audit logs and AI-code tracking, model/provider allow-lists, org-wide Privacy Mode. ([Security guide](/learn/security#enterprise-controls).)
+- **Govern spend:** soft spend limits, alerts, and per-user/per-model monitoring — both a budget and a safety control. ([Cost guide](/learn/cost).)
+- **Keep the playbook alive.** Conventions and rules should evolve as the org learns. Assign an owner.
+
+## The one-page summary
+
+1. **Discover** the pain and the constraints; pick a lighthouse team.
+2. **Pilot** with a curated setup, one metric, and a real baseline.
+3. **Prove value** by tying usage to DORA / cycle-time / time-to-first-commit.
+4. **Expand** with a repeatable playbook and genuine change management.
+5. **Govern** with enforced security and spend controls.
+
+Start your rollout on the right foot: run your baseline config through the **[Config Analyzer](/tools/config-analyzer)** so every team begins from a secure, cost-aware setup.

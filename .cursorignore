@@ -1,0 +1,55 @@
+# CursorCraft .cursorignore — dogfooding the advice we give.
+# Anything matched here is excluded from Cursor's AI context and indexing.
+# Keep secrets, credentials, and noisy build artifacts out of the model's reach.
+
+# --- Secrets & credentials (NEVER let these reach a model) ---
+.env
+.env.*
+*.local
+*.key
+*.pem
+*.pfx
+*.p12
+*.crt
+*.cer
+*.der
+*.keystore
+id_rsa
+id_ed25519
+*.gpg
+*.asc
+secrets/
+secret/
+credentials/
+.credentials/
+*secret*
+*credential*
+*.tfvars
+.npmrc
+.netrc
+
+# --- Cloud / provider config that often holds tokens ---
+.aws/
+.gcloud/
+.azure/
+.kube/config
+*serviceaccount*.json
+
+# --- Dependencies & build output (noise, no signal) ---
+node_modules/
+dist/
+.astro/
+.cache/
+coverage/
+.vercel/
+.netlify/
+.wrangler/
+
+# --- Lockfiles (large, low value as model context) ---
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# --- Logs & local artifacts ---
+*.log
+.DS_Store

@@ -1,0 +1,87 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import Button from '@/components/ui/Button.astro';
+import Callout from '@/components/ui/Callout.astro';
+import { SITE } from '@/config/site';
+import { breadcrumbSchema } from '@/lib/jsonld';
+
+const description =
+  'About CursorCraft — an unofficial, open-source community guide to using the Cursor AI code editor securely and cost-effectively. Not affiliated with Anysphere or Cursor.';
+---
+
+<BaseLayout
+  title="About CursorCraft — an unofficial community project"
+  description={description}
+  jsonLd={breadcrumbSchema([
+    { name: 'Home', url: '/' },
+    { name: 'About', url: '/about' },
+  ])}
+>
+  <section class="border-b border-[var(--color-ink-800)]">
+    <div class="relative overflow-hidden">
+      <div class="bg-grid pointer-events-none absolute inset-0 opacity-[0.12]"></div>
+      <div class="relative mx-auto max-w-6xl px-4 py-16 sm:py-20">
+        <SectionHeading as="h1" eyebrow="About" title="A community playbook for using Cursor well">
+          CursorCraft exists because the gap between "I installed Cursor" and "my team ships safely
+          and affordably with it" is bigger than it should be. This is the guide we wished existed.
+        </SectionHeading>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-4 py-14">
+    <div class="reveal prose-craft">
+      <h2>What it is</h2>
+      <p>
+        CursorCraft is an open-source guide plus a set of local-first tools that teach engineering
+        teams how to get the most out of the Cursor AI code editor — with a strong emphasis on
+        <strong>security</strong> and <strong>cost discipline</strong>. The content is written to be
+        practical and senior-level: short, skimmable, and free of filler.
+      </p>
+
+      <h2>Why it exists</h2>
+      <p>
+        AI coding tools are easy to adopt and easy to misuse. Secrets leak into prompts, context gets
+        sprayed at expensive models, and MCP servers run with far more privilege than they need. The
+        fixes are well understood but scattered. CursorCraft collects them into one credible playbook
+        and pairs it with a tool that checks your real configuration.
+      </p>
+
+      <h2>Who made it</h2>
+      <p>
+        CursorCraft is built and maintained by the community — engineers who use Cursor daily and
+        care about doing it responsibly. It is open source under the MIT license; contributions,
+        corrections, and new tool ideas are welcome.
+      </p>
+      <p>
+        It was, fittingly, <strong>built in Cursor</strong> — and the repository dogfoods the advice
+        it gives, shipping a strong <code>.cursorignore</code> and a <code>.cursor/rules</code> file.
+      </p>
+
+      <h2>How to contribute</h2>
+      <p>
+        Found an inaccuracy, want to sharpen a guide, or have an idea for a local-first tool? Open an
+        issue or a pull request on GitHub. Content correctness and security are the top priorities.
+      </p>
+    </div>
+
+    <div class="mt-8 flex flex-wrap gap-3">
+      <Button href={SITE.github} variant="primary" icon="github" iconPosition="left" external>
+        View on GitHub
+      </Button>
+      <Button href="/learn" variant="secondary" icon="book-open" iconPosition="left">
+        Read the playbook
+      </Button>
+    </div>
+
+    <Callout type="info" title="Unofficial community project" class="mt-10">
+      <p>
+        CursorCraft is an independent, community-run project. It is <strong>not affiliated with,
+        endorsed by, or sponsored by Anysphere</strong> (the makers of Cursor) or the Cursor product.
+        "Cursor" and related marks belong to their respective owners. Product behavior changes over
+        time — always confirm specifics against the official Cursor documentation.
+      </p>
+    </Callout>
+  </section>
+</BaseLayout>

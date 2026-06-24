@@ -1,0 +1,91 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Card from '@/components/ui/Card.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import Badge from '@/components/ui/Badge.astro';
+import Icon from '@/components/ui/Icon.astro';
+import { breadcrumbSchema } from '@/lib/jsonld';
+
+const description =
+  'Free, local-first tools for Cursor teams. Start with the Config Analyzer — audit your Cursor setup for security risks and cost leaks entirely in your browser.';
+
+const tools = [
+  {
+    href: '/tools/config-analyzer',
+    icon: 'file-search' as const,
+    title: 'Config Analyzer',
+    body: 'Paste your .cursorignore, rules, mcp.json, and settings to get a prioritized report of security risks and cost leaks. 100% client-side.',
+    badge: 'Available now',
+    tone: 'tip' as const,
+  },
+  {
+    href: '/tools/rules-generator',
+    icon: 'wrench' as const,
+    title: 'Rules Generator',
+    body: 'Answer a few questions and generate a tailored .cursor/rules file and matching .cursorignore — with security guardrails scaled to your needs. 100% client-side.',
+    badge: 'Available now',
+    tone: 'tip' as const,
+  },
+  {
+    href: '/tools/security-checklist',
+    icon: 'list-checks' as const,
+    title: 'Security Checklist',
+    body: 'A role-based, interactive checklist for ICs, Team Leads, and Security & Ops — track progress with a completion meter. Derived from the security guide.',
+    badge: 'Available now',
+    tone: 'tip' as const,
+  },
+  {
+    href: '/tools/usage-insights',
+    icon: 'gauge' as const,
+    title: 'Usage Insights',
+    body: 'Analyze team spend and usage without exposing your API key. Run a read-only command locally, paste the JSON, and see cost hotspots, model mix, and idle seats.',
+    badge: 'Available now',
+    tone: 'tip' as const,
+  },
+];
+---
+
+<BaseLayout
+  title="Tools — free, local-first utilities for Cursor teams"
+  description={description}
+  jsonLd={breadcrumbSchema([
+    { name: 'Home', url: '/' },
+    { name: 'Tools', url: '/tools' },
+  ])}
+>
+  <section class="border-b border-[var(--color-ink-800)]">
+    <div class="relative overflow-hidden">
+      <div class="bg-grid pointer-events-none absolute inset-0 opacity-[0.12]"></div>
+      <div class="relative mx-auto max-w-6xl px-4 py-16 sm:py-20">
+        <SectionHeading as="h1" eyebrow="Tools" title="Local-first tools, built on principle">
+          Every tool here runs in your browser. No backend, no uploads, no telemetry on your code or
+          keys — because the best way to teach secure tooling is to build it.
+        </SectionHeading>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-14" aria-labelledby="tools-heading">
+    <h2 id="tools-heading" class="sr-only">Available tools</h2>
+    <div class="reveal grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        tools.map((t) => (
+          <Card href={t.href} icon={t.icon} title={t.title} class="h-full">
+            <Badge tone={t.tone} class="mb-3">
+              <Icon name="check" size={11} /> {t.badge}
+            </Badge>
+            <p class="text-sm leading-relaxed text-[var(--color-paper-300)]">{t.body}</p>
+          </Card>
+        ))
+      }
+      <div class="flex flex-col justify-center rounded-xl border border-dashed border-[var(--color-ink-700)] bg-[var(--color-ink-900)]/40 p-6 text-center">
+        <p class="font-mono text-xs uppercase tracking-wider text-[var(--color-paper-400)]">
+          More coming
+        </p>
+        <p class="mt-2 text-sm text-[var(--color-paper-400)]">
+          Have an idea for a local-first Cursor tool? Open an issue on GitHub.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,28 @@
+---
+import Eyebrow from './Eyebrow.astro';
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  align?: 'left' | 'center';
+  as?: 'h1' | 'h2' | 'h3';
+  class?: string;
+}
+
+const { eyebrow, title, align = 'left', as: Tag = 'h2', class: className = '' }: Props = Astro.props;
+const alignment = align === 'center' ? 'text-center mx-auto items-center' : 'text-left items-start';
+---
+
+<div class={`flex max-w-2xl flex-col gap-3 ${alignment} ${className}`}>
+  {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
+  <Tag class="text-3xl font-bold tracking-tight text-[var(--color-paper-50)] sm:text-4xl">
+    {title}
+  </Tag>
+  {
+    Astro.slots.has('default') && (
+      <p class="text-base leading-relaxed text-[var(--color-paper-300)] sm:text-lg">
+        <slot />
+      </p>
+    )
+  }
+</div>

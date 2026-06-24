@@ -1,0 +1,249 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import HeroEditor from '@/components/HeroEditor.astro';
+import Button from '@/components/ui/Button.astro';
+import Card from '@/components/ui/Card.astro';
+import Eyebrow from '@/components/ui/Eyebrow.astro';
+import Badge from '@/components/ui/Badge.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import Icon from '@/components/ui/Icon.astro';
+import { SITE, TRUST_LINE } from '@/config/site';
+import { faqSchema } from '@/lib/jsonld';
+
+const guides = (await getCollection('guides')).sort((a, b) => a.data.order - b.data.order);
+const previewGuides = guides.slice(0, 6);
+
+const values = [
+  {
+    icon: 'shield-check' as const,
+    title: 'Security by default',
+    body: 'Privacy Mode, .cursorignore, MCP least-privilege, and adversarial diff review — the controls that keep your code and keys safe.',
+  },
+  {
+    icon: 'wallet' as const,
+    title: 'Cost discipline',
+    body: 'Trim context, default to Auto/Composer, and set spend limits. Cut spend without slowing anyone down.',
+  },
+  {
+    icon: 'gauge' as const,
+    title: 'Real productivity',
+    body: 'Match the tool to the task across the autonomy spectrum — Tab, Composer, Agents — and ship trustworthy diffs.',
+  },
+  {
+    icon: 'building' as const,
+    title: 'Enterprise rollout',
+    body: 'A land-and-expand playbook: pilot with a lighthouse team, prove value on real metrics, then govern at scale.',
+  },
+];
+
+const homeFaqs = [
+  {
+    q: 'What is CursorCraft?',
+    a: 'An unofficial, open-source community guide to getting the most out of the Cursor AI code editor — with a focus on security and cost discipline — plus a free, fully client-side Config Analyzer to audit your setup.',
+  },
+  {
+    q: 'Is my code or config uploaded anywhere?',
+    a: 'No. The Config Analyzer runs entirely in your browser. Nothing is uploaded, there are no network calls with your data, and your file contents are never stored beyond in-memory state.',
+  },
+  {
+    q: 'Is this affiliated with Cursor or Anysphere?',
+    a: 'No. CursorCraft is an independent community project and is not affiliated with, endorsed by, or sponsored by Anysphere or Cursor.',
+  },
+];
+
+const description =
+  'Master the Cursor AI code editor without leaking code or burning budget. An open-source, local-first guide to Cursor security, cost optimization, best practices, and enterprise rollout — plus a free in-browser config audit.';
+---
+
+<BaseLayout
+  title="CursorCraft — Master Cursor. Secure it. Scale it."
+  description={description}
+  jsonLd={faqSchema(homeFaqs)}
+>
+  <!-- ===== HERO ===== -->
+  <section class="relative overflow-hidden border-b border-[var(--color-ink-800)]">
+    <div class="bg-grid pointer-events-none absolute inset-0 opacity-[0.15]"></div>
+    <div
+      class="pointer-events-none absolute -top-40 left-1/2 h-80 w-[55rem] -translate-x-1/2 rounded-full opacity-25 blur-3xl"
+      style="background: radial-gradient(closest-side, var(--color-accent-500), transparent);"
+    >
+    </div>
+    <div class="relative mx-auto grid max-w-6xl items-center gap-12 px-4 py-16 sm:py-24 lg:grid-cols-2">
+      <div>
+        <Eyebrow class="mb-4">Unofficial community guide</Eyebrow>
+        <h1 class="text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
+          <span class="text-gradient">Master Cursor.</span><br />
+          Secure it. Scale it.<span class="caret"></span>
+        </h1>
+        <p class="mt-6 max-w-xl text-lg leading-relaxed text-[var(--color-paper-300)]">
+          Get maximum value from Cursor across your team — without leaking code or burning budget.
+          Audit your setup in seconds, fully in your browser.
+        </p>
+        <div class="mt-8 flex flex-wrap items-center gap-3">
+          <Button href="/tools/config-analyzer" variant="primary" size="lg" icon="arrow-right">
+            Audit your Cursor setup
+          </Button>
+          <Button href="/learn" variant="secondary" size="lg" icon="book-open" iconPosition="left">
+            Read the playbook
+          </Button>
+          <Button href={SITE.github} variant="ghost" size="lg" icon="github" iconPosition="left" external>
+            View on GitHub
+          </Button>
+        </div>
+        <p class="mt-6 font-mono text-xs text-[var(--color-paper-400)]">{TRUST_LINE}</p>
+      </div>
+      <div class="lg:pl-6">
+        <HeroEditor />
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== WHAT IS THIS ===== -->
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:py-20">
+    <div class="reveal grid items-start gap-10 md:grid-cols-[1.1fr_1fr]">
+      <SectionHeading eyebrow="What is this" title="A playbook for using Cursor like a senior team">
+        Cursor is powerful, but raw power without discipline leaks secrets and burns budget.
+        CursorCraft distills the practices that make AI-assisted development fast, safe, and
+        affordable — and ships a free tool to audit your own configuration.
+      </SectionHeading>
+      <div class="space-y-3 rounded-xl border border-[var(--color-ink-700)] bg-[var(--color-ink-900)]/60 p-6">
+        <div class="flex items-start gap-3">
+          <span class="mt-0.5 text-[var(--color-tip)]"><Icon name="check" size={18} /></span>
+          <p class="text-sm text-[var(--color-paper-200)]"><strong class="text-[var(--color-paper-50)]">Six in-depth guides</strong> — from mental model to enterprise rollout, written at a senior level.</p>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="mt-0.5 text-[var(--color-tip)]"><Icon name="check" size={18} /></span>
+          <p class="text-sm text-[var(--color-paper-200)]"><strong class="text-[var(--color-paper-50)]">A client-side Config Analyzer</strong> — paste your config, get a prioritized fix list. Nothing leaves your browser.</p>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="mt-0.5 text-[var(--color-tip)]"><Icon name="check" size={18} /></span>
+          <p class="text-sm text-[var(--color-paper-200)]"><strong class="text-[var(--color-paper-50)]">Open source & local-first</strong> — the site practices the security it preaches.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== VALUE CARDS ===== -->
+  <section class="mx-auto max-w-6xl px-4 pb-16 sm:pb-20">
+    <SectionHeading
+      eyebrow="Why it matters"
+      title="Four disciplines that separate hobby use from production"
+      align="center"
+      class="mb-10"
+    />
+    <div class="reveal grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        values.map((v) => (
+          <Card icon={v.icon} title={v.title}>
+            <p class="text-sm leading-relaxed text-[var(--color-paper-300)]">{v.body}</p>
+          </Card>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- ===== CTA BAND ===== -->
+  <section class="mx-auto max-w-6xl px-4 pb-16 sm:pb-20">
+    <div
+      class="reveal relative overflow-hidden rounded-2xl border border-[var(--color-accent-500)]/30 bg-gradient-to-br from-[color-mix(in_srgb,var(--color-accent-600)_22%,var(--color-ink-900))] to-[var(--color-ink-900)] p-8 text-center sm:p-12"
+    >
+      <div class="bg-grid pointer-events-none absolute inset-0 opacity-20"></div>
+      <div class="relative mx-auto max-w-2xl">
+        <Badge tone="accent" class="mb-4"><Icon name="zap" size={12} /> No signup · 10 seconds</Badge>
+        <h2 class="text-2xl font-bold tracking-tight text-[var(--color-paper-50)] sm:text-3xl">
+          Audit your Cursor setup in 10 seconds
+        </h2>
+        <p class="mx-auto mt-3 max-w-xl text-[var(--color-paper-300)]">
+          Paste your <code class="font-mono text-[var(--color-accent-400)]">.cursorignore</code>,
+          rules, <code class="font-mono text-[var(--color-accent-400)]">mcp.json</code>, or settings
+          and get a prioritized report of security risks and cost leaks — entirely in your browser.
+        </p>
+        <div class="mt-6 flex justify-center">
+          <Button href="/tools/config-analyzer" variant="primary" size="lg" icon="shield-check" iconPosition="left">
+            Run the audit
+          </Button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== GUIDE PREVIEWS ===== -->
+  <section class="mx-auto max-w-6xl px-4 pb-16 sm:pb-20">
+    <div class="mb-10 flex flex-wrap items-end justify-between gap-4">
+      <SectionHeading eyebrow="The playbook" title="Six guides, no filler">
+        Practical, senior-level content. Read in order, or jump to what you need.
+      </SectionHeading>
+      <Button href="/learn" variant="ghost" icon="arrow-right">View all guides</Button>
+    </div>
+    <div class="reveal grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        previewGuides.map((g) => (
+          <Card href={`/learn/${g.id}`} icon={g.data.icon as any} eyebrow={g.data.eyebrow} title={g.data.title}>
+            <p class="text-sm leading-relaxed text-[var(--color-paper-300)]">{g.data.description}</p>
+            <p class="mt-3 font-mono text-[0.7rem] text-[var(--color-paper-400)]">{g.data.readingTime}</p>
+          </Card>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- ===== SECURITY PROMISE ===== -->
+  <section class="border-y border-[var(--color-ink-800)] bg-[var(--color-ink-900)]/40">
+    <div class="mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 sm:py-20 md:grid-cols-2">
+      <div class="reveal">
+        <Eyebrow class="mb-3">Our security promise</Eyebrow>
+        <h2 class="text-3xl font-bold tracking-tight text-[var(--color-paper-50)]">
+          This site practices what it preaches
+        </h2>
+        <p class="mt-4 text-[var(--color-paper-300)]">
+          CursorCraft is local-first by design. There is no backend that handles your secrets, no
+          telemetry on your code or keys, and the whole thing is open source so you can verify it
+          yourself.
+        </p>
+        <div class="mt-6">
+          <Button href="/security" variant="secondary" icon="arrow-right">How this site is secure</Button>
+        </div>
+      </div>
+      <ul class="reveal space-y-3">
+        {
+          [
+            ['lock', 'No backend secret handling — the analyzer runs 100% in your browser.'],
+            ['eye-off', 'No telemetry on your code or keys. Nothing is uploaded.'],
+            ['git-branch', 'Open source and verifiable — read every line on GitHub.'],
+            ['shield', 'No localStorage of file contents — in-memory state only.'],
+          ].map(([icon, text]) => (
+            <li class="flex items-start gap-3 rounded-lg border border-[var(--color-ink-700)] bg-[var(--color-ink-900)]/60 p-4">
+              <span class="mt-0.5 text-[var(--color-accent-400)]">
+                <Icon name={icon as any} size={20} />
+              </span>
+              <span class="text-sm text-[var(--color-paper-200)]">{text}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== FINAL CTA ===== -->
+  <section class="mx-auto max-w-3xl px-4 py-20 text-center">
+    <div class="reveal">
+      <Eyebrow class="mb-4">Get started</Eyebrow>
+      <h2 class="text-3xl font-bold tracking-tight text-[var(--color-paper-50)] sm:text-4xl">
+        Use Cursor like the best teams do
+      </h2>
+      <p class="mx-auto mt-4 max-w-xl text-[var(--color-paper-300)]">
+        Start with a 10-second config audit, then work through the playbook. Secure, affordable,
+        and fast — pick all three.
+      </p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <Button href="/tools/config-analyzer" variant="primary" size="lg" icon="arrow-right">
+          Audit your Cursor setup
+        </Button>
+        <Button href="/learn" variant="secondary" size="lg" icon="book-open" iconPosition="left">
+          Read the playbook
+        </Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,24 @@
+---
+interface Props {
+  tone?: 'neutral' | 'accent' | 'danger' | 'warn' | 'tip';
+  class?: string;
+}
+const { tone = 'neutral', class: className = '' } = Astro.props;
+
+const tones: Record<string, string> = {
+  neutral:
+    'bg-[var(--color-ink-800)] text-[var(--color-paper-300)] border-[var(--color-ink-600)]',
+  accent:
+    'bg-[color-mix(in_srgb,var(--color-accent-500)_15%,transparent)] text-[var(--color-accent-400)] border-[color-mix(in_srgb,var(--color-accent-500)_40%,transparent)]',
+  danger:
+    'bg-[color-mix(in_srgb,var(--color-danger)_15%,transparent)] text-[var(--color-danger)] border-[color-mix(in_srgb,var(--color-danger)_40%,transparent)]',
+  warn: 'bg-[color-mix(in_srgb,var(--color-warn)_15%,transparent)] text-[var(--color-warn)] border-[color-mix(in_srgb,var(--color-warn)_40%,transparent)]',
+  tip: 'bg-[color-mix(in_srgb,var(--color-tip)_15%,transparent)] text-[var(--color-tip)] border-[color-mix(in_srgb,var(--color-tip)_40%,transparent)]',
+};
+---
+
+<span
+  class={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 font-mono text-[0.68rem] uppercase tracking-wider ${tones[tone]} ${className}`}
+>
+  <slot />
+</span>

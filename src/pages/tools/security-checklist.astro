@@ -54,10 +54,8 @@ const howToSteps = icRole.items.map((i) => ({ name: i.label, text: i.why }));
     faqSchema(faqs),
   ]}
 >
-  <section class="border-b border-[var(--color-ink-800)]">
-    <div class="relative overflow-hidden">
-      <div class="bg-grid pointer-events-none absolute inset-0 opacity-[0.12]"></div>
-      <div class="relative mx-auto max-w-6xl px-4 py-12 sm:py-16">
+  <section class="border-b border-[var(--color-border)]">
+    <div class="mx-auto max-w-6xl px-4 py-12 sm:py-16">
         <nav aria-label="Breadcrumb" class="mb-6 font-mono text-xs text-[var(--color-paper-400)]">
           <ol class="flex items-center gap-1.5">
             <li><a href="/" class="hover:text-[var(--color-paper-100)]">Home</a></li>
@@ -77,12 +75,11 @@ const howToSteps = icRole.items.map((i) => ({ name: i.label, text: i.why }));
           </h1>
           <p class="max-w-2xl text-lg leading-relaxed text-[var(--color-paper-300)]">
             Pick your role and work through a tailored checklist derived from the
-            <a href="/learn/security" class="text-[var(--color-accent-400)] underline">security guide</a>.
+            <a href="/learn/security" class="text-[var(--color-paper-200)] underline">security guide</a>.
             Track progress with a completion meter; expand any item to see why it matters. Nothing is
             saved or uploaded.
           </p>
         </div>
-      </div>
     </div>
   </section>
 

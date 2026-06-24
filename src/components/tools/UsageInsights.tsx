@@ -38,13 +38,13 @@ USAGE=$(curl -s -X POST https://api.cursor.com/teams/daily-usage-data \\
 printf '{"spend":%s,"usage":%s}\\n' "$SPEND" "$USAGE"`;
 
 const MODEL_COLORS = [
-  'var(--color-accent-500)',
-  'var(--color-cyan-400)',
+  'var(--color-paper-300)',
+  'var(--color-syntax-keyword)',
   'var(--color-warn)',
   'var(--color-info)',
   'var(--color-tip)',
   'var(--color-danger)',
-  'var(--color-paper-400)',
+  'var(--color-muted)',
 ];
 
 const SEV: Record<Severity, { Icon: LucideIcon; color: string; bg: string; border: string; label: string }> = {
@@ -81,7 +81,7 @@ export default function UsageInsights() {
   return (
     <div className="space-y-8">
       {/* Privacy guarantee */}
-      <div className="flex items-start gap-3 rounded-xl border border-[color-mix(in_srgb,var(--color-tip)_40%,transparent)] bg-[color-mix(in_srgb,var(--color-tip)_8%,transparent)] p-4">
+      <div className="flex items-start gap-3 rounded-lg border border-[color-mix(in_srgb,var(--color-tip)_40%,transparent)] bg-[color-mix(in_srgb,var(--color-tip)_8%,transparent)] p-4">
         <ServerOff size={22} className="mt-0.5 shrink-0" style={{ color: 'var(--color-tip)' }} aria-hidden="true" />
         <div>
           <p className="font-semibold text-[var(--color-paper-50)]">Your API key never touches this site</p>
@@ -120,14 +120,14 @@ export default function UsageInsights() {
           placeholder='Paste the output of the command above, e.g. {"spend":{...},"usage":{...}}'
           spellCheck={false}
           rows={6}
-          className="w-full resize-y rounded-xl border border-[var(--color-ink-700)] bg-[var(--color-ink-950)] p-3 font-mono text-[13px] leading-relaxed text-[var(--color-paper-100)] placeholder:text-[var(--color-muted)] focus:border-[var(--color-accent-500)] focus:outline-none"
+          className="input-field"
         />
         <div className="mt-3 flex flex-wrap items-center gap-2">
           <button
             type="button"
             onClick={() => setSubmitted(true)}
             disabled={raw.trim().length === 0}
-            className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-[var(--color-accent-600)] to-[var(--color-accent-500)] px-4 py-2 text-sm font-medium text-white transition-all hover:from-[var(--color-accent-500)] hover:to-[var(--color-cyan-400)] disabled:pointer-events-none disabled:opacity-50"
+            className="btn-primary"
           >
             <TrendingUp size={16} aria-hidden="true" />
             Analyze usage
@@ -138,7 +138,7 @@ export default function UsageInsights() {
               setRaw(EXAMPLE_JSON);
               setSubmitted(true);
             }}
-            className="inline-flex items-center gap-2 rounded-lg border border-[var(--color-ink-600)] px-3 py-2 text-sm text-[var(--color-paper-200)] transition-colors hover:border-[var(--color-accent-500)] hover:text-white"
+            className="btn-secondary"
           >
             <Sparkles size={15} aria-hidden="true" />
             Load example data
@@ -175,7 +175,7 @@ export default function UsageInsights() {
 
 function StepDot({ n }: { n: number }) {
   return (
-    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-[var(--color-ink-800)] font-mono text-xs font-bold text-[var(--color-accent-400)]">
+    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-[var(--color-border)] bg-[var(--color-ink-850)] font-mono text-xs font-bold text-[var(--color-paper-200)]">
       {n}
     </span>
   );
@@ -226,8 +226,8 @@ function Dashboard({ insights }: { insights: Insights }) {
                         width: `${Math.max(2, Math.round((insights.hotspots[0]!.overallSpendCents > 0 ? h.overallSpendCents / insights.hotspots[0]!.overallSpendCents : 0) * 100))}%`,
                         background:
                           idx === 0
-                            ? 'linear-gradient(90deg, var(--color-accent-500), var(--color-cyan-400))'
-                            : 'var(--color-accent-600)',
+                            ? 'var(--color-paper-300)'
+                            : 'var(--color-paper-400)',
                       }}
                     />
                   </div>
@@ -245,8 +245,8 @@ function Dashboard({ insights }: { insights: Insights }) {
         ) : (
           <Panel title="Model mix" subtitle="Share of activity by most-used model">
             <p className="text-sm text-[var(--color-paper-400)]">
-              No daily usage data found. Include the <code className="font-mono text-[var(--color-accent-400)]">usage</code>{' '}
-              object (from <code className="font-mono text-[var(--color-accent-400)]">daily-usage-data</code>) to see your model mix.
+              No daily usage data found. Include the <code className="font-mono text-[var(--color-syntax-string)]">usage</code>{' '}
+              object (from <code className="font-mono text-[var(--color-syntax-string)]">daily-usage-data</code>) to see your model mix.
             </p>
           </Panel>
         )}
@@ -297,7 +297,7 @@ function Dashboard({ insights }: { insights: Insights }) {
                     <h3 className="mt-1 font-semibold text-[var(--color-paper-50)]">{rec.title}</h3>
                     <p className="mt-1.5 text-sm leading-relaxed text-[var(--color-paper-300)]">{rec.detail}</p>
                     {rec.ref && (
-                      <a href={rec.ref} className="mt-2 inline-block font-mono text-xs text-[var(--color-accent-400)] underline">
+                      <a href={rec.ref} className="mt-2 inline-block font-mono text-xs text-[var(--color-paper-100)] underline">
                         Read the cost guide →
                       </a>
                     )}
@@ -326,7 +326,7 @@ function Stat({
   tone?: 'neutral' | 'warn' | 'tip';
 }) {
   const color =
-    tone === 'warn' ? 'var(--color-warn)' : tone === 'tip' ? 'var(--color-tip)' : 'var(--color-accent-400)';
+    tone === 'warn' ? 'var(--color-warn)' : tone === 'tip' ? 'var(--color-tip)' : 'var(--color-paper-300)';
   return (
     <div className="rounded-xl border border-[var(--color-ink-700)] bg-[var(--color-ink-900)] p-4">
       <div className="flex items-center gap-2">
@@ -362,7 +362,7 @@ function RequestBars({ data }: { data: { label: string; value: number }[] }) {
           <div className="h-2 w-full overflow-hidden rounded-full bg-[var(--color-ink-800)]">
             <div
               className="h-full rounded-full"
-              style={{ width: `${Math.max(2, Math.round((d.value / max) * 100))}%`, background: 'var(--color-cyan-400)' }}
+              style={{ width: `${Math.max(2, Math.round((d.value / max) * 100))}%`, background: 'var(--color-syntax-keyword)' }}
             />
           </div>
         </li>
@@ -457,7 +457,7 @@ function CurlBlock({ code }: { code: string }) {
         <button
           type="button"
           onClick={copy}
-          className="inline-flex items-center gap-1.5 rounded-md border border-[var(--color-ink-600)] px-2 py-1 font-mono text-[0.7rem] text-[var(--color-paper-300)] transition-colors hover:border-[var(--color-accent-500)] hover:text-white"
+          className="inline-flex items-center gap-1.5 rounded-md border border-[var(--color-border)] px-2 py-1 font-mono text-[0.7rem] text-[var(--color-paper-400)] transition-colors hover:border-[var(--color-border-strong)] hover:text-[var(--color-paper-100)]"
           aria-label="Copy command to clipboard"
         >
           {copied ? <Check size={13} style={{ color: 'var(--color-tip)' }} aria-hidden="true" /> : <Copy size={13} aria-hidden="true" />}

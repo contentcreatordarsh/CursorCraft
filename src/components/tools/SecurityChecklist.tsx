@@ -79,17 +79,17 @@ export default function SecurityChecklist() {
               aria-selected={active}
               aria-controls="checklist-panel"
               onClick={() => setActiveRoleId(role.id)}
-              className={`flex items-start gap-3 rounded-xl border p-4 text-left transition-colors ${
+              className={`flex items-start gap-3 rounded-lg border p-4 text-left transition-colors ${
                 active
-                  ? 'border-[var(--color-accent-500)] bg-[color-mix(in_srgb,var(--color-accent-500)_12%,transparent)]'
-                  : 'border-[var(--color-ink-700)] bg-[var(--color-ink-900)]/60 hover:border-[var(--color-ink-600)]'
+                  ? 'border-[var(--color-border-strong)] bg-[var(--color-surface-raised)]'
+                  : 'border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[var(--color-border-strong)]'
               }`}
             >
               <span
-                className={`inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border ${
+                className={`inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-md border ${
                   active
-                    ? 'border-[var(--color-accent-500)] text-[var(--color-accent-400)]'
-                    : 'border-[var(--color-ink-600)] bg-[var(--color-ink-800)] text-[var(--color-paper-300)]'
+                    ? 'border-[var(--color-border-strong)] text-[var(--color-paper-100)]'
+                    : 'border-[var(--color-border)] bg-[var(--color-ink-850)] text-[var(--color-paper-300)]'
                 }`}
               >
                 <RoleIcon size={18} aria-hidden="true" />
@@ -108,7 +108,7 @@ export default function SecurityChecklist() {
       </div>
 
       {/* Progress meter */}
-      <div className="mb-6 rounded-xl border border-[var(--color-ink-700)] bg-[var(--color-ink-900)] p-5">
+      <div className="mb-6 panel p-5">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div>
             <p className="font-mono text-xs uppercase tracking-wider text-[var(--color-paper-400)]">
@@ -146,9 +146,7 @@ export default function SecurityChecklist() {
             className="h-full rounded-full transition-[width] duration-500 motion-reduce:transition-none"
             style={{
               width: `${rolePct}%`,
-              background: allComplete
-                ? 'var(--color-tip)'
-                : 'linear-gradient(90deg, var(--color-accent-500), var(--color-cyan-400))',
+              background: allComplete ? 'var(--color-tip)' : 'var(--color-paper-300)',
             }}
           />
         </div>
@@ -181,7 +179,7 @@ export default function SecurityChecklist() {
                     type="checkbox"
                     checked={isChecked}
                     onChange={() => toggle(item.id)}
-                    className="mt-0.5 h-5 w-5 shrink-0 cursor-pointer rounded border-[var(--color-ink-600)] bg-[var(--color-ink-950)] accent-[var(--color-accent-500)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--color-accent-400)]"
+                    className="mt-0.5 h-5 w-5 shrink-0 cursor-pointer rounded border-[var(--color-border)] bg-[var(--color-ink-950)] accent-[var(--color-paper-300)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--color-paper-300)]"
                   />
                   <span
                     className={`text-sm leading-relaxed ${
@@ -198,7 +196,7 @@ export default function SecurityChecklist() {
                   onClick={() => toggleExpand(item.id)}
                   aria-expanded={isOpen}
                   aria-controls={`why-${item.id}`}
-                  className="inline-flex shrink-0 items-center gap-1 rounded-md border border-[var(--color-ink-600)] px-2 py-1 font-mono text-[0.68rem] uppercase tracking-wider text-[var(--color-paper-400)] transition-colors hover:border-[var(--color-accent-500)] hover:text-[var(--color-paper-100)]"
+                  className="inline-flex shrink-0 items-center gap-1 rounded-md border border-[var(--color-border)] px-2 py-1 font-mono text-[0.68rem] text-[var(--color-paper-400)] transition-colors hover:border-[var(--color-border-strong)] hover:text-[var(--color-paper-100)]"
                 >
                   Why
                   <ChevronDown
@@ -217,7 +215,7 @@ export default function SecurityChecklist() {
                   {item.ref && (
                     <a
                       href={item.ref}
-                      className="mt-2 inline-flex items-center gap-1 font-mono text-xs text-[var(--color-accent-400)] underline"
+                      className="mt-2 inline-flex items-center gap-1 font-mono text-xs text-[var(--color-paper-100)] underline"
                     >
                       Read more in the security guide
                       <ArrowUpRight size={12} aria-hidden="true" />

@@ -6,7 +6,7 @@ const { class: className = '' } = Astro.props;
 ---
 
 <p
-  class={`font-mono text-xs uppercase tracking-[0.18em] text-[var(--color-accent-400)] ${className}`}
+  class={`inline-flex w-fit items-center rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1 font-mono text-xs text-[var(--color-paper-400)] ${className}`}
 >
   <slot />
 </p>

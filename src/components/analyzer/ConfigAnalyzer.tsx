@@ -135,9 +135,9 @@ export default function ConfigAnalyzer() {
     <div className="grid gap-6 lg:grid-cols-[1fr_1fr]">
       {/* ---- Input panel ---- */}
       <section aria-label="Configuration input" className="flex flex-col">
-        <div className="rounded-xl border border-[var(--color-ink-700)] bg-[var(--color-ink-900)]">
+        <div className="panel">
           {/* assurance bar */}
-          <div className="flex items-center gap-2 border-b border-[var(--color-ink-700)] bg-[color-mix(in_srgb,var(--color-tip)_8%,transparent)] px-4 py-2.5">
+          <div className="flex items-center gap-2 border-b border-[var(--color-border)] bg-[color-mix(in_srgb,var(--color-tip)_8%,transparent)] px-4 py-2.5">
             <Lock size={15} style={{ color: 'var(--color-tip)' }} aria-hidden="true" />
             <p className="font-mono text-xs text-[var(--color-paper-200)]">
               Runs entirely in your browser — nothing is uploaded.
@@ -146,7 +146,7 @@ export default function ConfigAnalyzer() {
 
           {/* tabs */}
           <div
-            className="flex flex-wrap gap-1 border-b border-[var(--color-ink-700)] p-2"
+            className="flex flex-wrap gap-1 border-b border-[var(--color-border)] p-2"
             role="tablist"
             aria-label="Config files"
           >
@@ -164,7 +164,7 @@ export default function ConfigAnalyzer() {
                   onClick={() => setActiveTab(field.key)}
                   className={`inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 font-mono text-xs transition-colors ${
                     active
-                      ? 'bg-[var(--color-ink-700)] text-[var(--color-paper-50)]'
+                      ? 'bg-[var(--color-surface-raised)] text-[var(--color-paper-50)] ring-1 ring-[var(--color-border-strong)]'
                       : 'text-[var(--color-paper-400)] hover:text-[var(--color-paper-100)]'
                   }`}
                 >
@@ -198,7 +198,7 @@ export default function ConfigAnalyzer() {
                 >
                   {field.filename}
                 </label>
-                <label className="inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-[var(--color-ink-600)] px-2 py-1 font-mono text-[0.7rem] text-[var(--color-paper-300)] transition-colors hover:border-[var(--color-accent-500)] hover:text-white focus-within:outline focus-within:outline-2 focus-within:outline-[var(--color-accent-400)]">
+                <label className="inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-[var(--color-border)] px-2 py-1 font-mono text-[0.7rem] text-[var(--color-paper-400)] transition-colors hover:border-[var(--color-border-strong)] hover:text-[var(--color-paper-100)] focus-within:outline focus-within:outline-2 focus-within:outline-[var(--color-paper-300)]">
                   <Upload size={12} aria-hidden="true" />
                   Upload
                   <input
@@ -217,7 +217,7 @@ export default function ConfigAnalyzer() {
                 placeholder={field.placeholder}
                 spellCheck={false}
                 rows={12}
-                className="w-full resize-y rounded-lg border border-[var(--color-ink-700)] bg-[var(--color-ink-950)] p-3 font-mono text-[13px] leading-relaxed text-[var(--color-paper-100)] placeholder:text-[var(--color-muted)] focus:border-[var(--color-accent-500)] focus:outline-none"
+                className="input-field"
               />
             </div>
           ))}
@@ -232,21 +232,17 @@ export default function ConfigAnalyzer() {
           )}
 
           {/* actions */}
-          <div className="flex flex-wrap items-center gap-2 border-t border-[var(--color-ink-700)] p-3">
+          <div className="flex flex-wrap items-center gap-2 border-t border-[var(--color-border)] p-3">
             <button
               type="button"
               onClick={runAudit}
               disabled={filledCount === 0}
-              className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-[var(--color-accent-600)] to-[var(--color-accent-500)] px-4 py-2 text-sm font-medium text-white transition-all hover:from-[var(--color-accent-500)] hover:to-[var(--color-cyan-400)] disabled:pointer-events-none disabled:opacity-50"
+              className="btn-primary"
             >
               <ShieldCheck size={16} aria-hidden="true" />
               Run audit
             </button>
-            <button
-              type="button"
-              onClick={loadExample}
-              className="inline-flex items-center gap-2 rounded-lg border border-[var(--color-ink-600)] px-3 py-2 text-sm text-[var(--color-paper-200)] transition-colors hover:border-[var(--color-accent-500)] hover:text-white"
-            >
+            <button type="button" onClick={loadExample} className="btn-secondary">
               <Sparkles size={15} aria-hidden="true" />
               Load example config
             </button>
@@ -278,8 +274,8 @@ export default function ConfigAnalyzer() {
 
 function EmptyState({ onLoadExample }: { onLoadExample: () => void }) {
   return (
-    <div className="flex h-full flex-col items-center justify-center rounded-xl border border-dashed border-[var(--color-ink-700)] bg-[var(--color-ink-900)]/40 p-10 text-center">
-      <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl border border-[var(--color-ink-600)] bg-[var(--color-ink-800)] text-[var(--color-accent-400)]">
+    <div className="flex h-full flex-col items-center justify-center rounded-lg border border-dashed border-[var(--color-border)] bg-[var(--color-surface)] p-10 text-center">
+      <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-lg border border-[var(--color-border)] bg-[var(--color-ink-850)] text-[var(--color-paper-200)]">
         <ShieldCheck size={26} aria-hidden="true" />
       </div>
       <h3 className="text-lg font-semibold text-[var(--color-paper-50)]">No findings yet</h3>
@@ -287,11 +283,7 @@ function EmptyState({ onLoadExample }: { onLoadExample: () => void }) {
         Paste or upload your Cursor config and run the audit. Or try it instantly with a
         deliberately flawed sample.
       </p>
-      <button
-        type="button"
-        onClick={onLoadExample}
-        className="mt-5 inline-flex items-center gap-2 rounded-lg border border-[var(--color-ink-600)] px-4 py-2 text-sm text-[var(--color-paper-200)] transition-colors hover:border-[var(--color-accent-500)] hover:text-white"
-      >
+      <button type="button" onClick={onLoadExample} className="btn-secondary mt-5">
         <Sparkles size={15} aria-hidden="true" />
         Load example config
       </button>
@@ -304,9 +296,9 @@ function Results({ result }: { result: ReturnType<typeof audit> }) {
   const clean = counts.critical === 0 && counts.warning === 0;
 
   return (
-    <div className="flex h-full flex-col rounded-xl border border-[var(--color-ink-700)] bg-[var(--color-ink-900)]">
+    <div className="panel flex h-full flex-col">
       {/* summary */}
-      <div className="flex flex-wrap items-center gap-2 border-b border-[var(--color-ink-700)] p-4">
+      <div className="flex flex-wrap items-center gap-2 border-b border-[var(--color-border)] p-4">
         <h3 className="mr-auto text-sm font-semibold text-[var(--color-paper-50)]">
           {findings.length} finding{findings.length === 1 ? '' : 's'}
         </h3>
@@ -326,7 +318,7 @@ function Results({ result }: { result: ReturnType<typeof audit> }) {
       </div>
 
       {clean && (
-        <div className="flex items-center gap-3 border-b border-[var(--color-ink-700)] bg-[color-mix(in_srgb,var(--color-tip)_8%,transparent)] px-4 py-3">
+        <div className="flex items-center gap-3 border-b border-[var(--color-border)] bg-[color-mix(in_srgb,var(--color-tip)_8%,transparent)] px-4 py-3">
           <CheckCircle2 size={18} style={{ color: 'var(--color-tip)' }} aria-hidden="true" />
           <p className="text-sm text-[var(--color-paper-200)]">
             No critical or warning issues found. Review the tips below to tighten things further.
@@ -366,7 +358,7 @@ function Results({ result }: { result: ReturnType<typeof audit> }) {
                   <p className="mt-2 text-sm leading-relaxed text-[var(--color-paper-200)]">
                     <span
                       className="font-mono text-[0.65rem] uppercase tracking-wider"
-                      style={{ color: 'var(--color-accent-400)' }}
+                      style={{ color: 'var(--color-muted)' }}
                     >
                       Fix:{' '}
                     </span>

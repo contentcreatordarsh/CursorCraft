@@ -23,6 +23,7 @@ export const NAV_LINKS = [
 export const TOOLS_LINKS = [
   { label: 'Config Analyzer', href: '/tools/config-analyzer' },
   { label: 'Rules Generator', href: '/tools/rules-generator' },
+  { label: 'Security Checklist', href: '/tools/security-checklist' },
 ] as const;
 
 export const TRUST_LINE = 'Local-first · Your code & keys never leave your browser · Open source';

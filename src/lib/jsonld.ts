@@ -80,6 +80,31 @@ export function softwareApplicationSchema(opts: {
   };
 }
 
+export function howToSchema(opts: {
+  name: string;
+  description: string;
+  url: string;
+  steps: { name: string; text: string }[];
+  image?: string;
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: opts.name,
+    description: opts.description,
+    url: abs(opts.url),
+    image: abs(opts.image ?? SITE.defaultOgImage),
+    totalTime: 'PT15M',
+    step: opts.steps.map((s, i) => ({
+      '@type': 'HowToStep',
+      position: i + 1,
+      name: s.name,
+      text: s.text,
+      url: `${abs(opts.url)}#step-${i + 1}`,
+    })),
+  };
+}
+
 export function faqSchema(faqs: { q: string; a: string }[]) {
   return {
     '@context': 'https://schema.org',

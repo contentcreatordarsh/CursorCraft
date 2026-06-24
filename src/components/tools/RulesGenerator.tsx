@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Copy, Check, RotateCcw, Lock, FileCode2, Download } from 'lucide-react';
+import { Copy, Check, RotateCcw, Lock, Download } from 'lucide-react';
 import { generate } from '@/lib/rules-generator/generate';
 import {
   DEFAULT_ANSWERS,
@@ -10,9 +10,9 @@ import {
   type SecurityLevel,
 } from '@/lib/rules-generator/types';
 
-const labelCls = 'block font-mono text-xs uppercase tracking-wider text-[var(--color-paper-300)]';
+const labelCls = 'block font-mono text-xs text-[var(--color-paper-400)]';
 const fieldCls =
-  'mt-1.5 w-full rounded-lg border border-[var(--color-ink-700)] bg-[var(--color-ink-950)] px-3 py-2 text-sm text-[var(--color-paper-100)] placeholder:text-[var(--color-muted)] focus:border-[var(--color-accent-500)] focus:outline-none';
+  'mt-1.5 w-full rounded-lg border border-[var(--color-border-strong)] bg-[var(--color-ink-950)] px-3 py-2 text-sm text-[var(--color-paper-100)] placeholder:text-[var(--color-muted)] focus:border-[color-mix(in_srgb,var(--color-paper-50)_22%,transparent)] focus:outline-none';
 
 export default function RulesGenerator() {
   const [answers, setAnswers] = useState<RulesAnswers>(DEFAULT_ANSWERS);
@@ -29,10 +29,10 @@ export default function RulesGenerator() {
       {/* ---- Form ---- */}
       <section aria-label="Project questions" className="flex flex-col">
         <form
-          className="rounded-xl border border-[var(--color-ink-700)] bg-[var(--color-ink-900)]"
+          className="panel"
           onSubmit={(e) => e.preventDefault()}
         >
-          <div className="flex items-center gap-2 border-b border-[var(--color-ink-700)] bg-[color-mix(in_srgb,var(--color-tip)_8%,transparent)] px-4 py-2.5">
+          <div className="flex items-center gap-2 border-b border-[var(--color-border)] bg-[color-mix(in_srgb,var(--color-tip)_8%,transparent)] px-4 py-2.5">
             <Lock size={15} style={{ color: 'var(--color-tip)' }} aria-hidden="true" />
             <p className="font-mono text-xs text-[var(--color-paper-200)]">
               Generated in your browser — nothing is uploaded or stored.
@@ -123,8 +123,8 @@ export default function RulesGenerator() {
                       onClick={() => set('monorepo', opt.v)}
                       className={`flex-1 rounded-lg border px-3 py-2 text-sm transition-colors ${
                         active
-                          ? 'border-[var(--color-accent-500)] bg-[color-mix(in_srgb,var(--color-accent-500)_15%,transparent)] text-[var(--color-paper-50)]'
-                          : 'border-[var(--color-ink-700)] text-[var(--color-paper-300)] hover:border-[var(--color-ink-600)]'
+                          ? 'border-[var(--color-border-strong)] bg-[var(--color-surface-raised)] text-[var(--color-paper-50)]'
+                          : 'border-[var(--color-border)] text-[var(--color-paper-300)] hover:border-[var(--color-border-strong)]'
                       }`}
                     >
                       {opt.label}
@@ -148,8 +148,8 @@ export default function RulesGenerator() {
                       onClick={() => set('security', lvl.value as SecurityLevel)}
                       className={`block w-full rounded-lg border px-3 py-2 text-left transition-colors ${
                         active
-                          ? 'border-[var(--color-accent-500)] bg-[color-mix(in_srgb,var(--color-accent-500)_12%,transparent)]'
-                          : 'border-[var(--color-ink-700)] hover:border-[var(--color-ink-600)]'
+                          ? 'border-[var(--color-border-strong)] bg-[var(--color-surface-raised)]'
+                          : 'border-[var(--color-border)] hover:border-[var(--color-border-strong)]'
                       }`}
                     >
                       <span className="block text-sm font-medium text-[var(--color-paper-100)]">
@@ -182,7 +182,7 @@ export default function RulesGenerator() {
               </p>
             </div>
 
-            <div className="flex items-center gap-2 border-t border-[var(--color-ink-700)] pt-4">
+            <div className="flex items-center gap-2 border-t border-[var(--color-border)] pt-4">
               <button
                 type="button"
                 onClick={reset}
@@ -216,11 +216,11 @@ export default function RulesGenerator() {
         />
         <p className="text-sm text-[var(--color-paper-400)]">
           Save the first block to{' '}
-          <code className="font-mono text-[var(--color-accent-400)]">.cursor/rules/project.mdc</code>{' '}
+          <code className="font-mono text-[var(--color-syntax-string)]">.cursor/rules/project.mdc</code>{' '}
           and the second to{' '}
-          <code className="font-mono text-[var(--color-accent-400)]">.cursorignore</code> at your repo
+          <code className="font-mono text-[var(--color-syntax-string)]">.cursorignore</code> at your repo
           root. Then run them through the{' '}
-          <a href="/tools/config-analyzer" className="text-[var(--color-accent-400)] underline">
+          <a href="/tools/config-analyzer" className="text-[var(--color-paper-100)] underline">
             Config Analyzer
           </a>{' '}
           to double-check.
@@ -263,24 +263,16 @@ function CopyBlock({ filename, code, downloadName, lang }: CopyBlockProps) {
   };
 
   return (
-    <figure className="overflow-hidden rounded-xl border border-[var(--color-ink-700)] bg-[var(--color-ink-900)]">
-      <figcaption className="flex items-center justify-between gap-2 border-b border-[var(--color-ink-700)] bg-[var(--color-ink-850)] px-3 py-2">
+    <figure className="panel">
+      <figcaption className="panel-header justify-between">
         <div className="flex min-w-0 items-center gap-2">
-          <span className="flex gap-1.5" aria-hidden="true">
-            <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]/70" />
-            <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]/70" />
-            <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]/70" />
-          </span>
-          <span className="ml-1 inline-flex items-center gap-1.5 truncate font-mono text-xs text-[var(--color-paper-300)]">
-            <FileCode2 size={13} aria-hidden="true" />
-            {filename}
-          </span>
+          <span className="editor-tab editor-tab-active shrink-0 truncate">{filename}</span>
         </div>
         <div className="flex shrink-0 items-center gap-1.5">
           <button
             type="button"
             onClick={download}
-            className="inline-flex items-center gap-1.5 rounded-md border border-[var(--color-ink-600)] px-2 py-1 font-mono text-[0.7rem] text-[var(--color-paper-300)] transition-colors hover:border-[var(--color-accent-500)] hover:text-white"
+            className="inline-flex items-center gap-1.5 rounded-md border border-[var(--color-border)] px-2 py-1 font-mono text-[0.7rem] text-[var(--color-paper-400)] transition-colors hover:border-[var(--color-border-strong)] hover:text-[var(--color-paper-100)]"
             aria-label={`Download ${downloadName}`}
           >
             <Download size={13} aria-hidden="true" />
@@ -289,7 +281,7 @@ function CopyBlock({ filename, code, downloadName, lang }: CopyBlockProps) {
           <button
             type="button"
             onClick={copy}
-            className="inline-flex items-center gap-1.5 rounded-md border border-[var(--color-ink-600)] px-2 py-1 font-mono text-[0.7rem] text-[var(--color-paper-300)] transition-colors hover:border-[var(--color-accent-500)] hover:text-white"
+            className="inline-flex items-center gap-1.5 rounded-md border border-[var(--color-border)] px-2 py-1 font-mono text-[0.7rem] text-[var(--color-paper-400)] transition-colors hover:border-[var(--color-border-strong)] hover:text-[var(--color-paper-100)]"
             aria-label={`Copy ${filename} to clipboard`}
           >
             {copied ? (
@@ -304,7 +296,7 @@ function CopyBlock({ filename, code, downloadName, lang }: CopyBlockProps) {
       <div className="flex max-h-[28rem] overflow-auto text-sm">
         <div
           aria-hidden="true"
-          className="select-none border-r border-[var(--color-ink-700)] bg-[var(--color-ink-900)] px-3 py-4 text-right font-mono text-xs leading-[1.6] text-[var(--color-muted)]"
+          className="select-none border-r border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-4 text-right font-mono text-xs leading-[1.6] text-[var(--color-muted)]"
         >
           {lines.map((_, i) => (
             <div key={i}>{i + 1}</div>

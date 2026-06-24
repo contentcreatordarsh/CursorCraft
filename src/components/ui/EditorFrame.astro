@@ -1,0 +1,52 @@
+---
+interface Tab {
+  label: string;
+  active?: boolean;
+}
+
+interface Props {
+  tabs?: Tab[];
+  statusLeft?: string;
+  statusRight?: string;
+  class?: string;
+}
+
+const {
+  tabs,
+  statusLeft = 'CursorCraft',
+  statusRight,
+  class: className = '',
+} = Astro.props;
+---
+
+<div class={`panel ${className}`}>
+  {
+    tabs && tabs.length > 0 && (
+      <div class="panel-header">
+        <div class="flex min-w-0 flex-1 items-center gap-0.5 overflow-x-auto">
+          {tabs.map((tab) => (
+            <span class={`editor-tab shrink-0 ${tab.active ? 'editor-tab-active' : ''}`}>
+              {tab.label}
+            </span>
+          ))}
+        </div>
+        <slot name="header-actions" />
+      </div>
+    )
+  }
+  <div class="min-w-0">
+    <slot />
+  </div>
+  {
+    (statusLeft || statusRight || Astro.slots.has('status')) && (
+      <div class="status-bar">
+        <span>{statusLeft}</span>
+        {Astro.slots.has('status') ? (
+          <slot name="status" />
+        ) : (
+          statusRight && <span>{statusRight}</span>
+        )}
+      </div>
+    )
+  }
+</div>

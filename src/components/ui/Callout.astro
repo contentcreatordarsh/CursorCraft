@@ -56,10 +56,10 @@ const c = config[type] ?? config.info!;
     <Icon name={c.icon} size={20} />
   </div>
   <div class="min-w-0">
-    <p class="mb-1 font-mono text-xs font-medium uppercase tracking-wider" style={`color:${c.color}`}>
+    <p class="mb-1 font-mono text-xs font-medium" style={`color:${c.color}`}>
       {title ?? c.label}
     </p>
-    <div class="text-sm leading-relaxed text-[var(--color-paper-200)] [&>p]:mb-2 [&>p:last-child]:mb-0 [&_a]:text-[var(--color-accent-400)] [&_a]:underline">
+    <div class="text-sm leading-relaxed text-[var(--color-paper-200)] [&>p]:mb-2 [&>p:last-child]:mb-0 [&_a]:text-[var(--color-paper-100)] [&_a]:underline">
       <slot />
     </div>
   </div>

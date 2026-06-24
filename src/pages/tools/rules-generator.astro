@@ -48,10 +48,8 @@ const steps = [
     faqSchema(faqs),
   ]}
 >
-  <section class="border-b border-[var(--color-ink-800)]">
-    <div class="relative overflow-hidden">
-      <div class="bg-grid pointer-events-none absolute inset-0 opacity-[0.12]"></div>
-      <div class="relative mx-auto max-w-6xl px-4 py-12 sm:py-16">
+  <section class="border-b border-[var(--color-border)]">
+    <div class="mx-auto max-w-6xl px-4 py-12 sm:py-16">
         <nav aria-label="Breadcrumb" class="mb-6 font-mono text-xs text-[var(--color-paper-400)]">
           <ol class="flex items-center gap-1.5">
             <li><a href="/" class="hover:text-[var(--color-paper-100)]">Home</a></li>
@@ -71,12 +69,11 @@ const steps = [
           </h1>
           <p class="max-w-2xl text-lg leading-relaxed text-[var(--color-paper-300)]">
             Answer a few questions about your project and get a ready-to-commit
-            <code class="font-mono text-[var(--color-accent-400)]">.cursor/rules</code> file and a
-            matching <code class="font-mono text-[var(--color-accent-400)]">.cursorignore</code> —
+            <code class="font-mono text-[var(--color-paper-200)]">.cursor/rules</code> file and a
+            matching <code class="font-mono text-[var(--color-paper-200)]">.cursorignore</code> —
             with security guardrails scaled to your needs. Everything runs in your browser.
           </p>
         </div>
-      </div>
     </div>
   </section>
 
@@ -92,7 +89,7 @@ const steps = [
         steps.map((s, i) => (
           <div class="rounded-xl border border-[var(--color-ink-700)] bg-[var(--color-ink-900)]/60 p-5">
             <div class="mb-3 flex items-center gap-3">
-              <span class="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-[var(--color-ink-600)] bg-[var(--color-ink-800)] text-[var(--color-accent-400)]">
+              <span class="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-[var(--color-ink-600)] bg-[var(--color-ink-800)] text-[var(--color-paper-200)]">
                 <Icon name={s.icon as any} size={18} />
               </span>
               <span class="font-mono text-xs text-[var(--color-paper-400)]">Step {i + 1}</span>

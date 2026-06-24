@@ -1,6 +1,8 @@
 # CursorCraft
 
-**Master Cursor. Secure it. Scale it.** — an unofficial, open-source community guide to using the [Cursor](https://cursor.com) AI code editor securely and cost-effectively, plus a free, fully client-side **Config Analyzer**.
+**Master Cursor. Secure it. Scale it.** — an unofficial, open-source community guide to using the [Cursor](https://cursor.com) AI code editor securely and cost-effectively, plus free, fully client-side tools.
+
+**Live site:** [https://cursorcraft.falling-hall-ac41.workers.dev/](https://cursorcraft.falling-hall-ac41.workers.dev/)
 
 > Local-first · Your code & keys never leave your browser · Open source
 
@@ -68,9 +70,13 @@ npm run check    # astro + TypeScript type checking
 
 ---
 
-## Deploying to Cloudflare Pages
+## Deploying to Cloudflare
 
-CursorCraft is fully static, so **no adapter is needed**.
+CursorCraft is fully static, so **no adapter is needed**. It is currently deployed on Cloudflare at:
+
+**https://cursorcraft.falling-hall-ac41.workers.dev/**
+
+### Cloudflare Pages (Git-connected)
 
 1. Push this repo to GitHub/GitLab.
 2. In the Cloudflare dashboard, go to **Workers & Pages → Create → Pages → Connect to Git** and select the repo.
@@ -80,7 +86,7 @@ CursorCraft is fully static, so **no adapter is needed**.
    - **Build output directory:** `dist`
 4. Deploy. Cloudflare serves the static files from its edge.
 
-After your first deploy, update the production URL in two places so canonical URLs, OG tags, sitemap, and RSS are correct:
+After your first deploy, update the production URL in:
 
 - `site` in [`astro.config.mjs`](./astro.config.mjs)
 - `url` in [`src/config/site.ts`](./src/config/site.ts)

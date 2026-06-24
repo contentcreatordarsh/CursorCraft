@@ -48,33 +48,50 @@
   --font-sans: 'Geist Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-mono: 'Geist Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
-  /* Core palette — dark-first editor aesthetic */
-  --color-ink-950: #0a0a0b;
-  --color-ink-900: #0e0e10;
-  --color-ink-850: #131316;
-  --color-ink-800: #18181b;
-  --color-ink-700: #232328;
-  --color-ink-600: #34343b;
-  --color-ink-500: #52525b;
-  /* Accessible muted text (>= WCAG AA on dark surfaces) — placeholders, hints */
-  --color-muted: #86868f;
+  /* Core palette — Cursor-like neutral dark */
+  --color-ink-950: #0a0a0a;
+  --color-ink-900: #0f0f0f;
+  --color-ink-850: #141414;
+  --color-ink-800: #1a1a1a;
+  --color-ink-700: #262626;
+  --color-ink-600: #404040;
+  --color-ink-500: #525252;
+  --color-muted: #737373;
 
   --color-paper-50: #fafafa;
-  --color-paper-100: #f4f4f5;
-  --color-paper-200: #e4e4e7;
-  --color-paper-300: #cfcfd4;
-  --color-paper-400: #a1a1aa;
+  --color-paper-100: #f5f5f5;
+  --color-paper-200: #e5e5e5;
+  --color-paper-300: #d4d4d4;
+  --color-paper-400: #a3a3a3;
 
-  /* Accent — tasteful gradient anchors */
-  --color-accent-400: #8b8bff;
-  --color-accent-500: #6366f1;
-  --color-accent-600: #4f46e5;
-  --color-cyan-400: #2dd4bf;
+  /* Borders & surfaces */
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-strong: rgba(255, 255, 255, 0.14);
+  --color-surface: #141414;
+  --color-surface-raised: #1a1a1a;
+
+  /* Primary CTA — solid light on dark (Cursor-style) */
+  --color-primary-bg: #ededed;
+  --color-primary-fg: #0a0a0a;
+  --color-primary-hover: #ffffff;
+
+  /* Accent — reserved for links, focus, syntax (not gradients) */
+  --color-accent-400: #a3a3a3;
+  --color-accent-500: #737373;
+  --color-accent-600: #525252;
+  --color-cyan-400: #569cd6;
+
+  /* Syntax (VS Code / Cursor editor palette) */
+  --color-syntax-keyword: #569cd6;
+  --color-syntax-fn: #dcdcaa;
+  --color-syntax-string: #ce9178;
+  --color-syntax-comment: #6a9955;
+  --color-syntax-var: #9cdcfe;
 
   --color-danger: #f87171;
   --color-warn: #fbbf24;
-  --color-info: #60a5fa;
-  --color-tip: #34d399;
+  --color-info: #93c5fd;
+  --color-tip: #86efac;
 }
 
 /* Light-mode token overrides (toggled via .light on <html>) */
@@ -121,37 +138,24 @@ html.light body {
 
 /* Accessible focus rings everywhere */
 :where(a, button, input, textarea, select, [tabindex]):focus-visible {
-  outline: 2px solid var(--color-accent-400);
+  outline: 2px solid var(--color-paper-300);
   outline-offset: 2px;
   border-radius: 4px;
 }
 
 /* Selection */
 ::selection {
-  background: color-mix(in srgb, var(--color-accent-500) 40%, transparent);
+  background: color-mix(in srgb, var(--color-paper-50) 22%, transparent);
 }
 
-/* The accent gradient text helper */
-.text-gradient {
-  background: linear-gradient(
-    100deg,
-    var(--color-paper-50) 0%,
-    var(--color-accent-400) 55%,
-    var(--color-cyan-400) 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-/* Blinking caret used in the hero */
+/* Blinking caret used in the hero editor */
 .caret {
   display: inline-block;
   width: 0.6ch;
   height: 1.05em;
   margin-left: 1px;
   translate: 0 0.14em;
-  background: var(--color-accent-400);
+  background: var(--color-paper-50);
   animation: caret-blink 1.05s steps(1) infinite;
 }
 
@@ -192,12 +196,128 @@ html.light body {
   }
 }
 
-/* Grid backdrop for hero / sections */
-.bg-grid {
-  background-image:
-    linear-gradient(to right, color-mix(in srgb, var(--color-ink-600) 35%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in srgb, var(--color-ink-600) 35%, transparent) 1px, transparent 1px);
-  background-size: 44px 44px;
+/* Subtle section divider — use instead of loud grid overlays */
+.section-muted {
+  background: color-mix(in srgb, var(--color-ink-900) 60%, transparent);
+}
+
+/* Editor chrome utilities */
+.panel {
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface-raised);
+  padding: 0.5rem 0.75rem;
+}
+
+.editor-tab {
+  border-radius: 4px 4px 0 0;
+  padding: 0.25rem 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-paper-400);
+}
+
+.editor-tab-active {
+  border-bottom: 2px solid var(--color-paper-50);
+  background: var(--color-surface);
+  color: var(--color-paper-100);
+}
+
+.status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  border-top: 1px solid var(--color-border);
+  background: var(--color-ink-850);
+  padding: 0.35rem 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--color-muted);
+}
+
+.kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.4rem;
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+  border: 1px solid var(--color-border-strong);
+  background: var(--color-ink-800);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  line-height: 1.4;
+  color: var(--color-paper-300);
+}
+
+/* Shared button/input classes for React islands */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 8px;
+  background: var(--color-primary-bg);
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-primary-fg);
+  transition: background-color 0.15s ease;
+}
+.btn-primary:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+}
+.btn-primary:disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-border-strong);
+  background: transparent;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  color: var(--color-paper-200);
+  transition:
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+.btn-secondary:hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--color-paper-50) 25%, transparent);
+  color: var(--color-paper-50);
+}
+
+.input-field {
+  width: 100%;
+  resize: vertical;
+  border-radius: 8px;
+  border: 1px solid var(--color-border-strong);
+  background: var(--color-ink-950);
+  padding: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.625;
+  color: var(--color-paper-100);
+}
+.input-field::placeholder {
+  color: var(--color-muted);
+}
+.input-field:focus {
+  border-color: color-mix(in srgb, var(--color-paper-50) 22%, transparent);
+  outline: none;
 }
 
 /* Prose styling for MDX guides */
@@ -253,9 +373,12 @@ html.light .prose-craft :where(li) {
   color: var(--color-ink-700);
 }
 .prose-craft :where(a) {
-  color: var(--color-accent-400);
+  color: var(--color-paper-100);
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+.prose-craft :where(a):hover {
+  color: var(--color-paper-50);
 }
 .prose-craft :where(strong) {
   color: var(--color-paper-50);
@@ -268,10 +391,10 @@ html.light .prose-craft :where(strong) {
   font-family: var(--font-mono);
   font-size: 0.85em;
   background: var(--color-ink-800);
-  border: 1px solid var(--color-ink-700);
+  border: 1px solid var(--color-border);
   padding: 0.1rem 0.35rem;
   border-radius: 5px;
-  color: var(--color-accent-400);
+  color: var(--color-syntax-string);
 }
 html.light .prose-craft :where(code):not(pre code) {
   background: var(--color-paper-100);
@@ -288,7 +411,7 @@ html.light .prose-craft :where(code):not(pre code) {
   line-height: 1.6;
 }
 .prose-craft :where(blockquote) {
-  border-left: 3px solid var(--color-accent-500);
+  border-left: 3px solid var(--color-border-strong);
   padding-left: 1rem;
   color: var(--color-paper-300);
   font-style: italic;

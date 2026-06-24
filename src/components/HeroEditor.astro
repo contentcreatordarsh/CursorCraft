@@ -1,6 +1,6 @@
 ---
 /**
- * Faux Cursor editor pane — pure CSS/SVG, no JS, no layout shift.
+ * Faux Cursor editor pane — pure CSS, no JS, no layout shift.
  * Used as the hero visual. Decorative; marked aria-hidden.
  */
 const codeLines = [
@@ -12,42 +12,27 @@ const codeLines = [
 ];
 
 const colors: Record<string, string> = {
-  kw: 'var(--color-accent-400)',
-  fn: '#7dd3fc',
-  var: '#fafafa',
-  arg: '#fbbf24',
+  kw: 'var(--color-syntax-keyword)',
+  fn: 'var(--color-syntax-fn)',
+  var: 'var(--color-syntax-var)',
+  arg: 'var(--color-syntax-string)',
   p: 'var(--color-paper-400)',
-  cm: 'var(--color-ink-500)',
+  cm: 'var(--color-syntax-comment)',
 };
 ---
 
 <div class="relative" aria-hidden="true">
-  <!-- glow -->
-  <div
-    class="pointer-events-none absolute -inset-6 -z-10 rounded-3xl opacity-40 blur-3xl"
-    style="background: radial-gradient(60% 60% at 70% 20%, color-mix(in srgb, var(--color-accent-500) 45%, transparent), transparent 70%), radial-gradient(50% 50% at 20% 90%, color-mix(in srgb, var(--color-cyan-400) 35%, transparent), transparent 70%);"
-  >
-  </div>
-
-  <div
-    class="overflow-hidden rounded-xl border border-[var(--color-ink-700)] bg-[var(--color-ink-900)] shadow-2xl"
-  >
-    <!-- title bar -->
-    <div class="flex items-center gap-2 border-b border-[var(--color-ink-700)] bg-[var(--color-ink-850)] px-3 py-2.5">
-      <span class="flex gap-1.5">
-        <span class="h-3 w-3 rounded-full bg-[#ff5f57]"></span>
-        <span class="h-3 w-3 rounded-full bg-[#febc2e]"></span>
-        <span class="h-3 w-3 rounded-full bg-[#28c840]"></span>
-      </span>
-      <div class="ml-3 flex items-center gap-1 text-xs">
-        <span class="rounded-t-md border-b-2 border-[var(--color-accent-500)] bg-[var(--color-ink-900)] px-3 py-1 font-mono text-[var(--color-paper-100)]">analyzer.ts</span>
-        <span class="px-3 py-1 font-mono text-[var(--color-ink-500)]">rules.ts</span>
+  <div class="panel shadow-[0_24px_80px_rgba(0,0,0,0.45)]">
+    <div class="panel-header">
+      <div class="flex min-w-0 flex-1 items-center gap-0.5">
+        <span class="editor-tab editor-tab-active shrink-0">analyzer.ts</span>
+        <span class="editor-tab shrink-0">rules.ts</span>
+        <span class="editor-tab shrink-0">.cursorignore</span>
       </div>
     </div>
 
-    <!-- code -->
     <div class="flex font-mono text-[13px] leading-[1.7]">
-      <div class="select-none border-r border-[var(--color-ink-700)] px-3 py-4 text-right text-[var(--color-ink-600)]">
+      <div class="select-none border-r border-[var(--color-border)] px-3 py-4 text-right text-[var(--color-muted)]">
         {codeLines.map((_, i) => <div>{i + 1}</div>)}
       </div>
       <div class="flex-1 overflow-x-auto py-4 pl-4 pr-6">
@@ -64,16 +49,20 @@ const colors: Record<string, string> = {
       </div>
     </div>
 
-    <!-- Composer diff snippet -->
-    <div class="border-t border-[var(--color-ink-700)] bg-[var(--color-ink-850)] px-3 py-3">
+    <div class="border-t border-[var(--color-border)] bg-[var(--color-surface-raised)] px-3 py-3">
       <div class="mb-2 flex items-center gap-2">
-        <span class="flex h-5 w-5 items-center justify-center rounded bg-gradient-to-br from-[var(--color-accent-600)] to-[var(--color-cyan-400)] font-mono text-[10px] font-bold text-white">C</span>
-        <span class="font-mono text-[11px] uppercase tracking-wider text-[var(--color-paper-400)]">Composer · diff</span>
+        <span class="flex h-5 w-5 items-center justify-center rounded border border-[var(--color-border)] bg-[var(--color-ink-850)] font-mono text-[10px] font-medium text-[var(--color-paper-200)]">C</span>
+        <span class="font-mono text-[11px] text-[var(--color-muted)]">Composer · diff</span>
       </div>
       <div class="space-y-1 font-mono text-[12px] leading-snug">
         <div class="rounded bg-[color-mix(in_srgb,var(--color-danger)_12%,transparent)] px-2 py-0.5 text-[var(--color-danger)]">- <span class="text-[var(--color-paper-300)]">apiKey: "sk-live-3f9a...e21"</span></div>
         <div class="rounded bg-[color-mix(in_srgb,var(--color-tip)_12%,transparent)] px-2 py-0.5 text-[var(--color-tip)]">+ <span class="text-[var(--color-paper-300)]">apiKey: process.env.API_KEY</span></div>
       </div>
+    </div>
+
+    <div class="status-bar">
+      <span>main · TypeScript</span>
+      <span>Local-first · no upload</span>
     </div>
   </div>
 </div>

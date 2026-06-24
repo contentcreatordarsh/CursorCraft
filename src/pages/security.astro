@@ -70,17 +70,14 @@ const principles = [
     faqSchema(faqs),
   ]}
 >
-  <section class="border-b border-[var(--color-ink-800)]">
-    <div class="relative overflow-hidden">
-      <div class="bg-grid pointer-events-none absolute inset-0 opacity-[0.12]"></div>
-      <div class="relative mx-auto max-w-6xl px-4 py-16 sm:py-20">
-        <Badge tone="tip" class="mb-4"><Icon name="shield-check" size={12} /> Local-first by design</Badge>
-        <SectionHeading as="h1" eyebrow="How this site is secure" title="We practice the security we teach">
-          A guide about not leaking code or keys would be hypocritical if it leaked yours. CursorCraft
-          is built local-first: no backend handles your secrets, no telemetry touches your code, and
-          everything is open source so you can verify it.
-        </SectionHeading>
-      </div>
+  <section class="border-b border-[var(--color-border)]">
+    <div class="mx-auto max-w-6xl px-4 py-16 sm:py-20">
+      <Badge tone="tip" class="mb-4"><Icon name="shield-check" size={12} /> Local-first by design</Badge>
+      <SectionHeading as="h1" eyebrow="How this site is secure" title="We practice the security we teach">
+        A guide about not leaking code or keys would be hypocritical if it leaked yours. CursorCraft
+        is built local-first: no backend handles your secrets, no telemetry touches your code, and
+        everything is open source so you can verify it.
+      </SectionHeading>
     </div>
   </section>
 
@@ -88,8 +85,8 @@ const principles = [
     <div class="reveal grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {
         principles.map((p) => (
-          <div class="rounded-xl border border-[var(--color-ink-700)] bg-[var(--color-ink-900)]/60 p-6">
-            <div class="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-lg border border-[var(--color-ink-600)] bg-[var(--color-ink-800)] text-[var(--color-accent-400)]">
+          <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-6">
+            <div class="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-md border border-[var(--color-border)] bg-[var(--color-ink-850)] text-[var(--color-paper-200)]">
               <Icon name={p.icon as any} size={22} />
             </div>
             <h2 class="text-lg font-semibold text-[var(--color-paper-50)]">{p.title}</h2>
@@ -103,20 +100,20 @@ const principles = [
       <h2 class="text-xl font-bold text-[var(--color-paper-50)]">Verify it yourself</h2>
       <ol class="mt-4 space-y-3">
         <li class="flex gap-3 text-sm text-[var(--color-paper-200)]">
-          <span class="font-mono text-[var(--color-accent-400)]">1.</span>
-          Open the <a href="/tools/config-analyzer" class="text-[var(--color-accent-400)] underline">Config Analyzer</a> and your browser's network tab.
+          <span class="font-mono text-[var(--color-muted)]">1.</span>
+          Open the <a href="/tools/config-analyzer" class="text-[var(--color-paper-100)] underline">Config Analyzer</a> and your browser's network tab.
         </li>
         <li class="flex gap-3 text-sm text-[var(--color-paper-200)]">
-          <span class="font-mono text-[var(--color-accent-400)]">2.</span>
+          <span class="font-mono text-[var(--color-muted)]">2.</span>
           Paste a config and run the audit — you'll see no outbound request carrying your data.
         </li>
         <li class="flex gap-3 text-sm text-[var(--color-paper-200)]">
-          <span class="font-mono text-[var(--color-accent-400)]">3.</span>
+          <span class="font-mono text-[var(--color-muted)]">3.</span>
           Go offline and run it again. It still works, because the audit is entirely local.
         </li>
         <li class="flex gap-3 text-sm text-[var(--color-paper-200)]">
-          <span class="font-mono text-[var(--color-accent-400)]">4.</span>
-          Read the source on <a href={SITE.github} class="text-[var(--color-accent-400)] underline">GitHub</a>.
+          <span class="font-mono text-[var(--color-muted)]">4.</span>
+          Read the source on <a href={SITE.github} class="text-[var(--color-paper-100)] underline">GitHub</a>.
         </li>
       </ol>
     </div>
@@ -142,7 +139,7 @@ const principles = [
       </div>
     </div>
 
-    <div class="mt-12 flex flex-col items-center gap-4 rounded-2xl border border-[var(--color-accent-500)]/30 bg-gradient-to-br from-[color-mix(in_srgb,var(--color-accent-600)_18%,var(--color-ink-900))] to-[var(--color-ink-900)] p-8 text-center">
+    <div class="mt-12 panel flex flex-col items-center gap-4 p-8 text-center">
       <h2 class="text-xl font-semibold text-[var(--color-paper-50)]">Ready to check your own setup?</h2>
       <Button href="/tools/config-analyzer" variant="primary" icon="arrow-right">Run the audit</Button>
     </div>

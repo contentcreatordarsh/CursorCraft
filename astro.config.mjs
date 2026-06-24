@@ -6,7 +6,7 @@ import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
 // Update this to your deployed origin (used for canonical URLs, OG tags, sitemap, RSS).
-export const SITE_URL = 'https://cursorcraft.pages.dev';
+export const SITE_URL = 'https://cursorcraft.falling-hall-ac41.workers.dev';
 
 // https://astro.build/config
 export default defineConfig({

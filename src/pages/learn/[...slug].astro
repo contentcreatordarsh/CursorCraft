@@ -136,10 +136,10 @@ if (data.faqs.length > 0) schemas.push(faqSchema(data.faqs));
             prev ? (
               <a
                 href={`/learn/${prev.id}`}
-                class="group rounded-lg border border-[var(--color-ink-700)] bg-[var(--color-ink-900)]/60 p-4 transition-colors hover:border-[var(--color-accent-500)]"
+                class="group rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-4 transition-colors hover:border-[var(--color-border-strong)]"
               >
                 <span class="font-mono text-xs text-[var(--color-paper-400)]">← Previous</span>
-                <span class="mt-1 block font-medium text-[var(--color-paper-100)] group-hover:text-[var(--color-accent-400)]">
+                <span class="mt-1 block font-medium text-[var(--color-paper-100)] group-hover:text-[var(--color-paper-50)]">
                   {prev.data.title}
                 </span>
               </a>
@@ -154,7 +154,7 @@ if (data.faqs.length > 0) schemas.push(faqSchema(data.faqs));
                 class="group rounded-lg border border-[var(--color-ink-700)] bg-[var(--color-ink-900)]/60 p-4 text-right transition-colors hover:border-[var(--color-accent-500)] sm:col-start-2"
               >
                 <span class="font-mono text-xs text-[var(--color-paper-400)]">Next →</span>
-                <span class="mt-1 block font-medium text-[var(--color-paper-100)] group-hover:text-[var(--color-accent-400)]">
+                <span class="mt-1 block font-medium text-[var(--color-paper-100)] group-hover:text-[var(--color-paper-50)]">
                   {next.data.title}
                 </span>
               </a>
@@ -177,7 +177,7 @@ if (data.faqs.length > 0) schemas.push(faqSchema(data.faqs));
                     <li>
                       <a
                         href={`#${h.slug}`}
-                        class="-ml-px block border-l border-transparent pl-3 text-sm text-[var(--color-paper-400)] transition-colors hover:border-[var(--color-accent-500)] hover:text-[var(--color-paper-100)]"
+                        class="-ml-px block border-l border-transparent pl-3 text-sm text-[var(--color-paper-400)] transition-colors hover:border-[var(--color-border-strong)] hover:text-[var(--color-paper-100)]"
                       >
                         {h.text}
                       </a>

@@ -120,7 +120,7 @@ export default function UsageInsights() {
           placeholder='Paste the output of the command above, e.g. {"spend":{...},"usage":{...}}'
           spellCheck={false}
           rows={6}
-          className="w-full resize-y rounded-xl border border-[var(--color-ink-700)] bg-[var(--color-ink-950)] p-3 font-mono text-[13px] leading-relaxed text-[var(--color-paper-100)] placeholder:text-[var(--color-ink-500)] focus:border-[var(--color-accent-500)] focus:outline-none"
+          className="w-full resize-y rounded-xl border border-[var(--color-ink-700)] bg-[var(--color-ink-950)] p-3 font-mono text-[13px] leading-relaxed text-[var(--color-paper-100)] placeholder:text-[var(--color-muted)] focus:border-[var(--color-accent-500)] focus:outline-none"
         />
         <div className="mt-3 flex flex-wrap items-center gap-2">
           <button

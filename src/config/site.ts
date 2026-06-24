@@ -5,7 +5,7 @@ export const SITE = {
   longDescription:
     'CursorCraft teaches engineering teams how to get the most out of the Cursor AI code editor with a strong focus on security and cost discipline. Local-first, open source, zero secret handling.',
   url: 'https://cursorcraft.pages.dev',
-  defaultOgImage: '/og/default.svg',
+  defaultOgImage: '/og/default.png',
   locale: 'en_US',
   themeColor: '#0a0a0b',
   github: 'https://github.com/your-org/cursorcraft',

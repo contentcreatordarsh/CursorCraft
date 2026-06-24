@@ -65,8 +65,9 @@ const tools = [
     </div>
   </section>
 
-  <section class="mx-auto max-w-6xl px-4 py-14">
-    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+  <section class="mx-auto max-w-6xl px-4 py-14" aria-labelledby="tools-heading">
+    <h2 id="tools-heading" class="sr-only">Available tools</h2>
+    <div class="reveal grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {
         tools.map((t) => (
           <Card href={t.href} icon={t.icon} title={t.title} class="h-full">

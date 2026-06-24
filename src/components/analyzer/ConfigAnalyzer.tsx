@@ -217,7 +217,7 @@ export default function ConfigAnalyzer() {
                 placeholder={field.placeholder}
                 spellCheck={false}
                 rows={12}
-                className="w-full resize-y rounded-lg border border-[var(--color-ink-700)] bg-[var(--color-ink-950)] p-3 font-mono text-[13px] leading-relaxed text-[var(--color-paper-100)] placeholder:text-[var(--color-ink-500)] focus:border-[var(--color-accent-500)] focus:outline-none"
+                className="w-full resize-y rounded-lg border border-[var(--color-ink-700)] bg-[var(--color-ink-950)] p-3 font-mono text-[13px] leading-relaxed text-[var(--color-paper-100)] placeholder:text-[var(--color-muted)] focus:border-[var(--color-accent-500)] focus:outline-none"
               />
             </div>
           ))}

@@ -31,7 +31,7 @@ export function organizationSchema() {
     name: SITE.name,
     url: SITE.url,
     description: SITE.shortDescription,
-    logo: abs('/og/default.svg'),
+    logo: abs('/og/default.png'),
     sameAs: [SITE.github],
   };
 }

@@ -55,7 +55,7 @@ const lineNumbers = Array.from({ length: lineCount }, (_, i) => i + 1);
       showLineNumbers && (
         <div
           aria-hidden="true"
-          class="select-none border-r border-[var(--color-ink-700)] bg-[var(--color-ink-900)] px-3 py-4 text-right font-mono text-xs leading-[1.6] text-[var(--color-ink-500)]"
+          class="select-none border-r border-[var(--color-ink-700)] bg-[var(--color-ink-900)] px-3 py-4 text-right font-mono text-xs leading-[1.6] text-[var(--color-muted)]"
         >
           {lineNumbers.map((n) => (
             <div>{n}</div>

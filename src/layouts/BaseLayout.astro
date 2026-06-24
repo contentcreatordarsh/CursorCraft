@@ -87,6 +87,10 @@ const pageSchemas = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 
     <JsonLd schema={siteSchemas} />
     {pageSchemas.length > 0 && <JsonLd schema={pageSchemas} />}
+
+    <noscript>
+      <style>{`.reveal { opacity: 1 !important; transform: none !important; }`}</style>
+    </noscript>
   </head>
   <body class={bodyClass}>
     <a

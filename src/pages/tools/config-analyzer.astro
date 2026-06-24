@@ -82,14 +82,15 @@ const checks = [
     </div>
   </section>
 
-  <section class="mx-auto max-w-6xl px-4 py-10">
+  <section class="mx-auto max-w-6xl px-4 py-10" aria-labelledby="analyzer-heading">
+    <h2 id="analyzer-heading" class="sr-only">Configuration audit</h2>
     <ConfigAnalyzer client:load />
   </section>
 
   <!-- What it checks -->
   <section class="mx-auto max-w-6xl px-4 pb-16">
     <h2 class="mb-6 text-2xl font-bold tracking-tight text-[var(--color-paper-50)]">What it checks</h2>
-    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="reveal grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {
         checks.map((c) => (
           <div class="rounded-xl border border-[var(--color-ink-700)] bg-[var(--color-ink-900)]/60 p-5">

@@ -161,12 +161,8 @@ export default function SecurityChecklist() {
       </div>
 
       {/* Checklist */}
-      <ul
-        id="checklist-panel"
-        role="tabpanel"
-        aria-labelledby={`role-tab-${activeRole.id}`}
-        className="space-y-2.5"
-      >
+      <div id="checklist-panel" role="tabpanel" aria-labelledby={`role-tab-${activeRole.id}`}>
+      <ul className="space-y-2.5">
         {activeRole.items.map((item) => {
           const isChecked = checked.has(item.id);
           const isOpen = expanded.has(item.id);
@@ -233,6 +229,7 @@ export default function SecurityChecklist() {
           );
         })}
       </ul>
+      </div>
 
       <p className="mt-5 flex items-center gap-2 font-mono text-xs text-[var(--color-paper-400)]">
         <Check size={13} style={{ color: 'var(--color-tip)' }} aria-hidden="true" />

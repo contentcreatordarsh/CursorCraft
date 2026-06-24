@@ -12,7 +12,7 @@ import {
 
 const labelCls = 'block font-mono text-xs uppercase tracking-wider text-[var(--color-paper-300)]';
 const fieldCls =
-  'mt-1.5 w-full rounded-lg border border-[var(--color-ink-700)] bg-[var(--color-ink-950)] px-3 py-2 text-sm text-[var(--color-paper-100)] placeholder:text-[var(--color-ink-500)] focus:border-[var(--color-accent-500)] focus:outline-none';
+  'mt-1.5 w-full rounded-lg border border-[var(--color-ink-700)] bg-[var(--color-ink-950)] px-3 py-2 text-sm text-[var(--color-paper-100)] placeholder:text-[var(--color-muted)] focus:border-[var(--color-accent-500)] focus:outline-none';
 
 export default function RulesGenerator() {
   const [answers, setAnswers] = useState<RulesAnswers>(DEFAULT_ANSWERS);
@@ -60,7 +60,7 @@ export default function RulesGenerator() {
 
             <div>
               <label className={labelCls} htmlFor="rg-framework">
-                Framework / runtime <span className="text-[var(--color-ink-500)]">(optional)</span>
+                Framework / runtime <span className="text-[var(--color-paper-400)]">(optional)</span>
               </label>
               <input
                 id="rg-framework"
@@ -93,7 +93,7 @@ export default function RulesGenerator() {
 
             <div>
               <label className={labelCls} htmlFor="rg-testing">
-                Testing framework <span className="text-[var(--color-ink-500)]">(optional)</span>
+                Testing framework <span className="text-[var(--color-paper-400)]">(optional)</span>
               </label>
               <input
                 id="rg-testing"
@@ -166,7 +166,7 @@ export default function RulesGenerator() {
 
             <div>
               <label className={labelCls} htmlFor="rg-conventions">
-                Key conventions <span className="text-[var(--color-ink-500)]">(one per line)</span>
+                Key conventions <span className="text-[var(--color-paper-400)]">(one per line)</span>
               </label>
               <textarea
                 id="rg-conventions"
@@ -304,7 +304,7 @@ function CopyBlock({ filename, code, downloadName, lang }: CopyBlockProps) {
       <div className="flex max-h-[28rem] overflow-auto text-sm">
         <div
           aria-hidden="true"
-          className="select-none border-r border-[var(--color-ink-700)] bg-[var(--color-ink-900)] px-3 py-4 text-right font-mono text-xs leading-[1.6] text-[var(--color-ink-500)]"
+          className="select-none border-r border-[var(--color-ink-700)] bg-[var(--color-ink-900)] px-3 py-4 text-right font-mono text-xs leading-[1.6] text-[var(--color-muted)]"
         >
           {lines.map((_, i) => (
             <div key={i}>{i + 1}</div>

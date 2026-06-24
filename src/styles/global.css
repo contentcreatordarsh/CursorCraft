@@ -56,6 +56,8 @@
   --color-ink-700: #232328;
   --color-ink-600: #34343b;
   --color-ink-500: #52525b;
+  /* Accessible muted text (>= WCAG AA on dark surfaces) — placeholders, hints */
+  --color-muted: #86868f;
 
   --color-paper-50: #fafafa;
   --color-paper-100: #f4f4f5;
@@ -91,6 +93,16 @@ html {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  /* Safety net: neutralize motion site-wide for users who ask for it. */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
   }
 }
 

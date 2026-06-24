@@ -42,7 +42,7 @@ export function renderOgSvg({ title, eyebrow = SITE.name, subtitle }: OgOptions)
     )
     .join('');
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" font-family="'Geist Sans', system-ui, sans-serif">
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" font-family="'Geist', system-ui, sans-serif">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#0a0a0b"/>

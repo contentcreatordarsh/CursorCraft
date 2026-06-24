@@ -32,7 +32,7 @@ const { Content, headings } = await render(guide);
 const data = guide.data;
 
 const tocHeadings = headings.filter((h) => h.depth === 2);
-const ogImage = `/og/guides/${guide.id}.svg`;
+const ogImage = `/og/guides/${guide.id}.png`;
 const url = `/learn/${guide.id}`;
 
 const schemas: Record<string, unknown>[] = [

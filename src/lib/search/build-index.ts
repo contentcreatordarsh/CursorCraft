@@ -51,18 +51,9 @@ export async function buildSearchIndex(): Promise<SearchIndex> {
       description: `CursorCraft local-first tool — ${tool.label}`,
       href: tool.href,
       category: 'Tool',
-      keywords: [tool.label, 'tool', 'cursor'],
+      keywords: [tool.label, 'tool', 'cursor', 'mcp', 'policy', 'zip'].filter((k, i, a) => a.indexOf(k) === i),
     });
   }
-
-  items.push({
-    id: 'tool-rules-templates',
-    title: 'Rules Templates',
-    description: 'Curated .cursor/rules and .cursorignore starters for common stacks.',
-    href: '/tools/rules-templates',
-    category: 'Tool',
-    keywords: ['templates', 'rules', 'nextjs', 'python', 'monorepo', 'fintech'],
-  });
 
   const pages: { title: string; description: string; href: string; keywords?: string[] }[] = [
     {

@@ -6,14 +6,17 @@ import Button from '@/components/ui/Button.astro';
 import Badge from '@/components/ui/Badge.astro';
 import Callout from '@/components/ui/Callout.astro';
 import Icon from '@/components/ui/Icon.astro';
+import GuideProgress from '@/components/learn/GuideProgress.tsx';
 import { articleSchema, faqSchema, breadcrumbSchema } from '@/lib/jsonld';
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const guides = (await getCollection('guides')).sort((a, b) => a.data.order - b.data.order);
+  const guideIds = guides.map((g) => g.id);
   return guides.map((guide, i) => ({
     params: { slug: guide.id },
     props: {
       guide,
+      guideIds,
       prev: i > 0 ? guides[i - 1] : null,
       next: i < guides.length - 1 ? guides[i + 1] : null,
     },
@@ -23,11 +26,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
 type GuideEntry = CollectionEntry<'guides'>;
 interface Props {
   guide: GuideEntry;
+  guideIds: string[];
   prev: GuideEntry | null;
   next: GuideEntry | null;
 }
 
-const { guide, prev, next } = Astro.props as Props;
+const { guide, guideIds, prev, next } = Astro.props as Props;
 const { Content, headings } = await render(guide);
 const data = guide.data;
 
@@ -128,6 +132,7 @@ if (data.faqs.length > 0) schemas.push(faqSchema(data.faqs));
         }
 
         <!-- Prev / Next -->
+        <GuideProgress client:load guideIds={guideIds} currentGuideId={guide.id} variant="mark" />
         <nav
           class="mt-12 grid gap-4 border-t border-[var(--color-ink-800)] pt-8 sm:grid-cols-2"
           aria-label="Guide navigation"

@@ -1,0 +1,122 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PolicyPackGenerator from '@/components/tools/PolicyPackGenerator.tsx';
+import Eyebrow from '@/components/ui/Eyebrow.astro';
+import Badge from '@/components/ui/Badge.astro';
+import Icon from '@/components/ui/Icon.astro';
+import { softwareApplicationSchema, breadcrumbSchema, faqSchema } from '@/lib/jsonld';
+
+const description =
+  'Generate a downloadable Cursor policy pack — .cursor/rules, .cursorignore, and a team security checklist — as a zip file built entirely in your browser.';
+
+const faqs = [
+  {
+    q: 'What is in the policy pack?',
+    a: 'A tailored project.mdc rules file, .cursorignore patterns, a SECURITY-CHECKLIST.md for team leads, and a README with next steps.',
+  },
+  {
+    q: 'Is anything uploaded?',
+    a: 'No. The zip is assembled locally in your browser using the same generator logic as the Rules Generator.',
+  },
+  {
+    q: 'How is this different from the Rules Generator?',
+    a: 'The Rules Generator copies individual files. The policy pack bundles everything your team needs to adopt Cursor securely in one commit-ready archive.',
+  },
+];
+
+const includes = [
+  { icon: 'wrench', title: 'project.mdc', body: 'Stack-aware rules with security guardrails scaled to your sensitivity level.' },
+  { icon: 'eye-off', title: '.cursorignore', body: 'Secret and artifact patterns tuned for your language and monorepo layout.' },
+  { icon: 'list-checks', title: 'Security checklist', body: 'Team lead checklist derived from the CursorCraft security guide.' },
+  { icon: 'layers', title: 'README', body: 'Onboarding steps and links to verify with the Config Analyzer.' },
+];
+---
+
+<BaseLayout
+  title="Policy Pack Generator — download a Cursor security starter kit"
+  description={description}
+  jsonLd={[
+    softwareApplicationSchema({
+      name: 'Policy Pack Generator',
+      description,
+      url: '/tools/policy-pack',
+    }),
+    breadcrumbSchema([
+      { name: 'Home', url: '/' },
+      { name: 'Tools', url: '/tools' },
+      { name: 'Policy Pack', url: '/tools/policy-pack' },
+    ]),
+    faqSchema(faqs),
+  ]}
+>
+  <section class="border-b border-[var(--color-border)]">
+    <div class="mx-auto max-w-6xl px-4 py-12 sm:py-16">
+      <nav aria-label="Breadcrumb" class="mb-6 font-mono text-xs text-[var(--color-paper-400)]">
+        <ol class="flex items-center gap-1.5">
+          <li><a href="/" class="hover:text-[var(--color-paper-100)]">Home</a></li>
+          <li aria-hidden="true">/</li>
+          <li><a href="/tools" class="hover:text-[var(--color-paper-100)]">Tools</a></li>
+          <li aria-hidden="true">/</li>
+          <li class="text-[var(--color-paper-200)]" aria-current="page">Policy Pack</li>
+        </ol>
+      </nav>
+      <div class="flex flex-col gap-3">
+        <div class="flex items-center gap-3">
+          <Eyebrow>Team rollout</Eyebrow>
+          <Badge tone="accent"><Icon name="layers" size={11} /> New</Badge>
+          <Badge tone="tip"><Icon name="lock" size={11} /> 100% client-side</Badge>
+        </div>
+        <h1 class="max-w-3xl text-3xl font-bold tracking-tight text-[var(--color-paper-50)] sm:text-4xl">
+          Download a Cursor policy pack (.zip)
+        </h1>
+        <p class="max-w-2xl text-lg leading-relaxed text-[var(--color-paper-300)]">
+          Answer a few questions and get commit-ready rules, ignore patterns, and a security checklist —
+          bundled for your repo root.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-10" aria-labelledby="pack-heading">
+    <h2 id="pack-heading" class="sr-only">Policy pack generator</h2>
+    <PolicyPackGenerator client:load />
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 pb-16">
+    <h2 class="mb-6 text-2xl font-bold tracking-tight text-[var(--color-paper-50)]">What's included</h2>
+    <div class="reveal grid gap-4 sm:grid-cols-2">
+      {
+        includes.map((c) => (
+          <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-5">
+            <div class="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-md border border-[var(--color-border)] bg-[var(--color-ink-850)] text-[var(--color-paper-200)]">
+              <Icon name={c.icon as any} size={18} />
+            </div>
+            <h3 class="font-semibold text-[var(--color-paper-50)]">{c.title}</h3>
+            <p class="mt-1.5 text-sm leading-relaxed text-[var(--color-paper-300)]">{c.body}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-4 pb-20" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" class="mb-5 text-2xl font-bold tracking-tight text-[var(--color-paper-50)]">
+      Frequently asked questions
+    </h2>
+    <div class="space-y-3">
+      {
+        faqs.map((faq) => (
+          <details class="group rounded-lg border border-[var(--color-ink-700)] bg-[var(--color-ink-900)]/60 p-4">
+            <summary class="flex cursor-pointer items-center justify-between gap-3 font-medium text-[var(--color-paper-100)]">
+              {faq.q}
+              <span class="text-[var(--color-paper-400)] transition-transform group-open:rotate-90">
+                <Icon name="arrow-right" size={16} />
+              </span>
+            </summary>
+            <p class="mt-3 text-sm leading-relaxed text-[var(--color-paper-300)]">{faq.a}</p>
+          </details>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>

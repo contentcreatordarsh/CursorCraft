@@ -17,11 +17,17 @@ Cursor is easy to adopt and easy to misuse. Secrets get pasted into prompts, con
 CursorCraft collects the practices that make AI-assisted development **fast, safe, and affordable** into one credible playbook — six senior-level guides — and pairs it with a tool that audits your real configuration:
 
 - **The playbook** — mental model, feature tour, best practices, **security** (the centerpiece), **cost optimization**, and **enterprise rollout**.
-- **The Config Analyzer** — paste your `.cursorignore`, `.cursor/rules`, `mcp.json`, and `settings.json` and get a prioritized report of security risks and cost leaks, each with a plain-English explanation and a concrete fix.
+- **The Config Analyzer** — paste your `.cursorignore`, `.cursor/rules`, `mcp.json`, `settings.json`, and `hooks.json` and get a prioritized report of security risks and cost leaks, each with a plain-English explanation and a concrete fix. Export results as Markdown for your team.
+- **Rules Generator + Templates** — curated starters for Next.js, Python, monorepos, and fintech workloads.
+- **⌘K search** — full-text search across guides, tools, and pages.
 
-### Screenshot
+### Screenshots
 
-> _Placeholder — add a screenshot or GIF of the hero and the Config Analyzer here (`docs/screenshot.png`)._
+![CursorCraft home — hero and editor preview](./docs/images/hero-preview.svg)
+
+![Config Analyzer — paste config, get prioritized findings in-browser](./docs/images/config-analyzer-preview.svg)
+
+_Press `⌘K` (or `Ctrl+K`) on the live site to search guides and tools._
 
 ---
 

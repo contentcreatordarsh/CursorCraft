@@ -1,6 +1,7 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { Copy, Check, RotateCcw, Lock, Download } from 'lucide-react';
 import { generate } from '@/lib/rules-generator/generate';
+import { getTemplateById } from '@/lib/rules-templates/data';
 import {
   DEFAULT_ANSWERS,
   LANGUAGES,
@@ -16,6 +17,17 @@ const fieldCls =
 
 export default function RulesGenerator() {
   const [answers, setAnswers] = useState<RulesAnswers>(DEFAULT_ANSWERS);
+  const [loadedTemplate, setLoadedTemplate] = useState<string | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get('template');
+    if (!id) return;
+    const template = getTemplateById(id);
+    if (template) {
+      setAnswers(template.answers);
+      setLoadedTemplate(template.title);
+    }
+  }, []);
 
   const set = <K extends keyof RulesAnswers>(key: K, value: RulesAnswers[K]) =>
     setAnswers((prev) => ({ ...prev, [key]: value }));
@@ -35,7 +47,9 @@ export default function RulesGenerator() {
           <div className="flex items-center gap-2 border-b border-[var(--color-border)] bg-[color-mix(in_srgb,var(--color-tip)_8%,transparent)] px-4 py-2.5">
             <Lock size={15} style={{ color: 'var(--color-tip)' }} aria-hidden="true" />
             <p className="font-mono text-xs text-[var(--color-paper-200)]">
-              Generated in your browser — nothing is uploaded or stored.
+              {loadedTemplate
+                ? `Loaded template: ${loadedTemplate} — edit below, nothing is uploaded.`
+                : 'Generated in your browser — nothing is uploaded or stored.'}
             </p>
           </div>
 

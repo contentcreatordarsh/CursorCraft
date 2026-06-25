@@ -1,0 +1,74 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Card from '@/components/ui/Card.astro';
+import Button from '@/components/ui/Button.astro';
+import Badge from '@/components/ui/Badge.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import { RULES_TEMPLATES } from '@/lib/rules-templates/data';
+import { breadcrumbSchema } from '@/lib/jsonld';
+
+const description =
+  'Curated .cursor/rules and .cursorignore templates for Next.js, Python, monorepos, and fintech workloads. Load a starter into the Rules Generator — 100% client-side.';
+---
+
+<BaseLayout
+  title="Rules templates — curated Cursor config starters"
+  description={description}
+  jsonLd={breadcrumbSchema([
+    { name: 'Home', url: '/' },
+    { name: 'Tools', url: '/tools' },
+    { name: 'Rules Templates', url: '/tools/rules-templates' },
+  ])}
+>
+  <section class="border-b border-[var(--color-border)]">
+    <div class="mx-auto max-w-6xl px-4 py-12 sm:py-16">
+      <nav aria-label="Breadcrumb" class="mb-6 font-mono text-xs text-[var(--color-paper-400)]">
+        <ol class="flex items-center gap-1.5">
+          <li><a href="/" class="hover:text-[var(--color-paper-100)]">Home</a></li>
+          <li aria-hidden="true">/</li>
+          <li><a href="/tools" class="hover:text-[var(--color-paper-100)]">Tools</a></li>
+          <li aria-hidden="true">/</li>
+          <li class="text-[var(--color-paper-200)]" aria-current="page">Rules Templates</li>
+        </ol>
+      </nav>
+      <SectionHeading as="h1" eyebrow="Templates" title="Curated rules for common stacks">
+        Pick a starter tuned for your stack, open it in the Rules Generator, tweak conventions, then
+        copy or download <code class="font-mono text-[var(--color-syntax-string)]">.cursor/rules</code> and
+        <code class="font-mono text-[var(--color-syntax-string)]">.cursorignore</code>. Nothing is uploaded.
+      </SectionHeading>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-10 pb-20">
+    <div class="reveal grid gap-5 sm:grid-cols-2">
+      {
+        RULES_TEMPLATES.map((t) => (
+          <Card title={t.title} class="flex h-full flex-col">
+            <Badge tone="neutral" class="mb-3">{t.stack}</Badge>
+            <p class="mb-4 flex-1 text-sm leading-relaxed text-[var(--color-paper-400)]">{t.description}</p>
+            <div class="mb-4 flex flex-wrap gap-1.5">
+              {t.tags.map((tag) => (
+                <span class="rounded-full border border-[var(--color-border)] px-2 py-0.5 font-mono text-[0.65rem] text-[var(--color-muted)]">
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <Button
+              href={`/tools/rules-generator?template=${t.id}`}
+              variant="primary"
+              size="sm"
+              icon="arrow-right"
+            >
+              Use this template
+            </Button>
+          </Card>
+        ))
+      }
+    </div>
+    <p class="mt-8 text-center text-sm text-[var(--color-paper-400)]">
+      After generating, run the{' '}
+      <a href="/tools/config-analyzer" class="text-[var(--color-paper-100)] underline">Config Analyzer</a>{' '}
+      to verify your setup.
+    </p>
+  </section>
+</BaseLayout>

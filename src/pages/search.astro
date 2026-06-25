@@ -1,0 +1,36 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import CommandPalette from '@/components/search/CommandPalette.tsx';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import { breadcrumbSchema } from '@/lib/jsonld';
+
+const q = Astro.url.searchParams.get('q') ?? '';
+
+const description =
+  'Search CursorCraft guides, tools, and pages. Find security guidance, cost tips, and local-first utilities.';
+---
+
+<BaseLayout
+  title="Search — guides, tools & pages"
+  description={description}
+  jsonLd={breadcrumbSchema([
+    { name: 'Home', url: '/' },
+    { name: 'Search', url: '/search' },
+  ])}
+>
+  <section class="border-b border-[var(--color-border)]">
+    <div class="mx-auto max-w-3xl px-4 py-12 sm:py-16">
+      <SectionHeading as="h1" eyebrow="Search" title="Find guides, tools, and pages">
+        Full-text search across the playbook and tools. Nothing you type here is uploaded — the index
+        is a static file shipped with the site.
+      </SectionHeading>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-4 py-8 pb-20">
+    <CommandPalette client:load initialQuery={q} inline />
+    <p class="mt-4 text-center font-mono text-xs text-[var(--color-muted)]">
+      Tip: press <kbd class="kbd">⌘</kbd> <kbd class="kbd">K</kbd> from any page to open quick search.
+    </p>
+  </section>
+</BaseLayout>

@@ -43,6 +43,15 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
     </ul>
 
     <div class="flex items-center gap-2">
+      <button
+        type="button"
+        data-open-search
+        class="hidden h-9 items-center gap-2 rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] px-2.5 text-[var(--color-paper-400)] transition-colors hover:border-[var(--color-border-strong)] hover:text-[var(--color-paper-100)] sm:inline-flex"
+        aria-label="Search (Command K)"
+      >
+        <Icon name="search" size={16} />
+        <span class="hidden font-mono text-xs lg:inline">Search</span>
+      </button>
       <a
         href={SITE.github}
         target="_blank"
@@ -98,6 +107,13 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
         ))
       }
       <li class="pt-2">
+        <button
+          type="button"
+          data-open-search
+          class="mb-2 block w-full rounded-md border border-[var(--color-border)] px-3 py-2.5 text-left text-sm text-[var(--color-paper-200)] hover:bg-[var(--color-ink-800)]"
+        >
+          Search guides & tools
+        </button>
         <Button href="/tools/config-analyzer" variant="primary" size="md" icon="shield-check" iconPosition="left" class="w-full">
           Audit setup
         </Button>
@@ -126,5 +142,11 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
   themeToggle?.addEventListener('click', () => {
     document.documentElement.classList.toggle('light');
     syncIcons();
+  });
+
+  document.querySelectorAll('[data-open-search]').forEach((el) => {
+    el.addEventListener('click', () => {
+      window.dispatchEvent(new CustomEvent('cursorcraft:open-search'));
+    });
   });
 </script>

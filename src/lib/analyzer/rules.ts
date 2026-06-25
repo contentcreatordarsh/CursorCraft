@@ -114,6 +114,20 @@ export const rules: AuditRule[] = [
           ),
         );
       }
+
+      if (!/\.git\//m.test(content)) {
+        out.push(
+          f(
+            'cursorignore-git',
+            'tip',
+            'Consider ignoring .git/',
+            'The .git directory is rarely useful as AI context and can be large on big repos.',
+            'Add `.git/` to your .cursorignore.',
+            'cursorignore',
+          ),
+        );
+      }
+
       return out;
     },
   },
@@ -163,6 +177,36 @@ export const rules: AuditRule[] = [
             'Rules contain no security guidance',
             'Encoding security expectations in rules nudges the AI toward safe defaults — checking auth, validating input, never logging secrets.',
             'Add a security guardrail to your rules, e.g. "Never call external services with user secrets" or "All new endpoints require an authorization check".',
+            'rules',
+          ),
+        );
+      }
+
+      const usesLegacyOnly =
+        /\.cursorrules\b/i.test(content) && !/\.cursor\/rules/i.test(content);
+      if (usesLegacyOnly) {
+        out.push(
+          f(
+            'rules-legacy-cursorrules',
+            'tip',
+            'Using legacy .cursorrules instead of .cursor/rules/',
+            'The modern layout is `.cursor/rules/*.mdc` with frontmatter — easier to split by concern and scope with globs.',
+            'Migrate to `.cursor/rules/project.mdc` (and additional scoped files as needed); keep `.cursorrules` only during transition.',
+            'rules',
+          ),
+        );
+      }
+
+      const hasMdcFrontmatter = /^---\s*\n[\s\S]*?\n---/m.test(content);
+      const looksLikeMdc = /\.mdc\b/i.test(content) || content.includes('alwaysApply');
+      if (looksLikeMdc && !hasMdcFrontmatter && content.trim().length > 40) {
+        out.push(
+          f(
+            'rules-mdc-frontmatter',
+            'warning',
+            'Rules may be missing .mdc frontmatter',
+            'Cursor rule files (.mdc) use YAML frontmatter for description, globs, and alwaysApply. Without it, rules may not attach to the right files.',
+            'Add frontmatter, e.g. `---\\ndescription: Project conventions\\nglobs: **/*.{ts,tsx}\\nalwaysApply: true\\n---` above your rules body.',
             'rules',
           ),
         );
@@ -246,6 +290,64 @@ export const rules: AuditRule[] = [
         const args = Array.isArray(cfg.args) ? (cfg.args as unknown[]).map(String) : [];
         const command = typeof cfg.command === 'string' ? cfg.command : '';
         const joined = [command, ...args].join(' ');
+
+        // Remote HTTP/SSE MCP endpoint
+        const url = typeof cfg.url === 'string' ? cfg.url : '';
+        if (url) {
+          const insecure = /^http:\/\//i.test(url);
+          const localhost = /localhost|127\.0\.0\.1/i.test(url);
+          if (insecure && !localhost) {
+            out.push(
+              f(
+                `mcp-insecure-url-${name}`,
+                'warning',
+                `MCP server "${name}" uses plain HTTP`,
+                'Remote MCP servers over unencrypted HTTP expose traffic and tokens on the network. Prefer HTTPS endpoints from sources you trust.',
+                `Switch "${name}" to an https:// URL or run the server locally over stdio.`,
+                'mcp',
+              ),
+            );
+          }
+          if (!localhost) {
+            out.push(
+              f(
+                `mcp-remote-${name}`,
+                'tip',
+                `MCP server "${name}" is a remote URL endpoint`,
+                'Remote MCP servers run outside your machine. Treat the host like any third-party integration — verify the operator, scope tokens narrowly, and prefer read-only access.',
+                `Document why "${name}" needs network access; rotate tokens if the endpoint changes hands.`,
+                'mcp',
+              ),
+            );
+          }
+        }
+
+        // Dangerous shell patterns
+        if (/\b(curl|wget)\b[^|\n]*\|\s*(ba)?sh\b/i.test(joined)) {
+          out.push(
+            f(
+              `mcp-curl-pipe-${name}`,
+              'critical',
+              `MCP server "${name}" may pipe remote code into a shell`,
+              'Piping curl/wget output directly into a shell executes arbitrary remote code with your user privileges — a classic supply-chain vector.',
+              `Remove the pipe-to-shell pattern from "${name}"; pin and vendor the script locally instead.`,
+              'mcp',
+            ),
+          );
+        }
+
+        if (/\b(sudo|docker\s+run|chmod\s+\+x)\b/i.test(joined)) {
+          out.push(
+            f(
+              `mcp-privileged-cmd-${name}`,
+              'warning',
+              `MCP server "${name}" may launch privileged commands`,
+              'sudo, docker run, or broad chmod in an MCP launch command expands blast radius if the server or a prompt-injection path is abused.',
+              `Run "${name}" with the least privilege needed; avoid sudo and prefer scoped containers or read-only mounts.`,
+              'mcp',
+            ),
+          );
+        }
 
         // Unpinned source (npx without a version, or "latest")
         const usesNpx = /\bnpx\b/.test(joined) || /\buvx\b/.test(joined);
@@ -394,12 +496,93 @@ export const rules: AuditRule[] = [
     },
   },
 
-  /* 5. General secret sweep across all provided files (catch-all) */
+  /* 5. hooks.json — agent hook safety */
+  {
+    id: 'hooks',
+    run: (input) => {
+      const out: Finding[] = [];
+      if (!nonEmpty(input.hooks)) return out;
+
+      const raw = input.hooks;
+      const parsed = tryParse(raw);
+      if (!parsed.ok) {
+        out.push(
+          f(
+            'hooks-invalid',
+            'warning',
+            'hooks.json is not valid JSON',
+            'Cursor hooks config could not be parsed. Invalid hooks may fail silently or never run.',
+            'Validate JSON syntax (matching braces, quoted keys, no trailing commas).',
+            'hooks',
+          ),
+        );
+        return out;
+      }
+
+      const secrets = detectSecrets(raw);
+      if (secrets.length > 0) {
+        out.push(
+          f(
+            'hooks-secret-leak',
+            'critical',
+            'Possible secret in hooks.json',
+            `Hooks config appears to contain a credential (${secrets.join(', ')}). Hooks run during the agent loop — secrets here are high-risk.`,
+            'Move secrets to environment variables; rotate anything exposed.',
+            'hooks',
+          ),
+        );
+      }
+
+      const hookText = raw.toLowerCase();
+      if (/\b(curl|wget)\b[^|\n]*\|\s*(ba)?sh\b/i.test(raw)) {
+        out.push(
+          f(
+            'hooks-curl-pipe',
+            'critical',
+            'Hook may pipe remote code into a shell',
+            'A hook that curls a script and pipes it to bash executes arbitrary remote code whenever the hook fires.',
+            'Vendor scripts locally, pin versions, and review hook commands like production deploy scripts.',
+            'hooks',
+          ),
+        );
+      }
+
+      if (/\b(rm\s+-rf|sudo|chmod\s+777|mkfs|dd\s+if=)\b/i.test(raw)) {
+        out.push(
+          f(
+            'hooks-destructive',
+            'critical',
+            'Hook may run destructive shell commands',
+            'Hooks with rm -rf, sudo, or similar commands can cause irreversible damage if triggered by a bad agent action or prompt injection.',
+            'Remove destructive commands from hooks; scope hooks to read-only validation where possible.',
+            'hooks',
+          ),
+        );
+      }
+
+      if (/"(?:post|pre)(?:ToolUse|Command|Apply)"\s*:/i.test(raw) || hookText.includes('hook')) {
+        out.push(
+          f(
+            'hooks-review',
+            'tip',
+            'Review agent hooks regularly',
+            'Hooks run close to the agent loop — treat them like CI scripts with production-level review and least privilege.',
+            'Document each hook’s purpose, who approved it, and what network/filesystem access it needs.',
+            'hooks',
+          ),
+        );
+      }
+
+      return out;
+    },
+  },
+
+  /* 6. General secret sweep across all provided files (catch-all) */
   {
     id: 'general-secrets',
     run: (input) => {
       const out: Finding[] = [];
-      const combined = [input.cursorignore, input.rules, input.mcp, input.settings]
+      const combined = [input.cursorignore, input.rules, input.mcp, input.settings, input.hooks]
         .filter(nonEmpty)
         .join('\n');
       // Only emit a general note when no file-specific secret finding will fire,

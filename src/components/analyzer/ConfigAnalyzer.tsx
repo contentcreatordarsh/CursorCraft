@@ -9,10 +9,13 @@ import {
   Trash2,
   Lock,
   CheckCircle2,
+  Copy,
+  Download,
 } from 'lucide-react';
 import { audit } from '@/lib/analyzer/engine';
 import type { ConfigInput, FileKey, Severity } from '@/lib/analyzer/types';
 import { EXAMPLE_CONFIG } from '@/lib/analyzer/example';
+import { downloadMarkdown, formatAuditMarkdown } from '@/lib/analyzer/export';
 
 interface FieldDef {
   key: FileKey;
@@ -49,6 +52,13 @@ const FIELDS: FieldDef[] = [
     label: 'settings.json',
     filename: 'settings.json',
     placeholder: '{\n  "privacyMode": true\n}',
+    accept: '.json,application/json',
+  },
+  {
+    key: 'hooks',
+    label: 'hooks.json',
+    filename: 'hooks.json / .cursor/hooks.json',
+    placeholder: '{\n  "hooks": {\n    "postToolUse": "npm run lint"\n  }\n}',
     accept: '.json,application/json',
   },
 ];
@@ -294,6 +304,18 @@ function EmptyState({ onLoadExample }: { onLoadExample: () => void }) {
 function Results({ result }: { result: ReturnType<typeof audit> }) {
   const { findings, counts } = result;
   const clean = counts.critical === 0 && counts.warning === 0;
+  const [copied, setCopied] = useState(false);
+  const markdown = formatAuditMarkdown(result);
+
+  const copyReport = async () => {
+    try {
+      await navigator.clipboard.writeText(markdown);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1600);
+    } catch {
+      /* clipboard unavailable */
+    }
+  };
 
   return (
     <div className="panel flex h-full flex-col">
@@ -302,6 +324,22 @@ function Results({ result }: { result: ReturnType<typeof audit> }) {
         <h3 className="mr-auto text-sm font-semibold text-[var(--color-paper-50)]">
           {findings.length} finding{findings.length === 1 ? '' : 's'}
         </h3>
+        {findings.length > 0 && (
+          <div className="flex flex-wrap items-center gap-1.5">
+            <button type="button" onClick={copyReport} className="btn-secondary py-1.5 text-xs">
+              <Copy size={14} aria-hidden="true" />
+              {copied ? 'Copied!' : 'Copy Markdown'}
+            </button>
+            <button
+              type="button"
+              onClick={() => downloadMarkdown(markdown)}
+              className="btn-secondary py-1.5 text-xs"
+            >
+              <Download size={14} aria-hidden="true" />
+              Download .md
+            </button>
+          </div>
+        )}
         {(['critical', 'warning', 'tip'] as Severity[]).map((sev) => {
           const meta = SEVERITY_META[sev];
           return (

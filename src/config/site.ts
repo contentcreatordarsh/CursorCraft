@@ -24,6 +24,12 @@ export const TOOLS_LINKS = [
   { label: 'Config Analyzer', href: '/tools/config-analyzer' },
   { label: 'Rules Generator', href: '/tools/rules-generator' },
   { label: 'Rules Templates', href: '/tools/rules-templates' },
+  { label: 'Rules Linter', href: '/tools/rules-linter' },
+  { label: 'Policy Pack', href: '/tools/policy-pack' },
+  { label: 'MCP Visualizer', href: '/tools/mcp-visualizer' },
+  { label: '.cursorignore Diff', href: '/tools/cursorignore-diff' },
+  { label: 'Cost Estimator', href: '/tools/cost-estimator' },
+  { label: 'Pre-commit Snippet', href: '/tools/precommit-snippet' },
   { label: 'Security Checklist', href: '/tools/security-checklist' },
   { label: 'Usage Insights', href: '/tools/usage-insights' },
 ] as const;

@@ -133,15 +133,27 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
   const themeToggle = document.getElementById('theme-toggle');
   const sun = document.querySelector('.theme-icon-sun');
   const moon = document.querySelector('.theme-icon-moon');
-  const syncIcons = () => {
-    const isLight = document.documentElement.classList.contains('light');
-    sun?.classList.toggle('hidden', isLight);
-    moon?.classList.toggle('hidden', !isLight);
+  const themeMeta = document.getElementById('theme-color-meta');
+  const THEME_KEY = 'cursorcraft-theme';
+
+  const applyTheme = (light: boolean) => {
+    document.documentElement.classList.toggle('light', light);
+    document.documentElement.classList.toggle('dark', !light);
+    sun?.classList.toggle('hidden', light);
+    moon?.classList.toggle('hidden', !light);
+    themeMeta?.setAttribute('content', light ? '#fafafa' : '#0a0a0b');
   };
-  syncIcons();
+
+  applyTheme(document.documentElement.classList.contains('light'));
+
   themeToggle?.addEventListener('click', () => {
-    document.documentElement.classList.toggle('light');
-    syncIcons();
+    const light = !document.documentElement.classList.contains('light');
+    applyTheme(light);
+    try {
+      localStorage.setItem(THEME_KEY, light ? 'light' : 'dark');
+    } catch {
+      /* storage unavailable */
+    }
   });
 
   document.querySelectorAll('[data-open-search]').forEach((el) => {

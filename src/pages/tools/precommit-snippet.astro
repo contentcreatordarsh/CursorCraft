@@ -1,0 +1,54 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PrecommitGenerator from '@/components/tools/PrecommitGenerator.tsx';
+import Eyebrow from '@/components/ui/Eyebrow.astro';
+import Badge from '@/components/ui/Badge.astro';
+import Icon from '@/components/ui/Icon.astro';
+import { softwareApplicationSchema, breadcrumbSchema } from '@/lib/jsonld';
+
+const description =
+  'Generate a Husky pre-commit hook or CI workflow snippet that blocks secrets in .cursor/rules, mcp.json, and hooks.json. Copy or download — built in your browser.';
+---
+
+<BaseLayout
+  title="Pre-commit Snippet — block secrets in Cursor config"
+  description={description}
+  jsonLd={[
+    softwareApplicationSchema({ name: 'Pre-commit Snippet Generator', description, url: '/tools/precommit-snippet' }),
+    breadcrumbSchema([
+      { name: 'Home', url: '/' },
+      { name: 'Tools', url: '/tools' },
+      { name: 'Pre-commit Snippet', url: '/tools/precommit-snippet' },
+    ]),
+  ]}
+>
+  <section class="border-b border-[var(--color-border)]">
+    <div class="mx-auto max-w-6xl px-4 py-12 sm:py-16">
+      <nav aria-label="Breadcrumb" class="mb-6 font-mono text-xs text-[var(--color-paper-400)]">
+        <ol class="flex items-center gap-1.5">
+          <li><a href="/" class="hover:text-[var(--color-paper-100)]">Home</a></li>
+          <li aria-hidden="true">/</li>
+          <li><a href="/tools" class="hover:text-[var(--color-paper-100)]">Tools</a></li>
+          <li aria-hidden="true">/</li>
+          <li class="text-[var(--color-paper-200)]" aria-current="page">Pre-commit Snippet</li>
+        </ol>
+      </nav>
+      <div class="flex flex-col gap-3">
+        <div class="flex items-center gap-3">
+          <Eyebrow>Shift-left security</Eyebrow>
+          <Badge tone="tip"><Icon name="lock" size={11} /> 100% client-side</Badge>
+        </div>
+        <h1 class="max-w-3xl text-3xl font-bold tracking-tight text-[var(--color-paper-50)] sm:text-4xl">
+          Generate a secret scan for Cursor config
+        </h1>
+        <p class="max-w-2xl text-lg leading-relaxed text-[var(--color-paper-300)]">
+          Husky, GitHub Actions, or GitLab CI — grep-based checks aligned with CursorCraft analyzer patterns.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-10 pb-20">
+    <PrecommitGenerator client:load />
+  </section>
+</BaseLayout>

@@ -1,0 +1,54 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import CursorignoreDiff from '@/components/tools/CursorignoreDiff.tsx';
+import Eyebrow from '@/components/ui/Eyebrow.astro';
+import Badge from '@/components/ui/Badge.astro';
+import Icon from '@/components/ui/Icon.astro';
+import { softwareApplicationSchema, breadcrumbSchema } from '@/lib/jsonld';
+
+const description =
+  'Compare two .cursorignore files or diff your repo against a CursorCraft template. See missing secret patterns, build artifacts, and shared rules — entirely in your browser.';
+---
+
+<BaseLayout
+  title=".cursorignore Diff — compare ignore patterns in your browser"
+  description={description}
+  jsonLd={[
+    softwareApplicationSchema({ name: '.cursorignore Diff', description, url: '/tools/cursorignore-diff' }),
+    breadcrumbSchema([
+      { name: 'Home', url: '/' },
+      { name: 'Tools', url: '/tools' },
+      { name: '.cursorignore Diff', url: '/tools/cursorignore-diff' },
+    ]),
+  ]}
+>
+  <section class="border-b border-[var(--color-border)]">
+    <div class="mx-auto max-w-6xl px-4 py-12 sm:py-16">
+      <nav aria-label="Breadcrumb" class="mb-6 font-mono text-xs text-[var(--color-paper-400)]">
+        <ol class="flex items-center gap-1.5">
+          <li><a href="/" class="hover:text-[var(--color-paper-100)]">Home</a></li>
+          <li aria-hidden="true">/</li>
+          <li><a href="/tools" class="hover:text-[var(--color-paper-100)]">Tools</a></li>
+          <li aria-hidden="true">/</li>
+          <li class="text-[var(--color-paper-200)]" aria-current="page">.cursorignore Diff</li>
+        </ol>
+      </nav>
+      <div class="flex flex-col gap-3">
+        <div class="flex items-center gap-3">
+          <Eyebrow>Security hygiene</Eyebrow>
+          <Badge tone="tip"><Icon name="lock" size={11} /> 100% client-side</Badge>
+        </div>
+        <h1 class="max-w-3xl text-3xl font-bold tracking-tight text-[var(--color-paper-50)] sm:text-4xl">
+          Diff .cursorignore patterns before you merge
+        </h1>
+        <p class="max-w-2xl text-lg leading-relaxed text-[var(--color-paper-300)]">
+          Compare two versions side by side, or check your file against a stack template from the Rules Generator.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-10 pb-20">
+    <CursorignoreDiff client:load />
+  </section>
+</BaseLayout>

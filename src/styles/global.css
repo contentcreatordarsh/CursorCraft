@@ -136,6 +136,86 @@ html.light body {
   color: var(--color-ink-900);
 }
 
+/* Light mode — remap semantic tokens so components auto-adapt */
+html.light {
+  --color-border: rgba(0, 0, 0, 0.08);
+  --color-border-strong: rgba(0, 0, 0, 0.14);
+  --color-surface: #ffffff;
+  --color-surface-raised: #fafafa;
+  --color-primary-bg: #0a0a0a;
+  --color-primary-fg: #fafafa;
+  --color-primary-hover: #262626;
+  --color-muted: #737373;
+}
+
+html.light .section-muted {
+  background: color-mix(in srgb, var(--color-paper-100) 80%, transparent);
+}
+
+html.light .caret {
+  background: var(--color-ink-900);
+}
+
+html.light .panel,
+html.light .panel-header,
+html.light .status-bar {
+  background: var(--color-surface);
+}
+
+html.light .status-bar {
+  background: var(--color-paper-100);
+}
+
+html.light .kbd {
+  background: var(--color-paper-100);
+  border-color: var(--color-border-strong);
+  color: var(--color-ink-700);
+}
+
+html.light .btn-secondary {
+  color: var(--color-ink-800);
+}
+html.light .btn-secondary:hover:not(:disabled) {
+  color: var(--color-ink-950);
+  border-color: rgba(0, 0, 0, 0.22);
+}
+
+html.light .input-field {
+  background: #ffffff;
+  color: var(--color-ink-900);
+  border-color: var(--color-border-strong);
+}
+
+html.light :where(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline-color: var(--color-ink-700);
+}
+
+html.light ::selection {
+  background: color-mix(in srgb, var(--color-ink-900) 18%, transparent);
+}
+
+html.light .prose-craft :where(a) {
+  color: var(--color-ink-900);
+}
+html.light .prose-craft :where(a):hover {
+  color: var(--color-ink-950);
+}
+
+html.light .prose-craft :where(pre) {
+  border-color: var(--color-border-strong);
+  background: var(--color-paper-100);
+}
+
+html.light .prose-craft :where(hr),
+html.light .prose-craft :where(th, td) {
+  border-color: var(--color-border-strong);
+}
+
+html.light .prose-craft :where(th) {
+  background: var(--color-paper-100);
+  color: var(--color-ink-700);
+}
+
 /* Accessible focus rings everywhere */
 :where(a, button, input, textarea, select, [tabindex]):focus-visible {
   outline: 2px solid var(--color-paper-300);

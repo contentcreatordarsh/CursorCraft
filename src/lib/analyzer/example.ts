@@ -1,4 +1,4 @@
-import type { ConfigInput } from './types';
+import type { ConfigInput } from './types.ts';
 
 /**
  * A deliberately flawed sample so the analyzer is demoable with zero input.

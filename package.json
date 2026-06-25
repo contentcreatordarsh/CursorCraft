@@ -11,7 +11,9 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "check": "astro check"
+    "check": "astro check",
+    "test": "node --experimental-strip-types --test src/lib/analyzer/engine.test.ts src/lib/mcp-visualizer/analyze.test.ts src/lib/cursorignore-diff/diff.test.ts src/lib/cost-estimator/estimate.test.ts src/lib/rules-linter/lint.test.ts",
+    "audit:config": "node --experimental-strip-types scripts/audit-cursor-config.mts --root ."
   },
   "dependencies": {
     "@astrojs/mdx": "^7.0.0",

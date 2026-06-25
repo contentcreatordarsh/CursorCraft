@@ -3,7 +3,6 @@ import {
   Copy,
   Check,
   Sparkles,
-  Trash2,
   ServerOff,
   AlertOctagon,
   AlertTriangle,
@@ -74,101 +73,137 @@ const SEV: Record<Severity, { Icon: LucideIcon; color: string; bg: string; borde
 export default function UsageInsights() {
   const [raw, setRaw] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [step, setStep] = useState(0);
 
   const result = useMemo(() => analyze(raw), [raw]);
   const showResults = submitted && result.ok && result.insights;
 
+  const steps = ['Overview', 'Export locally', 'Paste JSON', 'Insights'] as const;
+
   return (
-    <div className="space-y-8">
-      {/* Privacy guarantee */}
-      <div className="flex items-start gap-3 rounded-lg border border-[color-mix(in_srgb,var(--color-tip)_40%,transparent)] bg-[color-mix(in_srgb,var(--color-tip)_8%,transparent)] p-4">
-        <ServerOff size={22} className="mt-0.5 shrink-0" style={{ color: 'var(--color-tip)' }} aria-hidden="true" />
-        <div>
-          <p className="font-semibold text-[var(--color-paper-50)]">Your API key never touches this site</p>
-          <p className="mt-1 text-sm leading-relaxed text-[var(--color-paper-300)]">
-            You run the read-only command below in your own terminal. Only the resulting JSON — which
-            contains no key — is pasted here, and it is analyzed entirely in your browser. No network
-            calls, no storage; close the tab and it is gone.
-          </p>
-        </div>
-      </div>
+    <div className="space-y-6">
+      {/* Wizard progress */}
+      <nav aria-label="Usage insights steps" className="panel p-4">
+        <ol className="flex flex-wrap gap-2">
+          {steps.map((label, i) => (
+            <li key={label}>
+              <button
+                type="button"
+                onClick={() => setStep(i)}
+                className={`inline-flex items-center gap-2 rounded-lg border px-3 py-1.5 font-mono text-xs transition-colors ${
+                  step === i
+                    ? 'border-[var(--color-border-strong)] bg-[var(--color-surface-raised)] text-[var(--color-paper-100)]'
+                    : 'border-[var(--color-border)] text-[var(--color-paper-400)] hover:text-[var(--color-paper-200)]'
+                }`}
+              >
+                <StepDot n={i + 1} />
+                {label}
+              </button>
+            </li>
+          ))}
+        </ol>
+      </nav>
 
-      {/* Step 1: curl */}
-      <section>
-        <div className="mb-3 flex items-center gap-2">
-          <StepDot n={1} />
-          <h2 className="text-lg font-semibold text-[var(--color-paper-50)]">
-            Run this locally to export your usage
-          </h2>
-        </div>
-        <CurlBlock code={CURL_SNIPPET} />
-      </section>
-
-      {/* Step 2: paste */}
-      <section>
-        <div className="mb-3 flex items-center gap-2">
-          <StepDot n={2} />
-          <h2 className="text-lg font-semibold text-[var(--color-paper-50)]">Paste the JSON output</h2>
-        </div>
-        <textarea
-          aria-label="Paste exported usage JSON"
-          value={raw}
-          onChange={(e) => {
-            setRaw(e.target.value);
-            if (submitted) setSubmitted(false);
-          }}
-          placeholder='Paste the output of the command above, e.g. {"spend":{...},"usage":{...}}'
-          spellCheck={false}
-          rows={6}
-          className="input-field"
-        />
-        <div className="mt-3 flex flex-wrap items-center gap-2">
-          <button
-            type="button"
-            onClick={() => setSubmitted(true)}
-            disabled={raw.trim().length === 0}
-            className="btn-primary"
-          >
-            <TrendingUp size={16} aria-hidden="true" />
-            Analyze usage
+      {step === 0 && (
+        <section className="space-y-4">
+          <div className="flex items-start gap-3 rounded-lg border border-[color-mix(in_srgb,var(--color-tip)_40%,transparent)] bg-[color-mix(in_srgb,var(--color-tip)_8%,transparent)] p-4">
+            <ServerOff size={22} className="mt-0.5 shrink-0" style={{ color: 'var(--color-tip)' }} aria-hidden="true" />
+            <div>
+              <p className="font-semibold text-[var(--color-paper-50)]">Your API key never touches this site</p>
+              <p className="mt-1 text-sm leading-relaxed text-[var(--color-paper-300)]">
+                This wizard walks you through exporting read-only team usage from your own terminal,
+                then analyzing the JSON here — entirely in your browser.
+              </p>
+            </div>
+          </div>
+          <ol className="list-decimal space-y-2 pl-5 text-sm text-[var(--color-paper-300)]">
+            <li>Create an Admin API key at cursor.com/dashboard → Settings → Admin API Keys</li>
+            <li>Copy and run the read-only curl command on your machine</li>
+            <li>Paste the printed JSON into step 3</li>
+          </ol>
+          <button type="button" className="btn-primary" onClick={() => setStep(1)}>
+            Start wizard →
           </button>
-          <button
-            type="button"
-            onClick={() => {
-              setRaw(EXAMPLE_JSON);
-              setSubmitted(true);
+        </section>
+      )}
+
+      {step === 1 && (
+        <section>
+          <div className="mb-3 flex items-center gap-2">
+            <StepDot n={2} />
+            <h2 className="text-lg font-semibold text-[var(--color-paper-50)]">Run this locally to export usage</h2>
+          </div>
+          <CurlBlock code={CURL_SNIPPET} />
+          <div className="mt-4 flex gap-2">
+            <button type="button" className="btn-secondary" onClick={() => setStep(0)}>Back</button>
+            <button type="button" className="btn-primary" onClick={() => setStep(2)}>I have the JSON →</button>
+          </div>
+        </section>
+      )}
+
+      {step === 2 && (
+        <section>
+          <div className="mb-3 flex items-center gap-2">
+            <StepDot n={3} />
+            <h2 className="text-lg font-semibold text-[var(--color-paper-50)]">Paste the JSON output</h2>
+          </div>
+          <textarea
+            aria-label="Paste exported usage JSON"
+            value={raw}
+            onChange={(e) => {
+              setRaw(e.target.value);
+              if (submitted) setSubmitted(false);
             }}
-            className="btn-secondary"
-          >
-            <Sparkles size={15} aria-hidden="true" />
-            Load example data
-          </button>
-          {raw.trim().length > 0 && (
+            placeholder='Paste the output of the command, e.g. {"spend":{...},"usage":{...}}'
+            spellCheck={false}
+            rows={8}
+            className="input-field"
+          />
+          <div className="mt-3 flex flex-wrap items-center gap-2">
+            <button type="button" className="btn-secondary" onClick={() => setStep(1)}>Back</button>
             <button
               type="button"
               onClick={() => {
-                setRaw('');
-                setSubmitted(false);
+                setSubmitted(true);
+                if (raw.trim()) setStep(3);
               }}
-              className="ml-auto inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm text-[var(--color-paper-400)] transition-colors hover:text-[var(--color-danger)]"
+              disabled={raw.trim().length === 0}
+              className="btn-primary"
             >
-              <Trash2 size={15} aria-hidden="true" />
-              Clear
+              <TrendingUp size={16} aria-hidden="true" />
+              Analyze usage
             </button>
+            <button
+              type="button"
+              onClick={() => {
+                setRaw(EXAMPLE_JSON);
+                setSubmitted(true);
+                setStep(3);
+              }}
+              className="btn-secondary"
+            >
+              <Sparkles size={15} aria-hidden="true" />
+              Load example
+            </button>
+          </div>
+          {submitted && !result.ok && result.error && (
+            <p role="alert" className="mt-3 rounded-lg border border-[color-mix(in_srgb,var(--color-danger)_40%,transparent)] bg-[color-mix(in_srgb,var(--color-danger)_10%,transparent)] px-3 py-2 text-sm text-[var(--color-danger)]">
+              {result.error}
+            </p>
           )}
-        </div>
-        {submitted && !result.ok && result.error && (
-          <p
-            role="alert"
-            className="mt-3 rounded-lg border border-[color-mix(in_srgb,var(--color-danger)_40%,transparent)] bg-[color-mix(in_srgb,var(--color-danger)_10%,transparent)] px-3 py-2 text-sm text-[var(--color-danger)]"
-          >
-            {result.error}
-          </p>
-        )}
-      </section>
+        </section>
+      )}
 
-      {/* Step 3: insights */}
-      {showResults && result.insights && <Dashboard insights={result.insights} />}
+      {step === 3 && showResults && result.insights && (
+        <div className="space-y-4">
+          <button type="button" className="btn-secondary" onClick={() => setStep(2)}>← Edit JSON</button>
+          <Dashboard insights={result.insights} />
+        </div>
+      )}
+
+      {step === 3 && submitted && !showResults && (
+        <p className="text-sm text-[var(--color-paper-400)]">Run analysis from step 3 with valid JSON to see insights.</p>
+      )}
     </div>
   );
 }

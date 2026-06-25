@@ -5,9 +5,11 @@ import Card from '@/components/ui/Card.astro';
 import SectionHeading from '@/components/ui/SectionHeading.astro';
 import Button from '@/components/ui/Button.astro';
 import Badge from '@/components/ui/Badge.astro';
+import GuideProgress from '@/components/learn/GuideProgress.tsx';
 import { breadcrumbSchema } from '@/lib/jsonld';
 
 const guides = (await getCollection('guides')).sort((a, b) => a.data.order - b.data.order);
+const guideIds = guides.map((g) => g.id);
 
 const description =
   'The CursorCraft playbook: six in-depth, senior-level guides to using the Cursor AI code editor — mental model, feature tour, best practices, security, cost optimization, and enterprise rollout.';
@@ -32,6 +34,7 @@ const description =
 
   <section class="mx-auto max-w-6xl px-4 py-14" aria-labelledby="guides-heading">
     <h2 id="guides-heading" class="sr-only">All guides</h2>
+    <GuideProgress client:load guideIds={guideIds} variant="full" />
     <ol class="reveal grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {
         guides.map((g, i) => (

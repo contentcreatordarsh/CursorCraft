@@ -14,12 +14,29 @@ Cursor is easy to adopt and easy to misuse. Secrets get pasted into prompts, con
 
 ## The solution
 
-CursorCraft collects the practices that make AI-assisted development **fast, safe, and affordable** into one credible playbook — six senior-level guides — and pairs it with a tool that audits your real configuration:
+CursorCraft collects the practices that make AI-assisted development **fast, safe, and affordable** into one credible playbook — six senior-level guides — and pairs it with **twelve local-first tools**:
 
-- **The playbook** — mental model, feature tour, best practices, **security** (the centerpiece), **cost optimization**, and **enterprise rollout**.
-- **The Config Analyzer** — paste your `.cursorignore`, `.cursor/rules`, `mcp.json`, `settings.json`, and `hooks.json` and get a prioritized report of security risks and cost leaks, each with a plain-English explanation and a concrete fix. Export results as Markdown for your team.
-- **Rules Generator + Templates** — curated starters for Next.js, Python, monorepos, and fintech workloads.
-- **⌘K search** — full-text search across guides, tools, and pages.
+### The playbook
+
+Six guides: mental model, feature tour, best practices, **security**, **cost optimization**, and **enterprise rollout**. Optional **guide progress** tracking (opt-in `localStorage` on `/learn`).
+
+### Tools (100% client-side)
+
+| Tool | Path |
+| --- | --- |
+| Config Analyzer | `/tools/config-analyzer` |
+| Rules Generator | `/tools/rules-generator` |
+| Rules Templates | `/tools/rules-templates` |
+| Rules & Hooks Linter | `/tools/rules-linter` |
+| Policy Pack (zip) | `/tools/policy-pack` |
+| MCP Scope Visualizer | `/tools/mcp-visualizer` |
+| .cursorignore Diff | `/tools/cursorignore-diff` |
+| Cost Estimator | `/tools/cost-estimator` |
+| Pre-commit Snippet | `/tools/precommit-snippet` |
+| Security Checklist | `/tools/security-checklist` |
+| Usage Insights | `/tools/usage-insights` |
+
+Also: **⌘K / Ctrl+K search** across guides, tools, and pages · **PWA** offline shell · **light/dark theme** (persisted locally).
 
 ### Screenshots
 
@@ -35,30 +52,30 @@ _Press `⌘K` (or `Ctrl+K`) on the live site to search guides and tools._
 
 CursorCraft practices the security it teaches:
 
-- **No backend secret handling.** The site is statically generated; there is no server that receives or stores your config, keys, or code. The Config Analyzer is **100% client-side**.
-- **No telemetry on your code or keys.** Nothing you paste is transmitted, logged, or analyzed remotely.
-- **In-memory only.** Inputs live in in-memory state for the life of the page — never written to `localStorage`, `sessionStorage`, cookies, or any cache.
-- **Verifiable.** Open the network tab while you run an audit (no requests carry your data), or go offline and confirm it still works. Read every line here.
+- **No backend secret handling.** The site is statically generated; there is no server that receives or stores your config, keys, or code.
+- **No telemetry on your code or keys.** Nothing you paste in tools is transmitted, logged, or analyzed remotely.
+- **Tool inputs are in-memory only** — they disappear when you close the tab. Never written to `localStorage` for file contents or keys.
+- **Opt-in persistence only** for guide reading progress and theme preference — never for config you paste.
+- **Verifiable.** Open the network tab while you run an audit; go offline with the PWA shell. Read the source.
 
-The repository also **dogfoods** the advice: it ships a strong [`.cursorignore`](./.cursorignore) and a [`.cursor/rules`](./.cursor/rules/cursorcraft.mdc) file encoding security and convention guardrails.
+The repository **dogfoods** the advice: strong [`.cursorignore`](./.cursorignore), [`.cursor/rules`](./.cursor/rules/cursorcraft.mdc), and a CI config audit via [`scripts/audit-cursor-config.mts`](./scripts/audit-cursor-config.mts).
 
 ---
 
 ## Built in Cursor
 
-This project was, fittingly, **built in Cursor** — using the same workflow it documents: spec-first prompts, small reviewed diffs, conventions encoded as rules, and a curated `.cursorignore`.
+This project was, fittingly, **built in Cursor** — spec-first prompts, small reviewed diffs, conventions encoded as rules, and a curated `.cursorignore`.
 
 ---
 
 ## Tech stack
 
-- **[Astro](https://astro.build)** (`output: 'static'`) with **TypeScript (strict)**
-- **Tailwind CSS v4** (via `@tailwindcss/vite`)
-- **React** (`@astrojs/react`) for interactive islands only (the Config Analyzer)
-- **MDX content collections** for the guides
-- **Shiki** for code highlighting (Astro built-in)
-- Self-hosted **Geist** / **Geist Mono** fonts (preloaded)
-- SEO: per-page meta + Open Graph/Twitter, JSON-LD, `@astrojs/sitemap`, `robots.txt`, RSS
+- **[Astro](https://astro.build)** 7 (`output: 'static'`) · **TypeScript (strict)**
+- **Tailwind CSS v4** · **React** islands for interactive tools only
+- **MDX** content collections · **Shiki** highlighting
+- Self-hosted **Geist** / **Geist Mono** fonts
+- SEO: meta, OG/Twitter, JSON-LD, sitemap, RSS, neutral OG PNGs
+- CI: `astro check`, unit tests, build, config audit (see [`.github/workflows/ci.yml`](./.github/workflows/ci.yml))
 
 ---
 
@@ -68,37 +85,32 @@ Requires Node 18+ (developed on Node 22).
 
 ```bash
 npm install
-npm run dev      # start the dev server at http://localhost:4321
-npm run build    # build static output to ./dist
-npm run preview  # preview the production build locally
-npm run check    # astro + TypeScript type checking
+npm run dev          # http://localhost:4321
+npm run build        # static output → ./dist
+npm run preview      # preview production build
+npm run check        # astro + TypeScript check
+npm test             # analyzer, MCP, diff, estimate, lint tests
+npm run audit:config # audit .cursor files in this repo
 ```
 
 ---
 
 ## Deploying to Cloudflare
 
-CursorCraft is fully static, so **no adapter is needed**. It is currently deployed on Cloudflare at:
+CursorCraft is fully static — **no adapter needed**. Production:
 
 **https://cursorcraft.falling-hall-ac41.workers.dev/**
 
 ### Cloudflare Pages (Git-connected)
 
-1. Push this repo to GitHub/GitLab.
-2. In the Cloudflare dashboard, go to **Workers & Pages → Create → Pages → Connect to Git** and select the repo.
-3. Set the build configuration:
-   - **Framework preset:** `Astro`
+1. Connect this repo in **Workers & Pages → Create → Pages**.
+2. Build settings:
+   - **Framework preset:** Astro
    - **Build command:** `npm run build`
    - **Build output directory:** `dist`
-4. Deploy. Cloudflare serves the static files from its edge.
+3. Deploy from `main`.
 
-After your first deploy, update the production URL in:
-
-- `site` in [`astro.config.mjs`](./astro.config.mjs)
-- `url` in [`src/config/site.ts`](./src/config/site.ts)
-- the `Sitemap:` line in [`public/robots.txt`](./public/robots.txt)
-
-> Prefer Wrangler? You can also run `npx wrangler pages deploy dist` after `npm run build`.
+Update the production URL in `astro.config.mjs`, `src/config/site.ts`, and `public/robots.txt` if your hostname differs.
 
 ---
 
@@ -106,36 +118,27 @@ After your first deploy, update the production URL in:
 
 ```
 src/
-  components/        UI design system + Header/Footer + analyzer island
-    analyzer/        ConfigAnalyzer.tsx (React island, client-side audit)
-    ui/              Button, Card, Callout, CodeBlock, Badge, Icon, ...
-    seo/             JsonLd
-  content/guides/    MDX guides (content collection)
-  layouts/           BaseLayout (SEO, fonts, header/footer)
-  lib/
-    analyzer/        types, rules, engine, example (the audit logic)
-    jsonld.ts        structured-data builders
-    og.ts            OG image SVG template
-  pages/             routes (home, learn, tools, security, about, 404, rss, og)
-  styles/global.css  Tailwind theme + design tokens
-public/
-  fonts/             self-hosted Geist woff2 (preloaded)
-  og/                default OG image
-.cursor/rules/       project rules (dogfooding)
-.cursorignore        strong baseline ignore (dogfooding)
+  components/        UI, Header/Footer, React tool islands
+  content/guides/    MDX playbook
+  layouts/           BaseLayout (SEO, PWA, theme)
+  lib/               analyzer, search, cost-estimator, mcp-visualizer, …
+  pages/             routes + /tools/*
+public/              fonts, manifest, service worker
+scripts/             audit-cursor-config.mts (CLI + CI)
+.github/             CI workflow + cursor-config-audit action
 ```
 
 ---
 
 ## Contributing
 
-Corrections, sharper guidance, and new local-first tool ideas are welcome. Content correctness and security are the top priorities. Open an issue or PR.
+Corrections, sharper guidance, and new **local-first** tool ideas are welcome. Security and content accuracy come first. See [SECURITY.md](./SECURITY.md) for vulnerability reports.
 
 ---
 
 ## Disclaimer
 
-CursorCraft is an **independent, community-run project**. It is **not affiliated with, endorsed by, or sponsored by Anysphere** (the makers of Cursor) or the Cursor product. "Cursor" and related marks belong to their respective owners. Cursor's behavior changes over time — always confirm specifics against the official Cursor documentation.
+CursorCraft is an **independent, community-run project**. It is **not affiliated with, endorsed by, or sponsored by Anysphere** (the makers of Cursor). "Cursor" and related marks belong to their respective owners.
 
 ## License
 

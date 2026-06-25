@@ -1,0 +1,121 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import McpVisualizer from '@/components/tools/McpVisualizer.tsx';
+import Eyebrow from '@/components/ui/Eyebrow.astro';
+import Badge from '@/components/ui/Badge.astro';
+import Icon from '@/components/ui/Icon.astro';
+import { softwareApplicationSchema, breadcrumbSchema, faqSchema } from '@/lib/jsonld';
+
+const description =
+  'Visualize MCP server scope and transport risks from your mcp.json — entirely in your browser. Flags unpinned packages, broad filesystem paths, HTTP endpoints, and env secret exposure.';
+
+const faqs = [
+  {
+    q: 'Is my mcp.json uploaded?',
+    a: 'No. Parsing and analysis run 100% in your browser. Nothing is sent to a server or stored.',
+  },
+  {
+    q: 'What does it check?',
+    a: 'Transport type (stdio vs remote URL), unpinned npx sources, filesystem root scopes, internal HTTP endpoints, and environment variables referenced by each server.',
+  },
+  {
+    q: 'Can I use this in CI?',
+    a: 'Use the Config Analyzer for full-repo audits, or paste mcp.json here for a focused scope review before merging MCP changes.',
+  },
+];
+
+const checks = [
+  { icon: 'plug', title: 'Transport & scope', body: 'Surfaces stdio vs SSE/HTTP and what each server can reach.' },
+  { icon: 'shield', title: 'Least privilege', body: 'Flags root filesystem mounts and unpinned @latest MCP packages.' },
+  { icon: 'eye-off', title: 'Secrets in env', body: 'Lists env keys each server expects so you can spot credential sprawl.' },
+  { icon: 'plug', title: 'Remote endpoints', body: 'Highlights HTTP/SSE URLs — especially internal or non-TLS hosts.' },
+];
+---
+
+<BaseLayout
+  title="MCP Scope Visualizer — audit mcp.json in your browser"
+  description={description}
+  jsonLd={[
+    softwareApplicationSchema({
+      name: 'MCP Scope Visualizer',
+      description,
+      url: '/tools/mcp-visualizer',
+    }),
+    breadcrumbSchema([
+      { name: 'Home', url: '/' },
+      { name: 'Tools', url: '/tools' },
+      { name: 'MCP Visualizer', url: '/tools/mcp-visualizer' },
+    ]),
+    faqSchema(faqs),
+  ]}
+>
+  <section class="border-b border-[var(--color-border)]">
+    <div class="mx-auto max-w-6xl px-4 py-12 sm:py-16">
+      <nav aria-label="Breadcrumb" class="mb-6 font-mono text-xs text-[var(--color-paper-400)]">
+        <ol class="flex items-center gap-1.5">
+          <li><a href="/" class="hover:text-[var(--color-paper-100)]">Home</a></li>
+          <li aria-hidden="true">/</li>
+          <li><a href="/tools" class="hover:text-[var(--color-paper-100)]">Tools</a></li>
+          <li aria-hidden="true">/</li>
+          <li class="text-[var(--color-paper-200)]" aria-current="page">MCP Visualizer</li>
+        </ol>
+      </nav>
+      <div class="flex flex-col gap-3">
+        <div class="flex items-center gap-3">
+          <Eyebrow>MCP security</Eyebrow>
+          <Badge tone="tip"><Icon name="lock" size={11} /> 100% client-side</Badge>
+        </div>
+        <h1 class="max-w-3xl text-3xl font-bold tracking-tight text-[var(--color-paper-50)] sm:text-4xl">
+          Visualize MCP scope before you ship it
+        </h1>
+        <p class="max-w-2xl text-lg leading-relaxed text-[var(--color-paper-300)]">
+          Paste your <code class="font-mono text-[var(--color-syntax-string)]">.cursor/mcp.json</code> and
+          see each server's transport, arguments, and risk flags — with plain-English explanations.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-10" aria-labelledby="mcp-heading">
+    <h2 id="mcp-heading" class="sr-only">MCP scope analysis</h2>
+    <McpVisualizer client:load />
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 pb-16">
+    <h2 class="mb-6 text-2xl font-bold tracking-tight text-[var(--color-paper-50)]">What it surfaces</h2>
+    <div class="reveal grid gap-4 sm:grid-cols-2">
+      {
+        checks.map((c) => (
+          <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-5">
+            <div class="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-md border border-[var(--color-border)] bg-[var(--color-ink-850)] text-[var(--color-paper-200)]">
+              <Icon name={c.icon as any} size={18} />
+            </div>
+            <h3 class="font-semibold text-[var(--color-paper-50)]">{c.title}</h3>
+            <p class="mt-1.5 text-sm leading-relaxed text-[var(--color-paper-300)]">{c.body}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-4 pb-20" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" class="mb-5 text-2xl font-bold tracking-tight text-[var(--color-paper-50)]">
+      Frequently asked questions
+    </h2>
+    <div class="space-y-3">
+      {
+        faqs.map((faq) => (
+          <details class="group rounded-lg border border-[var(--color-ink-700)] bg-[var(--color-ink-900)]/60 p-4">
+            <summary class="flex cursor-pointer items-center justify-between gap-3 font-medium text-[var(--color-paper-100)]">
+              {faq.q}
+              <span class="text-[var(--color-paper-400)] transition-transform group-open:rotate-90">
+                <Icon name="arrow-right" size={16} />
+              </span>
+            </summary>
+            <p class="mt-3 text-sm leading-relaxed text-[var(--color-paper-300)]">{faq.a}</p>
+          </details>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>

@@ -43,8 +43,22 @@ const pageSchemas = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="/manifest.webmanifest" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="theme-color" content={SITE.themeColor} />
+    <meta name="theme-color" content={SITE.themeColor} id="theme-color-meta" />
+
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem('cursorcraft-theme');
+          var light = stored === 'light';
+          document.documentElement.classList.toggle('light', light);
+          document.documentElement.classList.toggle('dark', !light);
+          var meta = document.getElementById('theme-color-meta');
+          if (meta) meta.setAttribute('content', light ? '#fafafa' : '#0a0a0b');
+        } catch (_) {}
+      })();
+    </script>
 
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
@@ -127,6 +141,12 @@ const pageSchemas = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
           { threshold: 0.12 },
         );
         els.forEach((el) => io.observe(el));
+      }
+
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(() => {});
+        });
       }
     </script>
   </body>

@@ -1,0 +1,25 @@
+name: Cursor Config Audit
+description: Audit .cursor config files for security risks using the CursorCraft analyzer rules.
+branding:
+  icon: shield
+  color: black
+inputs:
+  root:
+    description: Repository root to scan
+    required: false
+    default: '.'
+  fail-on-critical:
+    description: Exit with failure when critical findings exist
+    required: false
+    default: 'true'
+runs:
+  using: composite
+  steps:
+    - name: Run CursorCraft config audit
+      shell: bash
+      run: |
+        FLAGS="--root ${{ inputs.root }}"
+        if [ "${{ inputs.fail-on-critical }}" = "true" ]; then
+          FLAGS="$FLAGS --fail-on-critical"
+        fi
+        node --experimental-strip-types scripts/audit-cursor-config.mts $FLAGS

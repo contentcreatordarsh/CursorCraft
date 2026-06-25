@@ -24,6 +24,8 @@ export const TOOLS_LINKS = [
   { label: 'Config Analyzer', href: '/tools/config-analyzer' },
   { label: 'Rules Generator', href: '/tools/rules-generator' },
   { label: 'Rules Templates', href: '/tools/rules-templates' },
+  { label: 'Policy Pack', href: '/tools/policy-pack' },
+  { label: 'MCP Visualizer', href: '/tools/mcp-visualizer' },
   { label: 'Security Checklist', href: '/tools/security-checklist' },
   { label: 'Usage Insights', href: '/tools/usage-insights' },
 ] as const;

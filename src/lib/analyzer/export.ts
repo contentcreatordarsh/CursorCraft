@@ -1,4 +1,4 @@
-import type { AuditResult, Severity } from './types';
+import type { AuditResult, Severity } from './types.ts';
 
 const SEVERITY_LABEL: Record<Severity, string> = {
   critical: 'Critical',

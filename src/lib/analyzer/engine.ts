@@ -1,5 +1,5 @@
-import { rules } from './rules';
-import type { AuditResult, ConfigInput, Finding, Severity } from './types';
+import { rules } from './rules.ts';
+import type { AuditResult, ConfigInput, Finding, Severity } from './types.ts';
 
 const SEVERITY_ORDER: Record<Severity, number> = {
   critical: 0,

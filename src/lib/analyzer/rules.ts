@@ -1,4 +1,4 @@
-import type { AuditRule, Finding, Severity } from './types';
+import type { AuditRule, Finding, Severity } from './types.ts';
 
 const nonEmpty = (s?: string): s is string => typeof s === 'string' && s.trim().length > 0;
 

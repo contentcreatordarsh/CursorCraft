@@ -46,9 +46,25 @@ const tools = [
     href: '/tools/usage-insights',
     icon: 'gauge' as const,
     title: 'Usage Insights',
-    body: 'Analyze team spend and usage without exposing your API key. Run a read-only command locally, paste the JSON, and see cost hotspots, model mix, and idle seats.',
+    body: 'Step-by-step wizard to export read-only team usage locally, paste the JSON, and see cost hotspots, model mix, and idle seats.',
     badge: 'Available now',
     tone: 'tip' as const,
+  },
+  {
+    href: '/tools/mcp-visualizer',
+    icon: 'plug' as const,
+    title: 'MCP Visualizer',
+    body: 'Paste mcp.json to visualize each server\'s transport, scope, and risk flags — unpinned packages, root mounts, HTTP endpoints.',
+    badge: 'New',
+    tone: 'accent' as const,
+  },
+  {
+    href: '/tools/policy-pack',
+    icon: 'layers' as const,
+    title: 'Policy Pack',
+    body: 'Download a zip with .cursor/rules, .cursorignore, security checklist, and README — commit-ready for your repo.',
+    badge: 'New',
+    tone: 'accent' as const,
   },
 ];
 ---
@@ -83,14 +99,6 @@ const tools = [
           </Card>
         ))
       }
-      <div class="flex flex-col justify-center rounded-lg border border-dashed border-[var(--color-border)] bg-[var(--color-surface)] p-6 text-center">
-        <p class="font-mono text-xs text-[var(--color-muted)]">
-          More coming
-        </p>
-        <p class="mt-2 text-sm text-[var(--color-paper-400)]">
-          Have an idea for a local-first Cursor tool? Open an issue on GitHub.
-        </p>
-      </div>
     </div>
   </section>
 </BaseLayout>

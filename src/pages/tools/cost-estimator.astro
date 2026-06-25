@@ -1,0 +1,54 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import CostEstimator from '@/components/tools/CostEstimator.tsx';
+import Eyebrow from '@/components/ui/Eyebrow.astro';
+import Badge from '@/components/ui/Badge.astro';
+import Icon from '@/components/ui/Icon.astro';
+import { softwareApplicationSchema, breadcrumbSchema } from '@/lib/jsonld';
+
+const description =
+  'Estimate a rough monthly Cursor spend range from seat count, plan tier, and model mix — no API key, no billing data. For planning and budgeting only.';
+---
+
+<BaseLayout
+  title="Cursor Cost Estimator — rough monthly spend range"
+  description={description}
+  jsonLd={[
+    softwareApplicationSchema({ name: 'Cursor Cost Estimator', description, url: '/tools/cost-estimator' }),
+    breadcrumbSchema([
+      { name: 'Home', url: '/' },
+      { name: 'Tools', url: '/tools' },
+      { name: 'Cost Estimator', url: '/tools/cost-estimator' },
+    ]),
+  ]}
+>
+  <section class="border-b border-[var(--color-border)]">
+    <div class="mx-auto max-w-6xl px-4 py-12 sm:py-16">
+      <nav aria-label="Breadcrumb" class="mb-6 font-mono text-xs text-[var(--color-paper-400)]">
+        <ol class="flex items-center gap-1.5">
+          <li><a href="/" class="hover:text-[var(--color-paper-100)]">Home</a></li>
+          <li aria-hidden="true">/</li>
+          <li><a href="/tools" class="hover:text-[var(--color-paper-100)]">Tools</a></li>
+          <li aria-hidden="true">/</li>
+          <li class="text-[var(--color-paper-200)]" aria-current="page">Cost Estimator</li>
+        </ol>
+      </nav>
+      <div class="flex flex-col gap-3">
+        <div class="flex items-center gap-3">
+          <Eyebrow>Cost discipline</Eyebrow>
+          <Badge tone="tip"><Icon name="lock" size={11} /> No API</Badge>
+        </div>
+        <h1 class="max-w-3xl text-3xl font-bold tracking-tight text-[var(--color-paper-50)] sm:text-4xl">
+          Rough monthly Cursor spend range
+        </h1>
+        <p class="max-w-2xl text-lg leading-relaxed text-[var(--color-paper-300)]">
+          Seat count, plan tier, model mix, and usage intensity → a planning range. Not a quote — validate against your dashboard.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-10 pb-20">
+    <CostEstimator client:load />
+  </section>
+</BaseLayout>

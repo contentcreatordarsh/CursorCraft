@@ -1,0 +1,54 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import RulesLinter from '@/components/tools/RulesLinter.tsx';
+import Eyebrow from '@/components/ui/Eyebrow.astro';
+import Badge from '@/components/ui/Badge.astro';
+import Icon from '@/components/ui/Icon.astro';
+import { softwareApplicationSchema, breadcrumbSchema } from '@/lib/jsonld';
+
+const description =
+  'Lint .cursor/rules (.mdc) frontmatter and hooks.json structure before you commit. Catches missing globs, secret leaks, and unsafe hook patterns — in your browser.';
+---
+
+<BaseLayout
+  title="Rules & Hooks Linter — validate Cursor config structure"
+  description={description}
+  jsonLd={[
+    softwareApplicationSchema({ name: 'Rules & Hooks Linter', description, url: '/tools/rules-linter' }),
+    breadcrumbSchema([
+      { name: 'Home', url: '/' },
+      { name: 'Tools', url: '/tools' },
+      { name: 'Rules Linter', url: '/tools/rules-linter' },
+    ]),
+  ]}
+>
+  <section class="border-b border-[var(--color-border)]">
+    <div class="mx-auto max-w-6xl px-4 py-12 sm:py-16">
+      <nav aria-label="Breadcrumb" class="mb-6 font-mono text-xs text-[var(--color-paper-400)]">
+        <ol class="flex items-center gap-1.5">
+          <li><a href="/" class="hover:text-[var(--color-paper-100)]">Home</a></li>
+          <li aria-hidden="true">/</li>
+          <li><a href="/tools" class="hover:text-[var(--color-paper-100)]">Tools</a></li>
+          <li aria-hidden="true">/</li>
+          <li class="text-[var(--color-paper-200)]" aria-current="page">Rules Linter</li>
+        </ol>
+      </nav>
+      <div class="flex flex-col gap-3">
+        <div class="flex items-center gap-3">
+          <Eyebrow>Config quality</Eyebrow>
+          <Badge tone="tip"><Icon name="lock" size={11} /> 100% client-side</Badge>
+        </div>
+        <h1 class="max-w-3xl text-3xl font-bold tracking-tight text-[var(--color-paper-50)] sm:text-4xl">
+          Lint rules and hooks before you ship
+        </h1>
+        <p class="max-w-2xl text-lg leading-relaxed text-[var(--color-paper-300)]">
+          Validate .mdc frontmatter, scope, security guardrails, and hooks.json safety — complementary to the full Config Analyzer.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-10 pb-20">
+    <RulesLinter client:load />
+  </section>
+</BaseLayout>

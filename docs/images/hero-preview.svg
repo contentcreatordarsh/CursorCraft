@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none">
+  <rect width="1200" height="630" fill="#0a0a0a"/>
+  <rect x="48" y="48" width="1104" height="534" rx="12" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <text x="80" y="120" fill="#fafafa" font-family="ui-monospace, monospace" font-size="14" opacity="0.5">CursorCraft</text>
+  <text x="80" y="200" fill="#fafafa" font-family="ui-sans-serif, system-ui, sans-serif" font-size="52" font-weight="700">Master Cursor.</text>
+  <text x="80" y="265" fill="#fafafa" font-family="ui-sans-serif, system-ui, sans-serif" font-size="52" font-weight="700">Secure it. Scale it.</text>
+  <text x="80" y="320" fill="#a3a3a3" font-family="ui-sans-serif, system-ui, sans-serif" font-size="20">Local-first playbook + in-browser config audit</text>
+  <rect x="80" y="360" width="200" height="44" rx="8" fill="#ededed"/>
+  <text x="108" y="388" fill="#0a0a0a" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" font-weight="600">Audit your setup</text>
+  <rect x="300" y="360" width="160" height="44" rx="8" stroke="rgba(255,255,255,0.14)" stroke-width="1"/>
+  <text x="328" y="388" fill="#f5f5f5" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15">Read playbook</text>
+  <rect x="620" y="100" width="500" height="400" rx="8" stroke="rgba(255,255,255,0.08)" stroke-width="1" fill="#141414"/>
+  <rect x="620" y="100" width="500" height="36" fill="#1a1a1a" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <text x="636" y="123" fill="#e5e5e5" font-family="ui-monospace, monospace" font-size="12">analyzer.ts</text>
+  <text x="760" y="123" fill="#737373" font-family="ui-monospace, monospace" font-size="12">rules.ts</text>
+  <text x="636" y="170" fill="#569cd6" font-family="ui-monospace, monospace" font-size="13">export </text>
+  <text x="716" y="170" fill="#569cd6" font-family="ui-monospace, monospace" font-size="13">function </text>
+  <text x="816" y="170" fill="#dcdcaa" font-family="ui-monospace, monospace" font-size="13">audit</text>
+  <text x="636" y="198" fill="#9cdcfe" font-family="ui-monospace, monospace" font-size="13">  const findings = rules.map(...)</text>
+  <text x="636" y="226" fill="#6a9955" font-family="ui-monospace, monospace" font-size="13">  // runs entirely in your browser</text>
+  <rect x="636" y="340" width="468" height="28" rx="4" fill="rgba(248,113,113,0.12)"/>
+  <text x="648" y="359" fill="#f87171" font-family="ui-monospace, monospace" font-size="12">- apiKey: "sk-live-..."</text>
+  <rect x="636" y="374" width="468" height="28" rx="4" fill="rgba(134,239,172,0.12)"/>
+  <text x="648" y="393" fill="#86efac" font-family="ui-monospace, monospace" font-size="12">+ apiKey: process.env.API_KEY</text>
+  <text x="80" y="580" fill="#737373" font-family="ui-monospace, monospace" font-size="12">cursorcraft.falling-hall-ac41.workers.dev</text>
+</svg>

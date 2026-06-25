@@ -2,6 +2,7 @@
 import '@/styles/global.css';
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
+import CommandPalette from '@/components/search/CommandPalette.tsx';
 import JsonLd from '@/components/seo/JsonLd.astro';
 import { SITE } from '@/config/site';
 import { websiteSchema, organizationSchema } from '@/lib/jsonld';
@@ -104,6 +105,8 @@ const pageSchemas = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
       <slot />
     </main>
     <Footer />
+
+    <CommandPalette client:idle />
 
     <script>
       // Scroll reveal — progressive enhancement, respects reduced motion.

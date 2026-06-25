@@ -2,11 +2,21 @@
 import Kbd from '@/components/ui/Kbd.astro';
 ---
 
-<div
-  class="inline-flex items-center gap-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 font-mono text-xs text-[var(--color-paper-400)]"
-  aria-hidden="true"
+<button
+  type="button"
+  data-open-search
+  class="inline-flex items-center gap-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 font-mono text-xs text-[var(--color-paper-400)] transition-colors hover:border-[var(--color-border-strong)] hover:text-[var(--color-paper-100)]"
+  aria-label="Open search (Command K)"
 >
   <Kbd>⌘</Kbd>
   <Kbd>K</Kbd>
-  <span class="text-[var(--color-muted)]">to jump to tools & guides</span>
-</div>
+  <span class="text-[var(--color-muted)]">Search</span>
+</button>
+
+<script>
+  document.querySelectorAll('[data-open-search]').forEach((el) => {
+    el.addEventListener('click', () => {
+      window.dispatchEvent(new CustomEvent('cursorcraft:open-search'));
+    });
+  });
+</script>

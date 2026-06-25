@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" fill="none">
+  <rect width="1200" height="720" fill="#0a0a0a"/>
+  <text x="48" y="64" fill="#fafafa" font-family="ui-sans-serif, system-ui, sans-serif" font-size="28" font-weight="700">Config Analyzer</text>
+  <text x="48" y="96" fill="#a3a3a3" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16">Paste config · get prioritized findings · nothing uploaded</text>
+  <rect x="48" y="130" width="540" height="540" rx="8" stroke="rgba(255,255,255,0.08)" stroke-width="1" fill="#141414"/>
+  <rect x="48" y="130" width="540" height="40" fill="rgba(134,239,172,0.08)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <text x="64" y="156" fill="#e5e5e5" font-family="ui-monospace, monospace" font-size="12">Runs entirely in your browser</text>
+  <text x="64" y="200" fill="#d4d4d4" font-family="ui-monospace, monospace" font-size="12">.cursorignore  rules  mcp.json  settings  hooks</text>
+  <rect x="64" y="220" width="508" height="200" rx="6" stroke="rgba(255,255,255,0.1)" stroke-width="1" fill="#0a0a0a"/>
+  <text x="80" y="250" fill="#737373" font-family="ui-monospace, monospace" font-size="12">.env</text>
+  <text x="80" y="272" fill="#737373" font-family="ui-monospace, monospace" font-size="12">*.key</text>
+  <text x="80" y="294" fill="#737373" font-family="ui-monospace, monospace" font-size="12">secrets/</text>
+  <rect x="64" y="440" width="120" height="36" rx="8" fill="#ededed"/>
+  <text x="88" y="463" fill="#0a0a0a" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" font-weight="600">Run audit</text>
+  <rect x="612" y="130" width="540" height="540" rx="8" stroke="rgba(255,255,255,0.08)" stroke-width="1" fill="#141414"/>
+  <text x="636" y="168" fill="#fafafa" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="600">7 findings</text>
+  <rect x="636" y="190" width="492" height="88" rx="6" stroke="rgba(248,113,113,0.4)" stroke-width="1" fill="rgba(248,113,113,0.08)"/>
+  <text x="652" y="218" fill="#f87171" font-family="ui-monospace, monospace" font-size="11">CRITICAL</text>
+  <text x="652" y="242" fill="#fafafa" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="600">MCP server runs unpinned @latest</text>
+  <text x="652" y="264" fill="#a3a3a3" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12">Pin to a specific audited version</text>
+  <rect x="636" y="294" width="492" height="72" rx="6" stroke="rgba(251,191,36,0.4)" stroke-width="1" fill="rgba(251,191,36,0.08)"/>
+  <text x="652" y="322" fill="#fbbf24" font-family="ui-monospace, monospace" font-size="11">WARNING</text>
+  <text x="652" y="346" fill="#fafafa" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="600">Privacy Mode appears disabled</text>
+  <rect x="636" y="382" width="180" height="32" rx="6" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <text x="652" y="403" fill="#d4d4d4" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12">Copy Markdown</text>
+  <rect x="828" y="382" width="120" height="32" rx="6" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <text x="844" y="403" fill="#d4d4d4" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12">Download .md</text>
+</svg>
